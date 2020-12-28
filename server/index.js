@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express()
+const path = require('path');
+const fs = require('fs')
 const mysql = require('mysql')
 const cors = require('cors');
 
@@ -59,7 +61,7 @@ app.put('/api/update', (req, res) => {
 })
 
 app.get('/api/getPeople', (req,res) => {
-    const sqlSelect = "SELECT * FROM people;"
+    const sqlSelect = fs.readFileSync(path.join(__dirname, './sql/getPeople.sql')).toString();
     db.query(sqlSelect, (err, result)=> {
         res.send(result)
     })
