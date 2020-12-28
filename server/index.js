@@ -60,14 +60,22 @@ app.put('/api/update', (req, res) => {
 
 app.get('/api/getPeople', (req,res) => {
     const sqlSelect = "SELECT * FROM people;"
-
     db.query(sqlSelect, (err, result)=> {
         res.send(result)
     })
 })
 
-app.get('/api/getDates', (req,res) => {
-    const sqlSelect = "SELECT * FROM people;"
+app.get('/api/getShifts', (req,res) => {
+    let query = JSON.parse(req.query.interval)
+    let weekStart = query.weekBegining;
+    let weekEnd = query.weekEnd;
+
+    const sqlSelect = 
+    `SELECT s.peopleID, s.startingTime, s.finishingTime, s.shiftsDate, p.peopleName, p.peopleRole
+    FROM shifts s
+    JOIN people p ON p.peopleID = s.peopleID 
+    JOIN locations l ON s.locationsID = l.locationsID
+    WHERE shiftsDate BETWEEN '${weekStart}' AND '${weekEnd}'`
 
     db.query(sqlSelect, (err, result)=> {
         res.send(result)

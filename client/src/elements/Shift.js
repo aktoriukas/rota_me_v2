@@ -4,10 +4,21 @@ import { convertToMinutes, calculateTotal, convertToString } from '../Calculatio
 export default class Shift extends Component {
     constructor(props) {
         super(props)
-    
+
+        let startingTime = 0;
+        let finishingTime = 0;
+
+        try {
+            startingTime = props.person.weekDays[props.day].startingTime
+            finishingTime = props.person.weekDays[props.day].finishingTime
+        }
+        catch {
+
+        }
+
         this.state = {
-             startingTime: '',
-             finishingTime: '',
+             startingTime: startingTime,
+             finishingTime: finishingTime,
              startingMinutes: 0,
              finishingMinutes: 0,
              person: this.props.person,
@@ -17,7 +28,31 @@ export default class Shift extends Component {
         }
         this.updateTime = this.updateTime.bind(this)
     }
-    
+    componentDidMount() {
+        const { startingTime, finishingTime } = this.state
+        let newTotal = 0;
+        let newTotalMinutes = 0; 
+        let finishingMinutes = 0; 
+        let startingMinutes = 0;
+
+        try {
+            finishingMinutes = convertToMinutes(finishingTime) 
+            startingMinutes = convertToMinutes(startingTime)  
+            newTotalMinutes = calculateTotal(startingMinutes, finishingMinutes) 
+            newTotal = convertToString(newTotalMinutes)
+        }
+        catch {
+
+        }
+
+        this.setState({
+            finishingMinutes: finishingMinutes,
+            startingMinutes: startingMinutes,
+            totalMinutes: newTotalMinutes,
+            total: newTotal
+        }, this.props.updateWeeklyState(this.state)
+         , this.props.updateTotalWeek(newTotalMinutes, this.state.day))
+    }
     updateTime (e) {
 
         const { value, className } = e.target;
@@ -54,7 +89,7 @@ export default class Shift extends Component {
     }
 
     render() {
-
+        
         return (
             <li className='shift-container'>
                 <div className='shift'>
@@ -63,12 +98,14 @@ export default class Shift extends Component {
                         type='time' 
                         onChange={(e)=> this.updateTime(e)}
                         onBlur={() => this.props.updateWeeklyState(this.state)}
+                        value={this.state.startingTime}
                     ></input>
                     <input 
                         className='time finishing'
                         type='time' 
                         onChange={(e)=> this.updateTime(e)}
                         onBlur={() => this.props.updateWeeklyState(this.state)}
+                        value={this.state.finishingTime}
                     ></input>
                 </div>
                 <span className={`shift-total`}>

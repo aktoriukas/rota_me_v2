@@ -26,7 +26,6 @@ export default class Shifts extends Component {
                 totalMinutes += newWeek[i]
             }
         }
-        console.log(totalMinutes)
         total = convertToString(totalMinutes);
 
         this.setState({ 

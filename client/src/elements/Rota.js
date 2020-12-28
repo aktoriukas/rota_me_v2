@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Person from './Person';
 import { getMondayDate } from '../Calculations';
+import { getStandartDate } from '../Functions'
 import WeekDays from './WeekDays';
 
 export default class Rota extends Component {
@@ -24,7 +25,6 @@ export default class Rota extends Component {
         }    
     }
     updateWeeklyState(day) {
-
 
         const { people, date, monday } = this.state;
         let newPeople = [];
@@ -59,21 +59,58 @@ export default class Rota extends Component {
         })
     }
     componentDidMount() {
+    
+        let newPeople
 
         // get data from database
-        this.props.Axios.get('http://localhost:3001/api/getPeople').then((respons)=> {
-            let newPeople = [...respons.data];
+        this.props.Axios.get('http://localhost:3001/api/getPeople')
+            .then((respons)=> {
+            newPeople = [...respons.data];
             newPeople.map((item) => item.weekDays = [])
 
-            this.setState({
-                people: newPeople,
-                isLoaded: true
+        }).then(()=> {
+            let interval = {
+                weekBegining: getStandartDate(this.state.monday),
+                weekEnd : getStandartDate(this.state.monday.addDays(7))    
+            }
+
+    
+            this.props.Axios.get(`http://localhost:3001/api/getShifts`, { params: {interval} })
+                .then((respons) => {
+                let shifts = [...respons.data]
+                console.log(shifts)
+
+                // add existing shifts to people
+                shifts.forEach((item, index) => {
+
+                    let jsDate = new Date(Date.parse(item.shiftsDate));
+                    let weekDay = jsDate.getDay();
+
+                    for(let i = 0; i < newPeople.length; i++) {
+                        if ( item.peopleID == newPeople[i].peopleID) {
+                            newPeople[i].weekDays[weekDay] = {};
+                            newPeople[i].weekDays[weekDay].startingTime = item.startingTime;
+                            newPeople[i].weekDays[weekDay].finishingTime = item.finishingTime;
+                            newPeople[i].weekDays[weekDay].date = jsDate;
+                            break
+                        }
+                    }
+                })
+            })
+            .then(()=> {
+                console.log(newPeople)
+
+                this.setState({
+                    people: newPeople,
+                    isLoaded: true
+                })    
             })
         })
     }
     // set week starting date
     updateDate(t) {
         let monday = getMondayDate(t)
+        this.componentDidMount()
 
         this.setState({
             date: t,
@@ -82,7 +119,7 @@ export default class Rota extends Component {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         const { isLoaded, people } = this.state;
 
         return (
