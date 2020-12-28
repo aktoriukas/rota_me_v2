@@ -7,8 +7,8 @@ export default class Person extends Component {
         return (
             <div className='person-container'>
                 <div className='about'>
-                    <h3 className='name'>{this.props.person.name}</h3>
-                    <h4 className='title'>{this.props.person.role}</h4>
+                    <h3 className='name'>{this.props.person.peopleName}</h3>
+                    <h4 className='title'>{this.props.person.peopleRole}</h4>
                 </div>
                 <Shifts 
                     person={this.props.person}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { } from "react";
 import './css/index.css';
 import Axios from 'axios';
 import DatePicker from 'react-date-picker';
@@ -21,10 +21,10 @@ function App() {
   // }, [])
 
   
-  const deletePerson = (name) => {
-      console.log('del')
-      Axios.delete(`http://localhost:3001/api/delete/${name}`);
-  }
+  // const deletePerson = (name) => {
+  //     console.log('del')
+  //     Axios.delete(`http://localhost:3001/api/delete/${name}`);
+  // }
   // const updateRole = (name) => {
   //   Axios.put(`http://localhost:3001/api/update`, {
   //     peopleName: name,

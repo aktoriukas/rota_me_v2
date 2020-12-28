@@ -34,7 +34,17 @@ export const convertToString = (number) => {
     var hours = Math.floor(number / 60);  
     var minutes = number % 60;
 
-    minutes < 10 ? minutes = '0' + minutes : minutes = minutes;
+    minutes < 10 ? minutes = '0' + minutes : minutes += 0;
 
     return hours + ":" + minutes; 
+}
+export const getMondayDate = (date) => {
+    let weekday = date.getDay();
+    
+    let monday = new Date(date.getTime());
+
+    monday.setDate(monday.getDate() - (weekday - 1) )
+    monday.toISOString()
+
+    return monday
 }

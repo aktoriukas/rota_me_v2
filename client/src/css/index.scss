@@ -1,6 +1,3 @@
-// BASICS ============================
-@import "./mixin.scss";
-
 :root {
   --blue-gray: #5d6c89;
   --turquoise: #36d6e7;
@@ -9,6 +6,7 @@
   --black: #000000;
   --dark: var(var(--black));
 }
+
 html,
 body,
 #root {
@@ -19,6 +17,7 @@ body,
   height: 100%;
   font-size: 16px;
 }
+
 ul,
 ol,
 li,
@@ -27,11 +26,13 @@ p {
   margin: 0;
   list-style: none;
 }
+
 a {
   color: inherit;
   text-decoration: none;
   cursor: pointer;
 }
+
 h1,
 h2,
 h3,
@@ -41,12 +42,9 @@ h6 {
   margin: 0;
   padding: 0;
 }
-button {
-  //   border: none;
-  //   background: none;
-  &:focus {
-    outline: none;
-  }
+
+button:focus {
+  outline: none;
 }
 #root {
   .rota-container {
@@ -71,42 +69,6 @@ button {
     .rota {
       display: flex;
       flex-direction: column;
-      .person-container {
-        padding: 0.25rem 0.5rem;
-        &:nth-child(odd) {
-          background-color: var(--blue-gray);
-          .title,
-          .name {
-            color: var(--cream);
-          }
-        }
-      }
-      .shifts-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr;
-      }
-      .about {
-        padding: 0.5rem;
-        .name {
-          font-size: 1.3rem;
-          font-weight: $bold;
-        }
-        .title {
-          font-size: 1rem;
-          font-weight: $light;
-        }
-        .title,
-        .name {
-          color: var(--blue-gray);
-        }
-      }
-      .shift-total {
-        display: block;
-        width: 5rem;
-        margin: auto;
-        text-align: center;
-      }
       .shift {
         margin: auto;
         display: grid;
@@ -121,12 +83,39 @@ button {
           }
         }
       }
+      .about {
+        padding: 0.5rem;
+        .name,
+        .title {
+          color: var(--blue-gray);
+        }
+        .name {
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+        .title {
+          font-size: 1rem;
+          font-weight: 300;
+        }
+      }
       .shift-total {
+        display: block;
+        width: 5rem;
+        margin: auto;
+        text-align: center;
+      }
+      .shifts-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
       }
       .week-total {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        .overtime span {
+          background-color: var(--tangerine);
+        }
         span {
           text-align: center;
           width: 4rem;
@@ -136,10 +125,19 @@ button {
           line-height: 4;
           border-radius: 50%;
         }
-        &.overtime span {
-          background-color: var(--tangerine);
+      }
+    }
+    .person-container {
+      padding: 0.25rem 0.5rem;
+      &:nth-child(odd) {
+        background-color: var(--blue-gray);
+        .title,
+        .name {
+          color: var(--cream);
         }
       }
     }
   }
 }
+
+/*# sourceMappingURL=index.css.map */

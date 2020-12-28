@@ -32,21 +32,21 @@ app.post('/api/insert', (req,res)=> {
     const name = req.body.name
     const role = req.body.role
 
-    const sqlInsert = "INSERT INTO people (name, role) VALUES (?, ?);"
+    const sqlInsert = "INSERT INTO people (peopleName, peopleRole) VALUES (?, ?);"
 
     db.query(sqlInsert, [name, role], (err, result)=> {
         console.log(result)
     })
 })
-app.delete('/api/delete/:name', (req, res) => {
-    const name = req.params.name
-    const sqlDel = "DELETE FROM people WHERE peopleName = ?"
+// app.delete('/api/delete/:name', (req, res) => {
+//     const name = req.params.name
+//     const sqlDel = "DELETE FROM people WHERE peopleName = ?"
 
-    db.query(sqlDel, name, (err, result) => {
-        if (err) console.log(err)
-    })
+//     db.query(sqlDel, name, (err, result) => {
+//         if (err) console.log(err)
+//     })
 
-})
+// })
 app.put('/api/update', (req, res) => {
     const name = req.body.name;
     const role = req.body.role;
@@ -58,7 +58,15 @@ app.put('/api/update', (req, res) => {
 
 })
 
-app.get('/api/get', (req,res) => {
+app.get('/api/getPeople', (req,res) => {
+    const sqlSelect = "SELECT * FROM people;"
+
+    db.query(sqlSelect, (err, result)=> {
+        res.send(result)
+    })
+})
+
+app.get('/api/getDates', (req,res) => {
     const sqlSelect = "SELECT * FROM people;"
 
     db.query(sqlSelect, (err, result)=> {

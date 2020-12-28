@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Person from './Person';
-import { getStartingDay } from '../Calculations';
+import { getMondayDate } from '../Calculations';
 import WeekDays from './WeekDays';
 
 export default class Rota extends Component {
@@ -9,15 +9,24 @@ export default class Rota extends Component {
     
         this.state = {
              isLoaded: false,
-             date: new Date()
+             date: new Date(),
+             monday: getMondayDate(new Date())
 
         }
         this.updateWeeklyState = this.updateWeeklyState.bind(this)
         this.updateDate = this.updateDate.bind(this)
+
+        // Prototype to add days
+        Date.prototype.addDays = function(days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }    
     }
     updateWeeklyState(day) {
 
-        const { people, date } = this.state;
+
+        const { people, date, monday } = this.state;
         let newPeople = [];
 
         for (let key in people) {
@@ -29,17 +38,16 @@ export default class Rota extends Component {
             if(people[i].id === day.person.id) {
 
                 // make new day if it's empty
-                if( newPeople[i].weekDays[day.day] == undefined) {
+                if( newPeople[i].weekDays[day.day] === undefined) {
                     newPeople[i].weekDays[day.day] = {}
                 }
                 newPeople[i].weekDays[day.day].startingTime = day.startingTime;
                 newPeople[i].weekDays[day.day].finishingTime = day.finishingTime;
 
                 // add date
-                let shiftDate = new Date(date.getTime());
-
-                shiftDate.setDate(shiftDate.getDate() + (day.day - shiftDate.getDay()) )
-                shiftDate.toISOString()
+                let shiftDate = new Date(monday);
+    
+                shiftDate = shiftDate.addDays(day.day - 1)
 
                 newPeople[i].weekDays[day.day].date = shiftDate;
             }
@@ -53,9 +61,10 @@ export default class Rota extends Component {
     componentDidMount() {
 
         // get data from database
-        this.props.Axios.get('http://localhost:3001/api/get').then((respons)=> {
+        this.props.Axios.get('http://localhost:3001/api/getPeople').then((respons)=> {
             let newPeople = [...respons.data];
             newPeople.map((item) => item.weekDays = [])
+
             this.setState({
                 people: newPeople,
                 isLoaded: true
@@ -64,17 +73,22 @@ export default class Rota extends Component {
     }
     // set week starting date
     updateDate(t) {
-        console.log(t)
+        let monday = getMondayDate(t)
+
         this.setState({
-            date: t
+            date: t,
+            monday: monday
         })
     }
 
     render() {
         console.log(this.state)
         const { isLoaded, people } = this.state;
+
         return (
+
                 <div className='rota-container'>
+
                     <this.props.DatePicker 
                         onChange={this.updateDate}
                         value={this.state.date}
@@ -82,17 +96,17 @@ export default class Rota extends Component {
 
                     <ul className='rota-header'>
                         <li className='name'>Name</li>
-                        <li><WeekDays /></li>
+                        <li><WeekDays monday={this.state.monday}/></li>
                         <li className='week-total'>Week total</li>
                     </ul>
 
                     {isLoaded ?
                         <div className='rota'>
-                            {this.state.people.map((person)=> {
+                            {people.map((person)=> {
 
                                 return (
                                     <Person 
-                                    key={person.id}
+                                    key={person.peopleID}
                                     person={person}
                                     updateWeeklyState={this.updateWeeklyState}
                                     />
