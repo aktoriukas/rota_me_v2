@@ -12,7 +12,7 @@ export default class Person extends Component {
                 </div>
                 <Shifts 
                     person={this.props.person}
-                    updateWeeklyState={this.props.updateWeeklyState}
+                    // updateWeeklyState={this.props.updateWeeklyState}
                 />
             </div>
         )

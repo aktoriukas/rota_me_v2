@@ -68,17 +68,6 @@ button:focus {
       border: 2px solid var(--blue-gray); }
       #root .rota-container .rota .shift .time:focus {
         outline: none; }
-  #root .rota-container .rota .about {
-    padding: 0.5rem; }
-    #root .rota-container .rota .about .name,
-    #root .rota-container .rota .about .title {
-      color: var(--blue-gray); }
-    #root .rota-container .rota .about .name {
-      font-size: 1.3rem;
-      font-weight: 600; }
-    #root .rota-container .rota .about .title {
-      font-size: 1rem;
-      font-weight: 300; }
   #root .rota-container .rota .shift-total {
     display: block;
     width: 5rem;
@@ -104,6 +93,17 @@ button:focus {
       border-radius: 50%; }
 #root .rota-container .person-container {
   padding: 0.25rem 0.5rem; }
+  #root .rota-container .person-container .about {
+    padding: 0.5rem; }
+    #root .rota-container .person-container .about .name,
+    #root .rota-container .person-container .about .title {
+      color: var(--blue-gray); }
+    #root .rota-container .person-container .about .name {
+      font-size: 1.3rem;
+      font-weight: 600; }
+    #root .rota-container .person-container .about .title {
+      font-size: 1rem;
+      font-weight: 300; }
   #root .rota-container .person-container:nth-child(odd) {
     background-color: var(--blue-gray); }
     #root .rota-container .person-container:nth-child(odd) .title,

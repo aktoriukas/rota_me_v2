@@ -2,94 +2,63 @@ import React, { Component } from 'react';
 import { convertToMinutes, calculateTotal, convertToString } from '../Calculations';
 
 export default class Shift extends Component {
+
     constructor(props) {
         super(props)
-
-        let startingTime = 0;
-        let finishingTime = 0;
-
-        try {
-            startingTime = props.person.weekDays[props.day].startingTime
-            finishingTime = props.person.weekDays[props.day].finishingTime
-        }
-        catch {
-
-        }
-
+    
         this.state = {
-             startingTime: startingTime,
-             finishingTime: finishingTime,
-             startingMinutes: 0,
-             finishingMinutes: 0,
-             person: this.props.person,
-             day: this.props.day,
-             total: 0,
-             totalMinutes: 0
+            startingTime: '',
+            finishingTime: '',
+            totalString: '',
+            totalMinutes: ''
         }
-        this.updateTime = this.updateTime.bind(this)
     }
     componentDidMount() {
-        const { startingTime, finishingTime } = this.state
-        let newTotal = 0;
-        let newTotalMinutes = 0; 
-        let finishingMinutes = 0; 
-        let startingMinutes = 0;
+        if (this.props.shift !== undefined) {
+            const { startingTime, finishingTime} = this.props.shift
+            let startingMinutes, finishingMinutes, totalMinutes, totalString;
 
-        try {
-            finishingMinutes = convertToMinutes(finishingTime) 
-            startingMinutes = convertToMinutes(startingTime)  
-            newTotalMinutes = calculateTotal(startingMinutes, finishingMinutes) 
-            newTotal = convertToString(newTotalMinutes)
+            startingMinutes = convertToMinutes(startingTime)
+            finishingMinutes = convertToMinutes(finishingTime)
+            totalMinutes = calculateTotal(startingMinutes, finishingMinutes)
+            totalString = convertToString(totalMinutes)
+            this.setState({
+                startingTime: startingTime,
+                finishingTime: finishingTime,
+                totalString: totalString,
+                totalMinutes: totalMinutes
+            })
         }
-        catch {
-
-        }
-
-        this.setState({
-            finishingMinutes: finishingMinutes,
-            startingMinutes: startingMinutes,
-            totalMinutes: newTotalMinutes,
-            total: newTotal
-        }, this.props.updateWeeklyState(this.state)
-         , this.props.updateTotalWeek(newTotalMinutes, this.state.day))
     }
-    updateTime (e) {
+    static getDerivedStateFromProps(props,state) {
+        let startingMinutes, finishingMinutes, totalMinutes, totalString, startingTim, finishingTim;
 
-        const { value, className } = e.target;
-        let newTotal, newTotalMinutes, finishingMinutes, startingMinutes, startingTime, finishingTime;
+        if (props.shift !== undefined) {
+            const { startingTime, finishingTime} = props.shift
 
-        if (className.includes('finishing')) {
+            startingMinutes = convertToMinutes(startingTime)
+            finishingMinutes = convertToMinutes(finishingTime)
+            totalMinutes = calculateTotal(startingMinutes, finishingMinutes)
+            totalString = convertToString(totalMinutes)
+            startingTim = startingTime;
+            finishingTim = finishingTime;
 
-            finishingMinutes = convertToMinutes(value);
-            newTotalMinutes = calculateTotal(this.state.startingMinutes, finishingMinutes)
-            startingMinutes = this.state.startingMinutes;
-            finishingTime = value;
-            startingTime = this.state.startingTime;
-
-        } else if (className.includes('starting')) {
-
-            startingMinutes = convertToMinutes(value);
-            newTotalMinutes = calculateTotal(startingMinutes, this.state.finishingMinutes)
-            finishingMinutes = this.state.finishingMinutes;
-            startingTime = value;
-            finishingTime = this.state.finishingTime;
+            console.log(props)
+        } else {
+            startingTim = ''
+            finishingTim = ''
+            totalMinutes = ''
+            totalString = ''    
         }
-        newTotal = convertToString(newTotalMinutes);
-        this.props.updateTotalWeek(newTotalMinutes, this.state.day);
 
-        this.setState({
-            finishingTime: finishingTime,
-            finishingMinutes: finishingMinutes,
-            startingTime: startingTime,
-            startingMinutes: startingMinutes,
-            totalMinutes: newTotalMinutes,
-            total: newTotal
-        })
-
+        return{
+            startingTime: startingTim,
+            finishingTime: finishingTim,
+            totalString: totalString,
+            totalMinutes: totalMinutes
+        }    
     }
-
     render() {
-        
         return (
             <li className='shift-container'>
                 <div className='shift'>
@@ -109,7 +78,7 @@ export default class Shift extends Component {
                     ></input>
                 </div>
                 <span className={`shift-total`}>
-                    {this.state.total}
+                    {this.state.totalString}
                 </span>
             </li>
         )

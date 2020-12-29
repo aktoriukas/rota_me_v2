@@ -83,21 +83,6 @@ button:focus {
           }
         }
       }
-      .about {
-        padding: 0.5rem;
-        .name,
-        .title {
-          color: var(--blue-gray);
-        }
-        .name {
-          font-size: 1.3rem;
-          font-weight: 600;
-        }
-        .title {
-          font-size: 1rem;
-          font-weight: 300;
-        }
-      }
       .shift-total {
         display: block;
         width: 5rem;
@@ -129,6 +114,21 @@ button:focus {
     }
     .person-container {
       padding: 0.25rem 0.5rem;
+      .about {
+        padding: 0.5rem;
+        .name,
+        .title {
+          color: var(--blue-gray);
+        }
+        .name {
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+        .title {
+          font-size: 1rem;
+          font-weight: 300;
+        }
+      }
       &:nth-child(odd) {
         background-color: var(--blue-gray);
         .title,
