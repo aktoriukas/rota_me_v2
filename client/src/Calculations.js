@@ -48,3 +48,15 @@ export const getMondayDate = (date) => {
 
     return monday
 }
+export const getTotalObj = (starting, finishing) => {
+    let totalObj = {}
+    const startingMinutes = convertToMinutes(starting);
+    const finishingMinutes = convertToMinutes(finishing);
+    const totalMinutes = calculateTotal(startingMinutes, finishingMinutes)
+    const totalString = convertToString(totalMinutes)
+
+    totalObj.totalMinutes = totalMinutes
+    totalObj.totalString = totalString
+
+    return totalObj
+}

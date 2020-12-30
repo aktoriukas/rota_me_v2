@@ -71,7 +71,6 @@ app.get('/api/getShifts', (req,res) => {
     let query = JSON.parse(req.query.interval)
     let weekStart = query.weekBegining;
     let weekEnd = query.weekEnd;
-
     const sqlSelect = 
     `SELECT s.peopleID, s.startingTime, s.finishingTime, s.shiftsDate, p.peopleName, p.peopleRole
     FROM shifts s

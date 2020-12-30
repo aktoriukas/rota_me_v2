@@ -46,6 +46,9 @@ h6 {
 button:focus {
   outline: none;
 }
+.react-date-picker__clear-button {
+  display: none;
+}
 #root {
   .rota-container {
     .person-container,
@@ -69,48 +72,6 @@ button:focus {
     .rota {
       display: flex;
       flex-direction: column;
-      .shift {
-        margin: auto;
-        display: grid;
-        justify-content: center;
-        .time {
-          border-radius: 2rem;
-          padding: 0.3rem 0.5rem;
-          margin: 0.2rem 0;
-          border: 2px solid var(--blue-gray);
-          &:focus {
-            outline: none;
-          }
-        }
-      }
-      .shift-total {
-        display: block;
-        width: 5rem;
-        margin: auto;
-        text-align: center;
-      }
-      .shifts-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr;
-      }
-      .week-total {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        .overtime span {
-          background-color: var(--tangerine);
-        }
-        span {
-          text-align: center;
-          width: 4rem;
-          height: 4rem;
-          background-color: var(--turquoise);
-          margin: auto;
-          line-height: 4;
-          border-radius: 50%;
-        }
-      }
     }
     .person-container {
       padding: 0.25rem 0.5rem;
@@ -127,6 +88,48 @@ button:focus {
         .title {
           font-size: 1rem;
           font-weight: 300;
+        }
+      }
+      .shifts-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        .shift-total {
+          display: block;
+          width: 5rem;
+          margin: auto;
+          text-align: center;
+        }
+        .shift {
+          margin: auto;
+          display: grid;
+          justify-content: center;
+          .week-total {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .overtime span {
+              background-color: var(--tangerine);
+            }
+            span {
+              text-align: center;
+              width: 4rem;
+              height: 4rem;
+              background-color: var(--turquoise);
+              margin: auto;
+              line-height: 4;
+              border-radius: 50%;
+            }
+          }
+          .time {
+            border-radius: 2rem;
+            padding: 0.3rem 0.5rem;
+            margin: 0.2rem 0;
+            border: 2px solid var(--blue-gray);
+            &:focus {
+              outline: none;
+            }
+          }
         }
       }
       &:nth-child(odd) {

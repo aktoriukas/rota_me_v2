@@ -41,6 +41,9 @@ h6 {
 button:focus {
   outline: none; }
 
+.react-date-picker__clear-button {
+  display: none; }
+
 #root .rota-container .person-container,
 #root .rota-container .rota-header {
   display: grid;
@@ -57,40 +60,6 @@ button:focus {
 #root .rota-container .rota {
   display: flex;
   flex-direction: column; }
-  #root .rota-container .rota .shift {
-    margin: auto;
-    display: grid;
-    justify-content: center; }
-    #root .rota-container .rota .shift .time {
-      border-radius: 2rem;
-      padding: 0.3rem 0.5rem;
-      margin: 0.2rem 0;
-      border: 2px solid var(--blue-gray); }
-      #root .rota-container .rota .shift .time:focus {
-        outline: none; }
-  #root .rota-container .rota .shift-total {
-    display: block;
-    width: 5rem;
-    margin: auto;
-    text-align: center; }
-  #root .rota-container .rota .shifts-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr; }
-  #root .rota-container .rota .week-total {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; }
-    #root .rota-container .rota .week-total .overtime span {
-      background-color: var(--tangerine); }
-    #root .rota-container .rota .week-total span {
-      text-align: center;
-      width: 4rem;
-      height: 4rem;
-      background-color: var(--turquoise);
-      margin: auto;
-      line-height: 4;
-      border-radius: 50%; }
 #root .rota-container .person-container {
   padding: 0.25rem 0.5rem; }
   #root .rota-container .person-container .about {
@@ -104,6 +73,40 @@ button:focus {
     #root .rota-container .person-container .about .title {
       font-size: 1rem;
       font-weight: 300; }
+  #root .rota-container .person-container .shifts-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr; }
+    #root .rota-container .person-container .shifts-container .shift-total {
+      display: block;
+      width: 5rem;
+      margin: auto;
+      text-align: center; }
+    #root .rota-container .person-container .shifts-container .shift {
+      margin: auto;
+      display: grid;
+      justify-content: center; }
+      #root .rota-container .person-container .shifts-container .shift .week-total {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; }
+        #root .rota-container .person-container .shifts-container .shift .week-total .overtime span {
+          background-color: var(--tangerine); }
+        #root .rota-container .person-container .shifts-container .shift .week-total span {
+          text-align: center;
+          width: 4rem;
+          height: 4rem;
+          background-color: var(--turquoise);
+          margin: auto;
+          line-height: 4;
+          border-radius: 50%; }
+      #root .rota-container .person-container .shifts-container .shift .time {
+        border-radius: 2rem;
+        padding: 0.3rem 0.5rem;
+        margin: 0.2rem 0;
+        border: 2px solid var(--blue-gray); }
+        #root .rota-container .person-container .shifts-container .shift .time:focus {
+          outline: none; }
   #root .rota-container .person-container:nth-child(odd) {
     background-color: var(--blue-gray); }
     #root .rota-container .person-container:nth-child(odd) .title,

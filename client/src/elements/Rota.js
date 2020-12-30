@@ -3,6 +3,7 @@ import Person from './Person';
 import { getMondayDate } from '../Calculations';
 import { getStandartDate } from '../Functions'
 import WeekDays from './WeekDays';
+// import cloneDeep from 'lodash/cloneDeep';
 
 export default class Rota extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ export default class Rota extends Component {
         }
         this.updateDate = this.updateDate.bind(this)
         this.addShiftsToPeople = this.addShiftsToPeople.bind(this)
+        this.clearOldShifts = this.clearOldShifts.bind(this)
 
         // Prototype to add days
         Date.prototype.addDays = function(days) {
@@ -55,13 +57,17 @@ export default class Rota extends Component {
         });
     };
     addShiftsToPeople(shifts, people) {
+        console.log(people)
         shifts.forEach(shift => {
 
             let jsDate = new Date(Date.parse(shift.shiftsDate));
             let weekDay = jsDate.getDay();
+            if(weekDay === 0) { weekDay = 7}
 
             for(let i=0; i < people.length; i++) {
+
                 if ( shift.peopleID === people[i]['peopleID']){
+
                     people[i]['weekDays'][weekDay] = {}
                     people[i]['weekDays'][weekDay].startingTime = shift.startingTime;
                     people[i]['weekDays'][weekDay].finishingTime = shift.finishingTime;
@@ -74,28 +80,30 @@ export default class Rota extends Component {
             isLoaded: true
         })
     }
+    clearOldShifts() {
+        this.setState({people: undefined, isLoaded: false})
+    }
 
     componentDidMount(state) {
 
         const getShifts = this.getShifts
         const getPeople = this.getPeople
         const addShiftsToPeople = this.addShiftsToPeople
+        const clearOldShifts = this.clearOldShifts
 
         getPeople()
         .then(function(people) { 
 
         getShifts()
         .then(function(shifts){
-            console.log(shifts)
+            clearOldShifts()
             addShiftsToPeople(shifts, people)
-            
         })
         })
     }
  
     updateDate(t) {
         let monday = getMondayDate(t)
-        const addShiftsToPeople = this.addShiftsToPeople
         // Clear shifts
         this.setState({
             date: t,
@@ -106,9 +114,11 @@ export default class Rota extends Component {
     render() {
         const { isLoaded, people } = this.state;
         let peopleElements = []
-        people.map(person => {
-            peopleElements.push(<Person key={person.peopleID} person={person} />)
-        })
+        if(isLoaded) {
+            peopleElements = people.map(person => {
+                return <Person key={person.peopleID} person={person} />
+            })    
+        }
         return (
 
             <div className='rota-container'>
