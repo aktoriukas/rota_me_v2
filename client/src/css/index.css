@@ -62,6 +62,20 @@ button:focus {
   flex-direction: column; }
 #root .rota-container .person-container {
   padding: 0.25rem 0.5rem; }
+  #root .rota-container .person-container .week-total {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+    #root .rota-container .person-container .week-total .overtime span {
+      background-color: var(--tangerine); }
+    #root .rota-container .person-container .week-total span {
+      text-align: center;
+      width: 4rem;
+      height: 4rem;
+      background-color: var(--turquoise);
+      margin: auto;
+      line-height: 4;
+      border-radius: 50%; }
   #root .rota-container .person-container .about {
     padding: 0.5rem; }
     #root .rota-container .person-container .about .name,
@@ -86,20 +100,6 @@ button:focus {
       margin: auto;
       display: grid;
       justify-content: center; }
-      #root .rota-container .person-container .shifts-container .shift .week-total {
-        display: flex;
-        flex-direction: column;
-        justify-content: center; }
-        #root .rota-container .person-container .shifts-container .shift .week-total .overtime span {
-          background-color: var(--tangerine); }
-        #root .rota-container .person-container .shifts-container .shift .week-total span {
-          text-align: center;
-          width: 4rem;
-          height: 4rem;
-          background-color: var(--turquoise);
-          margin: auto;
-          line-height: 4;
-          border-radius: 50%; }
       #root .rota-container .person-container .shifts-container .shift .time {
         border-radius: 2rem;
         padding: 0.3rem 0.5rem;

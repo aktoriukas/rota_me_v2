@@ -75,6 +75,23 @@ button:focus {
     }
     .person-container {
       padding: 0.25rem 0.5rem;
+      .week-total {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .overtime span {
+          background-color: var(--tangerine);
+        }
+        span {
+          text-align: center;
+          width: 4rem;
+          height: 4rem;
+          background-color: var(--turquoise);
+          margin: auto;
+          line-height: 4;
+          border-radius: 50%;
+        }
+      }
       .about {
         padding: 0.5rem;
         .name,
@@ -104,23 +121,7 @@ button:focus {
           margin: auto;
           display: grid;
           justify-content: center;
-          .week-total {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            .overtime span {
-              background-color: var(--tangerine);
-            }
-            span {
-              text-align: center;
-              width: 4rem;
-              height: 4rem;
-              background-color: var(--turquoise);
-              margin: auto;
-              line-height: 4;
-              border-radius: 50%;
-            }
-          }
+
           .time {
             border-radius: 2rem;
             padding: 0.3rem 0.5rem;

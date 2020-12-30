@@ -11,9 +11,16 @@ export default class Shifts extends Component {
         let shifts = [];
         // let overTime = 2400; // 40H
         for (let i = 1; i < 8; i++) {
-            shifts.push(<Shift shift={weekDays[i]} key={i} />)
+            shifts.push(
+                <Shift 
+                    person={this.props.person}
+                    shift={weekDays[i]} key={i} 
+                    handleChange={this.props.handleChange}
+                    updateWeekTotal={this.props.updateWeekTotal}
+                    weekDay={i}
+                />
+            )
         }
-
         return (
             <div className='shifts-container'>
             {shifts}

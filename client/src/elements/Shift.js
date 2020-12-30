@@ -10,7 +10,9 @@ export default class Shift extends Component {
             startingTime: '',
             finishingTime: '',
             totalString: '',
-            totalMinutes: ''
+            totalMinutes: '',
+            peopleID: props.person.peopleID,
+            weekDay: props.weekDay
         }
         this.updateTime = this.updateTime.bind(this)
         this.updateState = this.updateState.bind(this)
@@ -43,14 +45,11 @@ export default class Shift extends Component {
             startingTime = this.state.startingTime
             finishingTime = e.target.value;
         }
-        console.log(startingTime, finishingTime)
         const {totalMinutes, totalString} = getTotalObj(startingTime, finishingTime)
         this.updateState(startingTime, finishingTime, totalString, totalMinutes)
     }
 
     render() {
-        // console.log('render')
-        // console.log(this.state)
         const { totalString } = this.state;
         return (
             <li className='shift-container'>
@@ -60,14 +59,14 @@ export default class Shift extends Component {
                         type='time' 
                         defaultValue={this.state.startingTime}
                         onChange={this.updateTime}
-                        onBlur={this.updateTime}
+                        onBlur={() => this.props.handleChange(this.state)}
                     ></input>
                     <input 
                         className='time finishing'
                         type='time' 
                         defaultValue={this.state.finishingTime}
                         onChange={this.updateTime}
-                        onBlur={this.updateTime}
+                        onBlur={() => this.props.handleChange(this.state)}
                     ></input>
                 </div>
                 <span className={`shift-total`}>
