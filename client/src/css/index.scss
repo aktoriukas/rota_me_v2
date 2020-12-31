@@ -4,7 +4,7 @@
   --tangerine: #feb06a;
   --cream: #fbf6f3;
   --black: #000000;
-  --dark: var(var(--black));
+  --dark: var(--black);
 }
 
 html,
@@ -51,11 +51,6 @@ button:focus {
 }
 #root {
   .rota-container {
-    .person-container,
-    .rota-header {
-      display: grid;
-      grid-template-columns: 1fr 5fr 0.5fr;
-    }
     .weekdays {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -66,32 +61,38 @@ button:focus {
     .rota-header {
       padding: 0.5rem 1rem;
       .week-total {
-        text-align: right;
+        text-align: center;
       }
     }
     .rota {
       display: flex;
       flex-direction: column;
     }
-    .person-container {
-      padding: 0.25rem 0.5rem;
-      .week-total {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        .overtime span {
-          background-color: var(--tangerine);
-        }
-        span {
-          text-align: center;
-          width: 4rem;
-          height: 4rem;
-          background-color: var(--turquoise);
-          margin: auto;
-          line-height: 4;
-          border-radius: 50%;
-        }
+    .week-total,
+    .all-week-total {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      span {
+        text-align: center;
+        width: 4rem;
+        height: 4rem;
+        background-color: var(--turquoise);
+        margin: auto;
+        line-height: 4;
+        border-radius: 50%;
       }
+      &.overtime span {
+        background-color: var(--tangerine);
+      }
+    }
+    .person-container,
+    .rota-footer,
+    .rota-header {
+      padding: 0.25rem 0.5rem;
+      display: grid;
+      grid-template-columns: 1fr 5fr 0.5fr;
+
       .about {
         padding: 0.5rem;
         .name,
@@ -111,6 +112,12 @@ button:focus {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr;
+        .shift-container {
+          transition: opacity 0.5s ease;
+          &.off {
+            opacity: 0.5;
+          }
+        }
         .shift-total {
           display: block;
           width: 5rem;

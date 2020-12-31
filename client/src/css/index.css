@@ -4,7 +4,7 @@
   --tangerine: #feb06a;
   --cream: #fbf6f3;
   --black: #000000;
-  --dark: var(var(--black)); }
+  --dark: var(--black); }
 
 html,
 body,
@@ -44,10 +44,6 @@ button:focus {
 .react-date-picker__clear-button {
   display: none; }
 
-#root .rota-container .person-container,
-#root .rota-container .rota-header {
-  display: grid;
-  grid-template-columns: 1fr 5fr 0.5fr; }
 #root .rota-container .weekdays {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; }
@@ -56,61 +52,102 @@ button:focus {
 #root .rota-container .rota-header {
   padding: 0.5rem 1rem; }
   #root .rota-container .rota-header .week-total {
-    text-align: right; }
+    text-align: center; }
 #root .rota-container .rota {
   display: flex;
   flex-direction: column; }
-#root .rota-container .person-container {
-  padding: 0.25rem 0.5rem; }
-  #root .rota-container .person-container .week-total {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; }
-    #root .rota-container .person-container .week-total .overtime span {
-      background-color: var(--tangerine); }
-    #root .rota-container .person-container .week-total span {
-      text-align: center;
-      width: 4rem;
-      height: 4rem;
-      background-color: var(--turquoise);
-      margin: auto;
-      line-height: 4;
-      border-radius: 50%; }
-  #root .rota-container .person-container .about {
+#root .rota-container .week-total,
+#root .rota-container .all-week-total {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+  #root .rota-container .week-total span,
+  #root .rota-container .all-week-total span {
+    text-align: center;
+    width: 4rem;
+    height: 4rem;
+    background-color: var(--turquoise);
+    margin: auto;
+    line-height: 4;
+    border-radius: 50%; }
+  #root .rota-container .week-total.overtime span,
+  #root .rota-container .all-week-total.overtime span {
+    background-color: var(--tangerine); }
+#root .rota-container .person-container,
+#root .rota-container .rota-footer,
+#root .rota-container .rota-header {
+  padding: 0.25rem 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 5fr 0.5fr; }
+  #root .rota-container .person-container .about,
+  #root .rota-container .rota-footer .about,
+  #root .rota-container .rota-header .about {
     padding: 0.5rem; }
     #root .rota-container .person-container .about .name,
-    #root .rota-container .person-container .about .title {
+    #root .rota-container .person-container .about .title,
+    #root .rota-container .rota-footer .about .name,
+    #root .rota-container .rota-footer .about .title,
+    #root .rota-container .rota-header .about .name,
+    #root .rota-container .rota-header .about .title {
       color: var(--blue-gray); }
-    #root .rota-container .person-container .about .name {
+    #root .rota-container .person-container .about .name,
+    #root .rota-container .rota-footer .about .name,
+    #root .rota-container .rota-header .about .name {
       font-size: 1.3rem;
       font-weight: 600; }
-    #root .rota-container .person-container .about .title {
+    #root .rota-container .person-container .about .title,
+    #root .rota-container .rota-footer .about .title,
+    #root .rota-container .rota-header .about .title {
       font-size: 1rem;
       font-weight: 300; }
-  #root .rota-container .person-container .shifts-container {
+  #root .rota-container .person-container .shifts-container,
+  #root .rota-container .rota-footer .shifts-container,
+  #root .rota-container .rota-header .shifts-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr; }
-    #root .rota-container .person-container .shifts-container .shift-total {
+    #root .rota-container .person-container .shifts-container .shift-container,
+    #root .rota-container .rota-footer .shifts-container .shift-container,
+    #root .rota-container .rota-header .shifts-container .shift-container {
+      transition: opacity 0.5s ease; }
+      #root .rota-container .person-container .shifts-container .shift-container.off,
+      #root .rota-container .rota-footer .shifts-container .shift-container.off,
+      #root .rota-container .rota-header .shifts-container .shift-container.off {
+        opacity: 0.5; }
+    #root .rota-container .person-container .shifts-container .shift-total,
+    #root .rota-container .rota-footer .shifts-container .shift-total,
+    #root .rota-container .rota-header .shifts-container .shift-total {
       display: block;
       width: 5rem;
       margin: auto;
       text-align: center; }
-    #root .rota-container .person-container .shifts-container .shift {
+    #root .rota-container .person-container .shifts-container .shift,
+    #root .rota-container .rota-footer .shifts-container .shift,
+    #root .rota-container .rota-header .shifts-container .shift {
       margin: auto;
       display: grid;
       justify-content: center; }
-      #root .rota-container .person-container .shifts-container .shift .time {
+      #root .rota-container .person-container .shifts-container .shift .time,
+      #root .rota-container .rota-footer .shifts-container .shift .time,
+      #root .rota-container .rota-header .shifts-container .shift .time {
         border-radius: 2rem;
         padding: 0.3rem 0.5rem;
         margin: 0.2rem 0;
         border: 2px solid var(--blue-gray); }
-        #root .rota-container .person-container .shifts-container .shift .time:focus {
+        #root .rota-container .person-container .shifts-container .shift .time:focus,
+        #root .rota-container .rota-footer .shifts-container .shift .time:focus,
+        #root .rota-container .rota-header .shifts-container .shift .time:focus {
           outline: none; }
-  #root .rota-container .person-container:nth-child(odd) {
+  #root .rota-container .person-container:nth-child(odd),
+  #root .rota-container .rota-footer:nth-child(odd),
+  #root .rota-container .rota-header:nth-child(odd) {
     background-color: var(--blue-gray); }
     #root .rota-container .person-container:nth-child(odd) .title,
-    #root .rota-container .person-container:nth-child(odd) .name {
+    #root .rota-container .person-container:nth-child(odd) .name,
+    #root .rota-container .rota-footer:nth-child(odd) .title,
+    #root .rota-container .rota-footer:nth-child(odd) .name,
+    #root .rota-container .rota-header:nth-child(odd) .title,
+    #root .rota-container .rota-header:nth-child(odd) .name {
       color: var(--cream); }
 
 /*# sourceMappingURL=index.css.map */

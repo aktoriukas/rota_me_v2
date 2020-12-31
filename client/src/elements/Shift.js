@@ -5,13 +5,16 @@ export default class Shift extends Component {
 
     constructor(props) {
         super(props)
-    
+        let date = new Date(props.monday);
+        date = date.addDays(props.weekDay -1)
+
         this.state = {
             startingTime: '',
             finishingTime: '',
             totalString: '',
-            totalMinutes: '',
+            totalMinutes: 0,
             peopleID: props.person.peopleID,
+            date: date,
             weekDay: props.weekDay
         }
         this.updateTime = this.updateTime.bind(this)
@@ -50,9 +53,13 @@ export default class Shift extends Component {
     }
 
     render() {
-        const { totalString } = this.state;
+        const { totalString, totalMinutes } = this.state;
+        let shiftState = ''
+        if (totalMinutes === 0) {
+            shiftState = 'off'
+        }
         return (
-            <li className='shift-container'>
+            <li className={`shift-container ${shiftState}`}>
                 <div className='shift'>
                     <input 
                         className='time starting'

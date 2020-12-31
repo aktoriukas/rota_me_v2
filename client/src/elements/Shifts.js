@@ -9,7 +9,6 @@ export default class Shifts extends Component {
     render() {
         const {weekDays} = this.props.person;
         let shifts = [];
-        // let overTime = 2400; // 40H
         for (let i = 1; i < 8; i++) {
             shifts.push(
                 <Shift 
@@ -18,6 +17,7 @@ export default class Shifts extends Component {
                     handleChange={this.props.handleChange}
                     updateWeekTotal={this.props.updateWeekTotal}
                     weekDay={i}
+                    monday={this.props.monday}
                 />
             )
         }

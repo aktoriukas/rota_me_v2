@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Person from './Person';
-import { getMondayDate } from '../Calculations';
+import { getMondayDate, convertToMinutes, calculateTotal } from '../Calculations';
 import { getStandartDate } from '../Functions'
 import WeekDays from './WeekDays';
+import RotaFooter from './RotaFooter'
 // import cloneDeep from 'lodash/cloneDeep';
 
 export default class Rota extends Component {
@@ -13,12 +14,14 @@ export default class Rota extends Component {
              isLoaded: false,
              people: [],
              date: new Date(),
-             monday: getMondayDate(new Date())
+             monday: getMondayDate(new Date()),
+             allWeekTotal: 0
 
         }
         this.updateDate = this.updateDate.bind(this)
         this.addShiftsToPeople = this.addShiftsToPeople.bind(this)
         this.clearOldShifts = this.clearOldShifts.bind(this)
+        this.updatePeopleShifts = this.updatePeopleShifts.bind(this)
 
         // Prototype to add days
         Date.prototype.addDays = function(days) {
@@ -39,9 +42,6 @@ export default class Rota extends Component {
             })
         })
     }
-
-
-
     getShifts = () => {
         return new Promise(resolve => {
       
@@ -57,7 +57,6 @@ export default class Rota extends Component {
         });
     };
     addShiftsToPeople(shifts, people) {
-        console.log(people)
         shifts.forEach(shift => {
 
             let jsDate = new Date(Date.parse(shift.shiftsDate));
@@ -78,12 +77,29 @@ export default class Rota extends Component {
         this.setState({
             people: people,
             isLoaded: true
+        }, () => {
+            this.calculateAllTotal()
         })
     }
     clearOldShifts() {
         this.setState({people: undefined, isLoaded: false})
     }
-
+    calculateAllTotal() {
+        let peopleCopy = [...this.state.people]
+        let total = 0;
+        let startingTime, finishingTime, dayTotal
+        peopleCopy.forEach(person => {
+            person.weekDays.forEach(day => {
+                startingTime = convertToMinutes(day.startingTime)
+                finishingTime = convertToMinutes(day.finishingTime)
+                dayTotal = calculateTotal(startingTime, finishingTime) 
+                total += dayTotal
+            })
+        });
+        this.setState({
+            allWeekTotal: total
+        })
+    }
     componentDidMount(state) {
 
         const getShifts = this.getShifts
@@ -97,9 +113,7 @@ export default class Rota extends Component {
         getShifts()
         .then(function(shifts){
             clearOldShifts()
-            addShiftsToPeople(shifts, people)
-        })
-        })
+            addShiftsToPeople(shifts, people)})})
     }
  
     updateDate(t) {
@@ -110,13 +124,29 @@ export default class Rota extends Component {
             monday: monday
         }, this.componentDidMount())
     }
+    updatePeopleShifts(shift) {
+        const { people } = this.state
+        let peopleCopy = [...people].map(person => {
+            if ( person.peopleID === shift.peopleID) {
+                person.weekDays[shift.weekDay] = {}
+                person.weekDays[shift.weekDay].startingTime = shift.startingTime
+                person.weekDays[shift.weekDay].finishingTime = shift.finishingTime
+                person.weekDays[shift.weekDay].date = shift.date
+            }
+            return person
+        })
+        this.setState({
+            people: peopleCopy
+        }, this.calculateAllTotal)
+    }
 
     render() {
+        console.log(this.state)
         const { isLoaded, people } = this.state;
         let peopleElements = []
         if(isLoaded) {
             peopleElements = people.map(person => {
-                return <Person key={person.peopleID} person={person} />
+                return <Person monday={this.state.monday} updatePeopleShifts={this.updatePeopleShifts} key={person.peopleID} person={person} />
             })    
         }
         return (
@@ -130,7 +160,9 @@ export default class Rota extends Component {
 
                 <ul className='rota-header'>
                     <li className='name'>Name</li>
-                    <li><WeekDays monday={this.state.monday}/></li>
+                    <li>
+                        <WeekDays monday={this.state.monday}/>
+                    </li>
                     <li className='week-total'>Week total</li>
                 </ul>
 
@@ -139,7 +171,9 @@ export default class Rota extends Component {
                     :
                     <div>Loading</div>
                 }
-                    
+                <RotaFooter
+                    allWeekTotal={this.state.allWeekTotal}
+                />
                 <button>Save</button>
             </div>
 

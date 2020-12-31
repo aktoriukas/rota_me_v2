@@ -12,41 +12,58 @@ export default class Person extends Component {
              totalWeekString: '',
              totalWeekMin: 0
         }
-        this.updateWeekTotal = this.updateWeekTotal.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
-    updateWeekTotal(state) {
-        let weekCopy = [...this.state.week]
-        weekCopy[state.weekDay] = state.totalMinutes
-        let totalMin = weekCopy.reduce((acc, cur) => acc + cur)
-        console.log(weekCopy)
-        this.setState({
-            week: weekCopy,
-            totalWeekMin: totalMin
-        })
-    }
-    static getDerivedStateFromProps(props, state) {
-        let totalWeekMin = 0;
+    componentDidMount() {
+        // Update total week with new data
+
+        const { person } = this.props
+        const { week } = this.state
+        let newTotalWeekMin = 0
         let total = []
+        let newWeek = [...week]
         try {
-            props.person.weekDays.forEach(day => {
+            person.weekDays.forEach((day, index) => {
                 if (day === undefined) { return}
                 const { totalMinutes } = getTotalObj(day.startingTime, day.finishingTime)
                 total.push(totalMinutes)
+                newWeek[index] = totalMinutes
             });
-            totalWeekMin = total.reduce((acc, cur) => acc + cur)
+            newTotalWeekMin = total.reduce((acc, cur) => acc + cur)
         }catch {}
+        const totalWeekString = convertToString(newTotalWeekMin)
 
-        const totalWeekString = convertToString(totalWeekMin)
-        return {
-            totalWeekMin: totalWeekMin,
-            totalWeekString: totalWeekString
-        }
+        this.setState({
+            week: newWeek,
+            totalWeekMin: newTotalWeekMin,
+            totalWeekString: totalWeekString,
+            personId: person.peopleID
+        })
     }
-    handleChange(state) {
-        // console.log(state)
+    handleChange(shift) {
+        let newTotalWeekMin, newTotalWeekString
+        let newWeek = [...this.state.week]
+
+        newWeek[shift.weekDay] = shift.totalMinutes
+        newTotalWeekMin = newWeek.reduce((acc, cur) => {
+            if (cur === undefined) {cur = 0}
+            if (acc === undefined) {acc = 0}
+            return acc + cur
+        })
+        newTotalWeekString = convertToString(newTotalWeekMin)
+
+        this.setState({
+            week: newWeek,
+            totalWeekMin: newTotalWeekMin,
+            totalWeekString: newTotalWeekString
+
+        }, this.props.updatePeopleShifts(shift))
     }
 
     render() {
+        const { totalWeekMin } = this.state
+        let overTime = 2400; // 40H
+
         return (
             <div className='person-container'>
                 <div className='about'>
@@ -57,9 +74,10 @@ export default class Person extends Component {
                     person={this.props.person}
                     handleChange={this.handleChange}
                     updateWeekTotal={this.updateWeekTotal}
+                    monday={this.props.monday}
                     // updateWeeklyState={this.props.updateWeeklyState}
                 />
-                <div className='week-total'>
+                <div className={`week-total ${totalWeekMin > overTime ? 'overtime' : ''}`}>
                     <span>{this.state.totalWeekString}</span>
                 </div>
             </div>
