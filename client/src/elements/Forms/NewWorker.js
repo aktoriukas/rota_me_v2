@@ -28,15 +28,24 @@ export default class NewWorker extends Component {
     render() {
         return (
             <div className='new-worker form'>
-                <label>Name:</label>
-                <input type='text' name='name' onChange={(e) => {
-                this.setName(e.target.value)
-                }}/>
-                <label>Role:</label>
-                <input type='text' name='role' onChange={(e) => {
-                this.setRole(e.target.value)
-                }}/>
-                <button onClick={this.register}>Register</button>
+                <h1>Add new employee</h1>
+                <form>
+                    <div>
+                        <label>Name:</label>
+                        <input className='input' type='text' name='name' onChange={(e) => {
+                        this.setName(e.target.value)
+                        }}/>
+                    </div>
+                    <div>
+                        <label>Role:</label>
+                        <input className='input' type='text' name='role' onChange={(e) => {
+                        this.setRole(e.target.value)
+                        }}/>
+                    </div>
+                    <div>
+                      <button className='button' onClick={this.register}>Register</button>
+                    </div>
+                </form>
             </div>
         )
     }

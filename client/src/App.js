@@ -1,12 +1,23 @@
-import React, { } from "react";
 import './css/index.css';
 import Axios from 'axios';
 import DatePicker from 'react-date-picker';
-
-import Header from './elements/Header';
 import Rota from './elements/Rota';
+import React, { Component } from 'react'
 
-function App() {
+export default class App extends Component {  
+  render() {
+    return (
+      <>
+        <Rota 
+          Axios={Axios}
+          DatePicker={DatePicker}
+        />
+      </>
+    )
+  }
+}
+
+
   // const  [name, setName] = useState('')
   // const  [role, setRole] = useState('')
   // const  [newRole, updateNewRole] = useState('')
@@ -34,17 +45,5 @@ function App() {
   // }
 
 
-  return (
-    <>
-      <Header 
-        Axios={Axios}
-      />
-      <Rota 
-        Axios={Axios}
-        DatePicker={DatePicker}
-      />
-    </>
-  );
-}
 
-export default App;
+// export default App;

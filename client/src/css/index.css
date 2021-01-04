@@ -1,8 +1,10 @@
 :root {
   --blue-gray: #5d6c89;
   --turquoise: #36d6e7;
+  --turquoise-clear: #36d5e720;
   --tangerine: #feb06a;
   --cream: #fbf6f3;
+  --cream-clear: #fbf6f3bc;
   --black: #000000;
   --dark: var(--black); }
 
@@ -44,14 +46,109 @@ button:focus {
 .react-date-picker__clear-button {
   display: none; }
 
+.form {
+  margin-bottom: 2rem; }
+  .form .input {
+    padding: 0.5rem;
+    border-radius: 2rem;
+    border: none; }
+    .form .input:focus {
+      outline: none; }
+  .form form {
+    display: flex;
+    flex-direction: column; }
+    .form form > div {
+      margin: 0.5rem 0 0.5rem auto; }
+    .form form label {
+      font-size: 1.2rem;
+      padding-right: 0.5rem; }
+    .form form input {
+      font-size: 1rem; }
+
+.pop-up {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--cream-clear);
+  display: flex;
+  z-index: 999; }
+  .pop-up .inner {
+    padding: 2rem 3rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--blue-gray);
+    outline: 4px solid var(--blue-gray);
+    border: 5px solid var(--cream-clear); }
+    .pop-up .inner h1 {
+      margin-bottom: 1rem; }
+    .pop-up .inner.warning div {
+      margin: 0 0 0 auto; }
+    .pop-up .inner.warning button {
+      margin: 1rem 0.5rem 0; }
+  .pop-up.options .inner > button {
+    margin: 0 0 0 auto; }
+  .pop-up .employees-list table {
+    margin-bottom: 2rem;
+    width: 100%;
+    border-collapse: collapse; }
+    .pop-up .employees-list table td {
+      border: 1px solid var(--cream-clear);
+      padding: 0.5rem; }
+      .pop-up .employees-list table td h2,
+      .pop-up .employees-list table td h3 {
+        color: var(--black); }
+      .pop-up .employees-list table td button {
+        margin: 0 0.5rem; }
+
+#alert-message-container .title,
+#alert-message-container .message {
+  color: var(--black);
+  text-align: center;
+  padding-bottom: 1rem; }
+#alert-message-container .message {
+  font-size: 1.5rem; }
+#alert-message-container .button {
+  margin: 0 auto; }
+
+.button {
+  padding: 0.5rem 1rem;
+  background-color: var(--tangerine);
+  border: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  color: var(--black);
+  cursor: pointer;
+  transition: 0.5s ease;
+  margin: 0 auto; }
+  .button.save {
+    margin-top: 1rem; }
+  .button:hover {
+    background-color: transparent; }
+
+#root #top-rota-header {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: flex-end;
+  background-color: var(--blue-gray); }
+  #root #top-rota-header > div {
+    margin: 0 1rem; }
+  #root #top-rota-header .react-date-picker__wrapper {
+    border: 2px solid var(--cream-clear);
+    border-radius: 2rem;
+    padding: 0 1rem;
+    background-color: var(--cream-clear); }
+    #root #top-rota-header .react-date-picker__wrapper input:focus {
+      outline: none; }
 #root .rota-container .weekdays {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; }
   #root .rota-container .weekdays li {
-    text-align: center; }
-#root .rota-container .rota-header {
-  padding: 0.5rem 1rem; }
-  #root .rota-container .rota-header .week-total {
     text-align: center; }
 #root .rota-container .rota {
   display: flex;
@@ -73,12 +170,20 @@ button:focus {
   #root .rota-container .week-total.overtime span,
   #root .rota-container .all-week-total.overtime span {
     background-color: var(--tangerine); }
+#root .rota-container .rota-header {
+  background-color: var(--turquoise);
+  border: 4px solid var(--cream-clear);
+  outline: 3px solid var(--turquoise); }
 #root .rota-container .person-container,
 #root .rota-container .rota-footer,
 #root .rota-container .rota-header {
   padding: 0.25rem 0.5rem;
   display: grid;
   grid-template-columns: 1fr 5fr 0.5fr; }
+  #root .rota-container .person-container .week-total,
+  #root .rota-container .rota-footer .week-total,
+  #root .rota-container .rota-header .week-total {
+    text-align: center; }
   #root .rota-container .person-container .about,
   #root .rota-container .rota-footer .about,
   #root .rota-container .rota-header .about {
@@ -151,6 +256,10 @@ button:focus {
     #root .rota-container .rota-header:nth-child(odd) .title,
     #root .rota-container .rota-header:nth-child(odd) .name {
       color: var(--cream); }
+  #root .rota-container .person-container:last-child,
+  #root .rota-container .rota-footer:last-child,
+  #root .rota-container .rota-header:last-child {
+    background-color: var(--turquoise-clear); }
 
 /*# sourceMappingURL=index.css.map */
 

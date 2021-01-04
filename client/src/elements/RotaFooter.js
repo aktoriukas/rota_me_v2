@@ -20,6 +20,7 @@ export default class RotaFooter extends Component {
                 <li></li>
                 <li className={`all-week-total ${allWeekTotalMin < budget ? '' : ' overtime'}`}>
                     <span>{convertToString(allWeekTotal)}</span>
+                    <button className='button save' onClick={this.props.saveData}>Save</button>
                 </li>
             </ul>
         )

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import Person from './Person';
 import { getMondayDate, convertToMinutes, calculateTotal } from '../Calculations';
-import { getStandartDate } from '../Functions'
+import { getStandartDate, makeSqlDate } from '../Functions'
 import WeekDays from './WeekDays';
-import RotaFooter from './RotaFooter'
+import RotaFooter from './RotaFooter';
+import AlertBox from './AlertBox';
+import Header from './Header';
+
 // import cloneDeep from 'lodash/cloneDeep';
 
 export default class Rota extends Component {
@@ -15,7 +18,8 @@ export default class Rota extends Component {
              people: [],
              date: new Date(),
              monday: getMondayDate(new Date()),
-             allWeekTotal: 0
+             allWeekTotal: 0,
+             alertBox: false
 
         }
         this.updateDate = this.updateDate.bind(this)
@@ -23,6 +27,8 @@ export default class Rota extends Component {
         this.clearOldShifts = this.clearOldShifts.bind(this)
         this.updatePeopleShifts = this.updatePeopleShifts.bind(this)
         this.saveData = this.saveData.bind(this)
+        this.closeAlert = this.closeAlert.bind(this)
+        this.rerender = this.rerender.bind(this)
 
         // Prototype to add days
         Date.prototype.addDays = function(days) {
@@ -149,10 +155,7 @@ export default class Rota extends Component {
             person.weekDays.forEach(day => {
                 let shift = {}
 
-                // reformat date to sql
-                let sqlDate = day.date
-                const pad = function(num) { return ('00'+num).slice(-2) };
-                sqlDate = sqlDate.getUTCFullYear() + '-' + pad(sqlDate.getUTCMonth() + 1) + '-' + pad(sqlDate.getUTCDate())
+                let sqlDate = makeSqlDate(day.date)
 
                 shift.peopleID = person.peopleID;
                 shift.startingTime = day.startingTime;
@@ -167,15 +170,22 @@ export default class Rota extends Component {
                 }
             })
         })
-        console.log(update)
         this.props.Axios.put(`http://localhost:3001/api/update`, {
             update: update,
             insert: insert
+        }).then(() => {
+            this.setState({ alertBox: true })
         })
+    }
+    closeAlert() {
+        this.setState({ alertBox: false })
+    }
+    rerender() {
+        this.componentDidMount()
     }
 
     render() {
-        const { isLoaded, people } = this.state;
+        const { isLoaded, people, alertBox } = this.state;
         let peopleElements = []
         if(isLoaded) {
             peopleElements = people.map(person => {
@@ -186,10 +196,16 @@ export default class Rota extends Component {
 
             <div className='rota-container'>
 
-                <this.props.DatePicker 
-                    onChange={this.updateDate}
-                    value={this.state.date}
-                />
+                <header id='top-rota-header'>
+                    <this.props.DatePicker 
+                        onChange={this.updateDate}
+                        value={this.state.date}
+                    />
+                    <Header
+                        Axios={this.props.Axios}
+                        rerender={this.rerender}
+                    />
+                </header>
 
                 <ul className='rota-header'>
                     <li className='name'>Name</li>
@@ -206,8 +222,16 @@ export default class Rota extends Component {
                 }
                 <RotaFooter
                     allWeekTotal={this.state.allWeekTotal}
+                    saveData={this.saveData}
                 />
-                <button onClick={this.saveData}>Save</button>
+                {alertBox ?
+                    <AlertBox 
+                        message='Your data been saved'
+                        close={this.closeAlert}
+                    />
+                    :
+                    ''
+                }
             </div>
 
         )

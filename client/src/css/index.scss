@@ -1,8 +1,10 @@
 :root {
   --blue-gray: #5d6c89;
   --turquoise: #36d6e7;
+  --turquoise-clear: #36d5e720;
   --tangerine: #feb06a;
   --cream: #fbf6f3;
+  --cream-clear: #fbf6f3bc;
   --black: #000000;
   --dark: var(--black);
 }
@@ -49,18 +51,142 @@ button:focus {
 .react-date-picker__clear-button {
   display: none;
 }
+.form {
+  margin-bottom: 2rem;
+  .input {
+    padding: 0.5rem;
+    border-radius: 2rem;
+    border: none;
+    &:focus {
+      outline: none;
+    }
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    > div {
+      margin: 0.5rem 0 0.5rem auto;
+    }
+    label {
+      font-size: 1.2rem;
+      padding-right: 0.5rem;
+    }
+    input {
+      font-size: 1rem;
+    }
+  }
+}
+.pop-up {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--cream-clear);
+  display: flex;
+  z-index: 999;
+  .inner {
+    padding: 2rem 3rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--blue-gray);
+    outline: 4px solid var(--blue-gray);
+    border: 5px solid var(--cream-clear);
+    h1 {
+      margin-bottom: 1rem;
+    }
+    &.warning {
+      div {
+        margin: 0 0 0 auto;
+      }
+      button {
+        margin: 1rem 0.5rem 0;
+      }
+    }
+  }
+  &.options .inner > button {
+    margin: 0 0 0 auto;
+  }
+  .employees-list {
+    table {
+      margin-bottom: 2rem;
+      width: 100%;
+      border-collapse: collapse;
+      td {
+        border: 1px solid var(--cream-clear);
+        padding: 0.5rem;
+        h2,
+        h3 {
+          color: var(--black);
+        }
+        button {
+          margin: 0 0.5rem;
+        }
+      }
+    }
+  }
+}
+#alert-message-container {
+  .title,
+  .message {
+    color: var(--black);
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+  .message {
+    font-size: 1.5rem;
+  }
+  .button {
+    margin: 0 auto;
+  }
+}
+.button {
+  padding: 0.5rem 1rem;
+  background-color: var(--tangerine);
+  border: none;
+  border-radius: 2rem;
+  font-size: 1rem;
+  color: var(--black);
+  cursor: pointer;
+  transition: 0.5s ease;
+  margin: 0 auto;
+  &.save {
+    margin-top: 1rem;
+  }
+  &:hover {
+    background-color: transparent;
+  }
+}
 #root {
+  #top-rota-header {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: flex-end;
+    background-color: var(--blue-gray);
+    & > div {
+      margin: 0 1rem;
+    }
+    .react-date-picker__wrapper {
+      border: 2px solid var(--cream-clear);
+      border-radius: 2rem;
+      padding: 0 1rem;
+      background-color: var(--cream-clear);
+      &:hover {
+      }
+      input:focus {
+        outline: none;
+      }
+    }
+  }
   .rota-container {
     .weekdays {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
       li {
-        text-align: center;
-      }
-    }
-    .rota-header {
-      padding: 0.5rem 1rem;
-      .week-total {
         text-align: center;
       }
     }
@@ -86,13 +212,20 @@ button:focus {
         background-color: var(--tangerine);
       }
     }
+    .rota-header {
+      background-color: var(--turquoise);
+      border: 4px solid var(--cream-clear);
+      outline: 3px solid var(--turquoise);
+    }
     .person-container,
     .rota-footer,
     .rota-header {
       padding: 0.25rem 0.5rem;
       display: grid;
       grid-template-columns: 1fr 5fr 0.5fr;
-
+      .week-total {
+        text-align: center;
+      }
       .about {
         padding: 0.5rem;
         .name,
@@ -148,6 +281,9 @@ button:focus {
         .name {
           color: var(--cream);
         }
+      }
+      &:last-child {
+        background-color: var(--turquoise-clear);
       }
     }
   }

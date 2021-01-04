@@ -5,6 +5,8 @@ const path = require('path');
 const fs = require('fs')
 const mysql = require('mysql')
 const cors = require('cors');
+const { resolve } = require('path');
+const func = require('./func')
 
 const db = mysql.createPool({
     host: 'localhost',
@@ -40,37 +42,23 @@ app.post('/api/insert', (req,res)=> {
         console.log(result)
     })
 })
-// app.delete('/api/delete/:name', (req, res) => {
-//     const name = req.params.name
-//     const sqlDel = "DELETE FROM people WHERE peopleName = ?"
+app.delete('/api/delete/:id', (req, res) => {
+    const id = req.params.id
+    // const sqlDel = "DELETE FROM people WHERE peopleName = ?"
+    // db.query(sqlDel, name, (err, result) => {
+    //     if (err) console.log(err)
+    // })
+    func.deleteAllEmployeeData(id, db)
+    res.send()
+})
 
-//     db.query(sqlDel, name, (err, result) => {
-//         if (err) console.log(err)
-//     })
-
-// })
 app.put('/api/update', (req, res) => {
     const update = req.body.update;
     const insert = req.body.insert;
 
-    insert.forEach(shift => {
-        const sqlUpdate = "INSERT INTO shifts (`peopleID`, `startingTime`, `finishingTime`, `shiftsDate`) VALUES (?,?,?,?);"
-
-        db.query(sqlUpdate, [shift.peopleID, shift.startingTime, shift.finishingTime, shift.date], (err, result) => {
-            if (err) console.log(err)
-        })
-    });
-    update.forEach(shift => {
-
-        const sqlUpdate = 
-            `UPDATE shifts SET startingTime = ?, finishingTime = ? 
-             WHERE (shiftsID ='${shift.shiftID}');`;
-        db.query(sqlUpdate, [shift.startingTime, shift.finishingTime], (err, result) => {
-            if (err) console.log(err)
-        })
-        
-    })
-
+    func.insertShifts(insert, db);
+    func.updateShifts(update, db);
+    res.send()
 })
 
 app.get('/api/getPeople', (req,res) => {
