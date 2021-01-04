@@ -22,6 +22,7 @@ export default class Rota extends Component {
         this.addShiftsToPeople = this.addShiftsToPeople.bind(this)
         this.clearOldShifts = this.clearOldShifts.bind(this)
         this.updatePeopleShifts = this.updatePeopleShifts.bind(this)
+        this.saveData = this.saveData.bind(this)
 
         // Prototype to add days
         Date.prototype.addDays = function(days) {
@@ -71,6 +72,7 @@ export default class Rota extends Component {
                     people[i]['weekDays'][weekDay].startingTime = shift.startingTime;
                     people[i]['weekDays'][weekDay].finishingTime = shift.finishingTime;
                     people[i]['weekDays'][weekDay].date = jsDate;
+                    people[i]['weekDays'][weekDay].shiftID = shift.shiftsID;
                 }
             }
         });
@@ -139,9 +141,40 @@ export default class Rota extends Component {
             people: peopleCopy
         }, this.calculateAllTotal)
     }
+    saveData = () => {
+        let update = [];
+        let insert = [];
+
+        this.state.people.forEach(person => {
+            person.weekDays.forEach(day => {
+                let shift = {}
+
+                // reformat date to sql
+                let sqlDate = day.date
+                const pad = function(num) { return ('00'+num).slice(-2) };
+                sqlDate = sqlDate.getUTCFullYear() + '-' + pad(sqlDate.getUTCMonth() + 1) + '-' + pad(sqlDate.getUTCDate())
+
+                shift.peopleID = person.peopleID;
+                shift.startingTime = day.startingTime;
+                shift.finishingTime = day.finishingTime;
+                shift.date = sqlDate;
+
+                if ( day.shiftID === undefined) {
+                    insert.push(shift)
+                } else {
+                    shift.shiftID = day.shiftID
+                    update.push(shift)
+                }
+            })
+        })
+        console.log(update)
+        this.props.Axios.put(`http://localhost:3001/api/update`, {
+            update: update,
+            insert: insert
+        })
+    }
 
     render() {
-        console.log(this.state)
         const { isLoaded, people } = this.state;
         let peopleElements = []
         if(isLoaded) {
@@ -174,7 +207,7 @@ export default class Rota extends Component {
                 <RotaFooter
                     allWeekTotal={this.state.allWeekTotal}
                 />
-                <button>Save</button>
+                <button onClick={this.saveData}>Save</button>
             </div>
 
         )

@@ -50,12 +50,25 @@ app.post('/api/insert', (req,res)=> {
 
 // })
 app.put('/api/update', (req, res) => {
-    const name = req.body.name;
-    const role = req.body.role;
-    const sqlUpdate = "UPDATE people SET role = ? WHERE name = ?"
+    const update = req.body.update;
+    const insert = req.body.insert;
 
-    db.query(sqlUpdate, [role, name], (err, result) => {
-        if (err) console.log(err)
+    insert.forEach(shift => {
+        const sqlUpdate = "INSERT INTO shifts (`peopleID`, `startingTime`, `finishingTime`, `shiftsDate`) VALUES (?,?,?,?);"
+
+        db.query(sqlUpdate, [shift.peopleID, shift.startingTime, shift.finishingTime, shift.date], (err, result) => {
+            if (err) console.log(err)
+        })
+    });
+    update.forEach(shift => {
+
+        const sqlUpdate = 
+            `UPDATE shifts SET startingTime = ?, finishingTime = ? 
+             WHERE (shiftsID ='${shift.shiftID}');`;
+        db.query(sqlUpdate, [shift.startingTime, shift.finishingTime], (err, result) => {
+            if (err) console.log(err)
+        })
+        
     })
 
 })
@@ -72,7 +85,7 @@ app.get('/api/getShifts', (req,res) => {
     let weekStart = query.weekBegining;
     let weekEnd = query.weekEnd;
     const sqlSelect = 
-    `SELECT s.peopleID, s.startingTime, s.finishingTime, s.shiftsDate, p.peopleName, p.peopleRole
+    `SELECT s.shiftsID, s.peopleID, s.startingTime, s.finishingTime, s.shiftsDate, p.peopleName, p.peopleRole
     FROM shifts s
     JOIN people p ON p.peopleID = s.peopleID 
     JOIN locations l ON s.locationsID = l.locationsID

@@ -128,12 +128,14 @@ button:focus {
           margin: auto;
           display: grid;
           justify-content: center;
+          grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 
           .time {
             border-radius: 2rem;
             padding: 0.3rem 0.5rem;
-            margin: 0.2rem 0;
+            margin: 0.2rem auto;
             border: 2px solid var(--blue-gray);
+            max-width: 80px;
             &:focus {
               outline: none;
             }
