@@ -30,8 +30,16 @@ app.use(bodyParser.urlencoded({extended: true}))
 //     // })
 
 // })
+app.post('/api/insert/location', (req, res)=> {
+    const name = req.body.name;
 
-app.post('/api/insert', (req,res)=> {
+    const sqlInsert = `INSERT INTO locations (location) VALUES ('${name}');`
+    db.query(sqlInsert, (err, result) => {
+        if(err) console.log(err)
+    })
+    res.send()
+})
+app.post('/api/insert/people', (req,res)=> {
 
     const name = req.body.name
     const role = req.body.role
@@ -39,19 +47,19 @@ app.post('/api/insert', (req,res)=> {
     const sqlInsert = "INSERT INTO people (peopleName, peopleRole) VALUES (?, ?);"
 
     db.query(sqlInsert, [name, role], (err, result)=> {
-        console.log(result)
+        if(err) console.log(err)
     })
 })
-app.delete('/api/delete/:id', (req, res) => {
+app.delete('/api/delete/employee/:id', (req, res) => {
     const id = req.params.id
-    // const sqlDel = "DELETE FROM people WHERE peopleName = ?"
-    // db.query(sqlDel, name, (err, result) => {
-    //     if (err) console.log(err)
-    // })
     func.deleteAllEmployeeData(id, db)
     res.send()
 })
-
+app.delete('/api/delete/location/:id', (req,res) => {
+    const id = req.params.id
+    func.deleteLocation(id, db)
+    res.send()
+})
 app.put('/api/update', (req, res) => {
     const update = req.body.update;
     const insert = req.body.insert;
@@ -59,6 +67,12 @@ app.put('/api/update', (req, res) => {
     func.insertShifts(insert, db);
     func.updateShifts(update, db);
     res.send()
+})
+app.get('/api/getLocations', (req, res) => {
+    const sqlSelect = fs.readFileSync(path.join(__dirname, './sql/getLocations.sql')).toString();
+    db.query(sqlSelect, (err, result)=> {
+        res.send(result)
+    })
 })
 
 app.get('/api/getPeople', (req,res) => {
@@ -73,7 +87,7 @@ app.get('/api/getShifts', (req,res) => {
     let weekStart = query.weekBegining;
     let weekEnd = query.weekEnd;
     const sqlSelect = 
-    `SELECT s.shiftsID, s.peopleID, s.startingTime, s.finishingTime, s.shiftsDate, p.peopleName, p.peopleRole
+    `SELECT l.location, l.locationsID,  s.shiftsID, s.peopleID, s.startingTime, s.finishingTime, s.shiftsDate, p.peopleName, p.peopleRole
     FROM shifts s
     JOIN people p ON p.peopleID = s.peopleID 
     JOIN locations l ON s.locationsID = l.locationsID

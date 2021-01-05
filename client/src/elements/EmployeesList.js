@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Warning from './Warning';
 
 export default class EmployeesList extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ export default class EmployeesList extends Component {
     render() {
         return (
             <div className='employees-list'>
-                <h1>Edit current Employees</h1>
+                <h1>Employees</h1>
                 <table>
                     <thead>
                     <tr>
@@ -57,15 +58,11 @@ export default class EmployeesList extends Component {
                     </tbody>
                 </table>
                 {this.state.warning ?
-                <div className='pop-up'>
-                    <div className='inner warning'>
-                        <p>Are you sure you wanna delete this employee and all related shifts?</p>
-                        <div>
-                            <button onClick={this.handleDelete} className='button'>yes</button>
-                            <button onClick={this.hideWarning} className='button'>no</button>
-                        </div>
-                    </div>       
-                </div>     
+                <Warning
+                    yes={this.handleDelete}
+                    no={this.hideWarning}
+                    message={'Are you sure you wanna delete this employee and all related shifts?'}
+                />
                 :
                 ''
                 }

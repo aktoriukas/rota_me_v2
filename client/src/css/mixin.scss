@@ -7,3 +7,11 @@ $regular: 400;
 $light: 300;
 $very-light: 200;
 $super-light: 100;
+
+@mixin border {
+  border: 4px solid var(--cream-clear);
+}
+@mixin dbl-border($second) {
+  border: 4px solid var(--cream-clear);
+  outline: 4px solid $second;
+}

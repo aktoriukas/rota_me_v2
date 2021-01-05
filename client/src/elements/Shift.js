@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { convertToMinutes, calculateTotal, convertToString, getTotalObj } from '../Calculations';
+import {  getTotalObj } from '../Calculations';
 // import TimeField from 'react-simple-timefield';
 export default class Shift extends Component {
 
@@ -15,10 +15,13 @@ export default class Shift extends Component {
             totalMinutes: 0,
             peopleID: props.person.peopleID,
             date: date,
-            weekDay: props.weekDay
+            weekDay: props.weekDay,
+            location: '',
+            locationID: 0
         }
         this.updateTime = this.updateTime.bind(this)
         this.updateState = this.updateState.bind(this)
+        this.changeLocation = this.changeLocation.bind(this)
     }
     updateState(startingTime, finishingTime, totalString, totalMinutes) {
         this.setState({
@@ -30,10 +33,16 @@ export default class Shift extends Component {
     }
 
     componentDidMount() {
-        if (this.props.shift !== undefined) {
+        const { shift } = this.props
+        if (shift !== undefined) {
             const { startingTime, finishingTime} = this.props.shift
             const { totalMinutes, totalString } = getTotalObj(startingTime, finishingTime)
 
+            this.setState({ 
+                location: shift.location, 
+                locationID: shift.locationID,
+                shiftID: shift.shiftID
+            })
             this.updateState(startingTime, finishingTime, totalString, totalMinutes)
         }
     }
@@ -51,10 +60,17 @@ export default class Shift extends Component {
         const {totalMinutes, totalString} = getTotalObj(startingTime, finishingTime)
         this.updateState(startingTime, finishingTime, totalString, totalMinutes)
     }
+    changeLocation(e) {
+        this.setState({ locationID: e.target.value},() => {
+            this.props.handleChange(this.state)
+        })
+    }
 
     render() {
-        const { totalString, totalMinutes } = this.state;
+        const { totalString, totalMinutes, locationID } = this.state;
+        const { handleChange, locations } = this.props;
         let shiftState = ''
+        // console.log(this.state)
         if (totalMinutes === 0) {
             shiftState = 'off'
         }
@@ -66,19 +82,35 @@ export default class Shift extends Component {
                         type='time' 
                         defaultValue={this.state.startingTime}
                         onChange={this.updateTime}
-                        onBlur={() => this.props.handleChange(this.state)}
+                        onBlur={() => handleChange(this.state)}
                     ></input>
                     <input 
                         className='time finishing'
                         type='time' 
                         defaultValue={this.state.finishingTime}
                         onChange={this.updateTime}
-                        onBlur={() => this.props.handleChange(this.state)}
+                        onBlur={() => handleChange(this.state)}
                     ></input>
                 </div>
                 <span className={`shift-total`}>
                     {totalString === '' ? '-' : totalString}
                 </span>
+                <select 
+                    value={locationID}
+                    onChange={this.changeLocation}
+                    onBlur={() => handleChange(this.state)}
+                    >
+                    <option value='0'>OFF</option>
+                    {locations.map(location => {
+                        return (
+                            <option 
+                                key={location.locationsID}
+                                value={location.locationsID}>
+                            {location.location}
+                            </option>
+                        )
+                })}
+                </select>
             </li>
         )
     }

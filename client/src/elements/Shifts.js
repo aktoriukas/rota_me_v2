@@ -18,13 +18,14 @@ export default class Shifts extends Component {
                     updateWeekTotal={this.props.updateWeekTotal}
                     weekDay={i}
                     monday={this.props.monday}
+                    locations={this.props.locations}
                 />
             )
         }
         return (
-            <div className='shifts-container'>
+            <ul className='shifts-container'>
             {shifts}
-            </div>
+            </ul>
         )
     }
 }

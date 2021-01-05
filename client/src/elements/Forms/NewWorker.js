@@ -31,14 +31,12 @@ export default class NewWorker extends Component {
                 <h1>Add new employee</h1>
                 <form>
                     <div>
-                        <label>Name:</label>
-                        <input className='input' type='text' name='name' onChange={(e) => {
+                        <input placeholder='name' className='input' type='text' name='name' onChange={(e) => {
                         this.setName(e.target.value)
                         }}/>
                     </div>
                     <div>
-                        <label>Role:</label>
-                        <input className='input' type='text' name='role' onChange={(e) => {
+                        <input placeholder='role' className='input' type='text' name='role' onChange={(e) => {
                         this.setRole(e.target.value)
                         }}/>
                     </div>

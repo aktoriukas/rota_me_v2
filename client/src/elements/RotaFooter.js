@@ -13,14 +13,14 @@ export default class RotaFooter extends Component {
     render() {
         let budget = 27000 // 450H
         const { allWeekTotalMin } = this.state;
-        const { allWeekTotal } = this.props
+        const { allWeekTotal, saveData } = this.props
         return (
             <ul className='rota-footer'> 
                 <li></li>
                 <li></li>
                 <li className={`all-week-total ${allWeekTotalMin < budget ? '' : ' overtime'}`}>
                     <span>{convertToString(allWeekTotal)}</span>
-                    <button className='button save' onClick={this.props.saveData}>Save</button>
+                    <button className='button save' onClick={saveData}>Save</button>
                 </li>
             </ul>
         )

@@ -29,6 +29,7 @@ export default class Rota extends Component {
         this.saveData = this.saveData.bind(this)
         this.closeAlert = this.closeAlert.bind(this)
         this.rerender = this.rerender.bind(this)
+        this.getLocations = this.getLocations.bind(this)
 
         // Prototype to add days
         Date.prototype.addDays = function(days) {
@@ -75,10 +76,14 @@ export default class Rota extends Component {
                 if ( shift.peopleID === people[i]['peopleID']){
 
                     people[i]['weekDays'][weekDay] = {}
-                    people[i]['weekDays'][weekDay].startingTime = shift.startingTime;
-                    people[i]['weekDays'][weekDay].finishingTime = shift.finishingTime;
-                    people[i]['weekDays'][weekDay].date = jsDate;
-                    people[i]['weekDays'][weekDay].shiftID = shift.shiftsID;
+                    people[i]['weekDays'][weekDay] = {
+                        startingTime: shift.startingTime,
+                        finishingTime: shift.finishingTime,
+                        date: jsDate,
+                        shiftID: shift.shiftsID,
+                        location: shift.location,
+                        locationID: shift.locationsID
+                    }
                 }
             }
         });
@@ -108,12 +113,20 @@ export default class Rota extends Component {
             allWeekTotal: total
         })
     }
+    getLocations() {
+        this.props.Axios.get('http://localhost:3001/api/getLocations')
+        .then(response => {
+            this.setState({ locations: response.data })
+        })
+    }
     componentDidMount(state) {
 
         const getShifts = this.getShifts
         const getPeople = this.getPeople
         const addShiftsToPeople = this.addShiftsToPeople
         const clearOldShifts = this.clearOldShifts
+        
+        this.getLocations()
 
         getPeople()
         .then(function(people) { 
@@ -121,7 +134,8 @@ export default class Rota extends Component {
         getShifts()
         .then(function(shifts){
             clearOldShifts()
-            addShiftsToPeople(shifts, people)})})
+            addShiftsToPeople(shifts, people)
+        })})
     }
  
     updateDate(t) {
@@ -136,10 +150,14 @@ export default class Rota extends Component {
         const { people } = this.state
         let peopleCopy = [...people].map(person => {
             if ( person.peopleID === shift.peopleID) {
-                person.weekDays[shift.weekDay] = {}
-                person.weekDays[shift.weekDay].startingTime = shift.startingTime
-                person.weekDays[shift.weekDay].finishingTime = shift.finishingTime
-                person.weekDays[shift.weekDay].date = shift.date
+                person.weekDays[shift.weekDay] = {};
+                person.weekDays[shift.weekDay] = {
+                    startingTime: shift.startingTime,
+                    finishingTime: shift.finishingTime,
+                    date: shift.date,
+                    locationID: shift.locationID,
+                    shiftID: shift.shiftID
+                }
             }
             return person
         })
@@ -161,6 +179,7 @@ export default class Rota extends Component {
                 shift.startingTime = day.startingTime;
                 shift.finishingTime = day.finishingTime;
                 shift.date = sqlDate;
+                shift.locationID = day.locationID
 
                 if ( day.shiftID === undefined) {
                     insert.push(shift)
@@ -170,6 +189,8 @@ export default class Rota extends Component {
                 }
             })
         })
+        console.log(update)
+        console.log(insert)
         this.props.Axios.put(`http://localhost:3001/api/update`, {
             update: update,
             insert: insert
@@ -185,15 +206,23 @@ export default class Rota extends Component {
     }
 
     render() {
-        const { isLoaded, people, alertBox } = this.state;
+        const { isLoaded, people, alertBox, locations, monday } = this.state;
         let peopleElements = []
         if(isLoaded) {
             peopleElements = people.map(person => {
-                return <Person monday={this.state.monday} updatePeopleShifts={this.updatePeopleShifts} key={person.peopleID} person={person} />
+                return (
+                    <Person 
+                        locations={locations} 
+                        monday={monday} 
+                        updatePeopleShifts={this.updatePeopleShifts} 
+                        key={person.peopleID} 
+                        person={person} 
+                    />
+                )
             })    
         }
+        // console.log(this.state)
         return (
-
             <div className='rota-container'>
 
                 <header id='top-rota-header'>
@@ -204,6 +233,8 @@ export default class Rota extends Component {
                     <Header
                         Axios={this.props.Axios}
                         rerender={this.rerender}
+                        locations={this.state.locations}
+                        getLocations={this.getLocations}
                     />
                 </header>
 

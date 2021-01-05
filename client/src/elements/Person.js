@@ -75,7 +75,7 @@ export default class Person extends Component {
                     handleChange={this.handleChange}
                     updateWeekTotal={this.updateWeekTotal}
                     monday={this.props.monday}
-                    // updateWeeklyState={this.props.updateWeeklyState}
+                    locations={this.props.locations}
                 />
                 <div className={`week-total ${totalWeekMin > overTime ? 'overtime' : ''}`}>
                     <span>{this.state.totalWeekString}</span>
