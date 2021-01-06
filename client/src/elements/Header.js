@@ -80,8 +80,22 @@ export default class Header extends Component {
     }
 
     submitPerson = (name, role) => {
-        this.props.Axios.post('http://localhost:3001/api/insert/people',
-        {name: name, role: role})
+        if(!/[^a-z]/i.test(name) && !/[^a-z]/i.test(role)) {
+            if(name.length !== 0 || role.length !== 0) {
+                this.props.Axios.post('http://localhost:3001/api/insert/people',
+                {name: name, role: role})    
+            }else {
+                this.setState({ 
+                    alertBox: true,
+                    message: 'field is empty'
+                })    
+            }
+        }else {
+            this.setState({ 
+                alertBox: true,
+                message: 'wrong input'
+            })
+        }
     };    
     toggleOptions() { this.setState({ options: !this.state.options })}
     closeAlert() { this.setState({ alertBox: false })}

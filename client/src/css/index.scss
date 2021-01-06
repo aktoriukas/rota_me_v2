@@ -290,11 +290,11 @@ button:focus {
           color: var(--blue-gray);
         }
         .name {
-          font-size: 1.3rem;
+          font-size: 2rem;
           font-weight: 600;
         }
         .title {
-          font-size: 1rem;
+          font-size: 1.3rem;
           font-weight: 300;
         }
       }
@@ -309,6 +309,12 @@ button:focus {
             .time {
               box-shadow: none;
               border-color: var(--blue-gray);
+            }
+          }
+          &:hover {
+            opacity: 0.8;
+            .time {
+              box-shadow: var(--shadow-medium);
             }
           }
         }

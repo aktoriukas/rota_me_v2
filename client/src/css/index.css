@@ -251,12 +251,12 @@ button:focus {
   #root .rota-container .person-container .about .name,
   #root .rota-container .rota-footer .about .name,
   #root .rota-container .rota-header .about .name {
-    font-size: 1.3rem;
+    font-size: 2rem;
     font-weight: 600; }
   #root .rota-container .person-container .about .title,
   #root .rota-container .rota-footer .about .title,
   #root .rota-container .rota-header .about .title {
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: 300; }
   #root .rota-container .person-container .shifts-container,
   #root .rota-container .rota-footer .shifts-container,
@@ -277,6 +277,14 @@ button:focus {
         #root .rota-container .rota-header .shifts-container .shift-container.off .time {
           box-shadow: none;
           border-color: var(--blue-gray); }
+      #root .rota-container .person-container .shifts-container .shift-container:hover,
+      #root .rota-container .rota-footer .shifts-container .shift-container:hover,
+      #root .rota-container .rota-header .shifts-container .shift-container:hover {
+        opacity: 0.8; }
+        #root .rota-container .person-container .shifts-container .shift-container:hover .time,
+        #root .rota-container .rota-footer .shifts-container .shift-container:hover .time,
+        #root .rota-container .rota-header .shifts-container .shift-container:hover .time {
+          box-shadow: var(--shadow-medium); }
     #root .rota-container .person-container .shifts-container .location-selector,
     #root .rota-container .rota-footer .shifts-container .location-selector,
     #root .rota-container .rota-header .shifts-container .location-selector {
