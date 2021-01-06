@@ -174,12 +174,13 @@ export default class Rota extends Component {
                 let shift = {}
 
                 let sqlDate = makeSqlDate(day.date)
-
-                shift.peopleID = person.peopleID;
-                shift.startingTime = day.startingTime;
-                shift.finishingTime = day.finishingTime;
-                shift.date = sqlDate;
-                shift.locationID = day.locationID
+                shift = {
+                    peopleID: person.peopleID,
+                    startingTime: day.startingTime,
+                    finishingTime: day.finishingTime,
+                    date: sqlDate,
+                    locationID: day.locationID
+                }
 
                 if ( day.shiftID === undefined) {
                     insert.push(shift)

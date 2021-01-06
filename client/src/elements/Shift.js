@@ -74,6 +74,11 @@ export default class Shift extends Component {
         if (totalMinutes === 0) {
             shiftState = 'off'
         }
+        let backgroundColor;
+        if (locationID === 0 ) { backgroundColor = 'transparent'}
+        const locationColor = {
+            backgroundColor: backgroundColor
+        }
         return (
             <li className={`shift-container ${shiftState}`}>
                 <div className='shift'>
@@ -95,22 +100,26 @@ export default class Shift extends Component {
                 <span className={`shift-total`}>
                     {totalString === '' ? '-' : totalString}
                 </span>
+                <div className='location-selector'>
                 <select 
                     value={locationID}
                     onChange={this.changeLocation}
                     onBlur={() => handleChange(this.state)}
+                    style={locationColor}
                     >
                     <option value='0'>OFF</option>
                     {locations.map(location => {
                         return (
                             <option 
                                 key={location.locationsID}
-                                value={location.locationsID}>
+                                value={location.locationsID}
+                                >
                             {location.location}
                             </option>
                         )
-                })}
+                    })}
                 </select>
+                </div>
             </li>
         )
     }

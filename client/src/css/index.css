@@ -7,7 +7,10 @@
   --cream: #fbf6f3;
   --cream-clear: #fbf6f3bc;
   --black: #000000;
-  --dark: var(--black); }
+  --dark: var(--black);
+  --shadow-medium: 0 0 0.4rem var(--black);
+  --font-sans: "Open Sans", sans-serif;
+  --font-quicksand: "Quicksand", sans-serif; }
 
 html,
 body,
@@ -17,7 +20,13 @@ body,
   overflow: hidden;
   width: 100%;
   height: 100%;
-  font-size: 16px; }
+  font-size: 16px;
+  font-family: var(--font-quicksand); }
+
+input,
+select,
+option {
+  font-family: var(--font-sans); }
 
 ul,
 ol,
@@ -50,9 +59,10 @@ button:focus {
 .form {
   margin-bottom: 2rem; }
   .form .input {
+    border: 4px solid var(--cream-clear);
+    box-shadow: var(--shadow-medium);
     padding: 0.5rem;
     border-radius: 2rem;
-    border: none;
     font-size: 1rem; }
     .form .input:focus {
       outline: none; }
@@ -141,6 +151,7 @@ button:focus {
 
 .button {
   border: 4px solid var(--cream-clear);
+  box-shadow: var(--shadow-medium);
   padding: 0.5rem 1rem;
   background-color: var(--tangerine);
   border-radius: 2rem;
@@ -168,6 +179,17 @@ button:focus {
     background-color: var(--cream-clear); }
     #root #top-rota-header .react-date-picker__wrapper input:focus {
       outline: none; }
+#root .rota-container .react-calendar {
+  border: 4px solid var(--cream-clear);
+  border-radius: 1rem;
+  background-color: var(--blue-gray);
+  box-shadow: var(--shadow-medium); }
+  #root .rota-container .react-calendar .react-calendar__month-view__days__day--weekend {
+    color: var(--tangerine); }
+  #root .rota-container .react-calendar .react-calendar__tile--active {
+    background: var(--turquoise); }
+  #root .rota-container .react-calendar .react-calendar__tile--now {
+    background: var(--turquoise-clear); }
 #root .rota-container .weekdays {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; }
@@ -183,6 +205,7 @@ button:focus {
   justify-content: center; }
   #root .rota-container .week-total span,
   #root .rota-container .all-week-total span {
+    box-shadow: var(--shadow-medium);
     border: 4px solid var(--cream-clear);
     text-align: center;
     width: 4rem;
@@ -196,7 +219,6 @@ button:focus {
     background-color: var(--tangerine); }
 #root .rota-container .rota-header {
   border: 4px solid var(--cream-clear);
-  outline: 4px solid var(--turquoise);
   background-color: var(--turquoise); }
 #root .rota-container .rota-footer {
   padding: 0.4rem 0; }
@@ -250,6 +272,43 @@ button:focus {
       #root .rota-container .rota-footer .shifts-container .shift-container.off,
       #root .rota-container .rota-header .shifts-container .shift-container.off {
         opacity: 0.2; }
+        #root .rota-container .person-container .shifts-container .shift-container.off .time,
+        #root .rota-container .rota-footer .shifts-container .shift-container.off .time,
+        #root .rota-container .rota-header .shifts-container .shift-container.off .time {
+          box-shadow: none;
+          border-color: var(--blue-gray); }
+    #root .rota-container .person-container .shifts-container .location-selector,
+    #root .rota-container .rota-footer .shifts-container .location-selector,
+    #root .rota-container .rota-header .shifts-container .location-selector {
+      padding: 0.4rem 0 0;
+      display: flex;
+      justify-content: center; }
+      #root .rota-container .person-container .shifts-container .location-selector select,
+      #root .rota-container .rota-footer .shifts-container .location-selector select,
+      #root .rota-container .rota-header .shifts-container .location-selector select {
+        border: 4px solid var(--cream-clear);
+        box-shadow: var(--shadow-medium);
+        border-width: 3px;
+        padding: 0.25rem;
+        background-color: var(--tangerine);
+        border-radius: 2rem;
+        font-size: 0.8rem;
+        color: var(--black);
+        cursor: pointer;
+        transition: 0.5s ease;
+        margin: 0 auto; }
+        #root .rota-container .person-container .shifts-container .location-selector select:hover,
+        #root .rota-container .rota-footer .shifts-container .location-selector select:hover,
+        #root .rota-container .rota-header .shifts-container .location-selector select:hover {
+          background-color: transparent; }
+        #root .rota-container .person-container .shifts-container .location-selector select:focus,
+        #root .rota-container .rota-footer .shifts-container .location-selector select:focus,
+        #root .rota-container .rota-header .shifts-container .location-selector select:focus {
+          outline: none; }
+        #root .rota-container .person-container .shifts-container .location-selector select option,
+        #root .rota-container .rota-footer .shifts-container .location-selector select option,
+        #root .rota-container .rota-header .shifts-container .location-selector select option {
+          font-size: 1rem; }
     #root .rota-container .person-container .shifts-container .shift-total,
     #root .rota-container .rota-footer .shifts-container .shift-total,
     #root .rota-container .rota-header .shifts-container .shift-total {
@@ -267,10 +326,11 @@ button:focus {
       #root .rota-container .person-container .shifts-container .shift .time,
       #root .rota-container .rota-footer .shifts-container .shift .time,
       #root .rota-container .rota-header .shifts-container .shift .time {
+        border: 2px solid var(--white);
+        box-shadow: var(--shadow-medium);
         border-radius: 2rem;
         padding: 0.3rem 0.5rem;
         margin: 0.2rem auto;
-        border: 2px solid var(--blue-gray);
         max-width: 80px;
         background-color: var(--white); }
         #root .rota-container .person-container .shifts-container .shift .time:focus,
