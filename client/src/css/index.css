@@ -1,9 +1,12 @@
 :root {
   --blue-gray: #5d6c89;
   --blue-gray-clear: #5d6c8982;
+  --x-blue-gray-clear: #5d6c8915;
   --turquoise: #36d6e7;
+  --y-turquoise-clear: #36d5e7a3;
   --turquoise-clear: #36d5e720;
   --tangerine: #feb06a;
+  --tangerine-clear: #feaf6a4e;
   --cream: #fbf6f3;
   --cream-clear: #fbf6f3bc;
   --black: #000000;
@@ -12,12 +15,14 @@
   --font-sans: "Open Sans", sans-serif;
   --font-quicksand: "Quicksand", sans-serif; }
 
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(179deg); }
+
 html,
 body,
 #root {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   width: 100%;
   height: 100%;
   font-size: 16px;
@@ -25,8 +30,14 @@ body,
 
 input,
 select,
-option {
+option,
+textarea {
   font-family: var(--font-sans); }
+  input:focus,
+  select:focus,
+  option:focus,
+  textarea:focus {
+    outline: none; }
 
 ul,
 ol,
@@ -53,8 +64,15 @@ h6 {
 button:focus {
   outline: none; }
 
+.note {
+  width: 50%;
+  margin: auto; }
+
 .react-date-picker__clear-button {
   display: none; }
+
+#top-rota-header .react-date-picker__calendar {
+  z-index: 999; }
 
 .form {
   margin-bottom: 2rem; }
@@ -74,9 +92,136 @@ button:focus {
     .form form label {
       font-size: 1.2rem;
       padding-right: 0.5rem; }
+  .form.sign-in {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0; }
+    .form.sign-in input {
+      margin: 1rem auto 0; }
+
+.welcome-screen {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  background-color: var(--cream-clear);
+  overflow-x: hidden; }
+  .welcome-screen:before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 100%;
+    background-color: var(--x-blue-gray-clear);
+    clip-path: ellipse(100% 88% at 12% 99%); }
+  @media only screen and (max-width: 1200px) {
+    .welcome-screen {
+      flex-direction: column-reverse; } }
+  .welcome-screen .right,
+  .welcome-screen .left {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 5rem; }
+  .welcome-screen .right {
+    flex: 65%; }
+    .welcome-screen .right .images {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      top: -5rem;
+      left: 20rem;
+      width: fit-content; }
+      .welcome-screen .right .images .container {
+        border: 4px solid var(--cream-clear);
+        width: 20rem;
+        position: relative;
+        box-shadow: 0 2px 15px var(--blue-gray-clear); }
+        .welcome-screen .right .images .container img {
+          width: 100%;
+          height: 100%; }
+        .welcome-screen .right .images .container:nth-child(2) {
+          left: -14rem;
+          top: 2rem; }
+        .welcome-screen .right .images .container:nth-child(3) {
+          left: -22rem;
+          top: 4rem; }
+      @media only screen and (max-width: 1200px) {
+        .welcome-screen .right .images {
+          left: -2rem;
+          top: 2rem; }
+          .welcome-screen .right .images .container {
+            width: 15rem; }
+            .welcome-screen .right .images .container:nth-child(2) {
+              left: -8rem; }
+            .welcome-screen .right .images .container:nth-child(3) {
+              left: -15rem; } }
+    .welcome-screen .right .about {
+      background-color: var(--turquoise-clear);
+      padding: 4rem 6rem;
+      color: var(--blue-gray);
+      backdrop-filter: blur(10px);
+      border-radius: 1rem; }
+      @media only screen and (max-width: 1200px) {
+        .welcome-screen .right .about {
+          padding: 3rem 1.5rem; } }
+      .welcome-screen .right .about h1 {
+        font-size: 3rem; }
+      .welcome-screen .right .about p {
+        margin: 0 0 3rem 0; }
+      .welcome-screen .right .about .info {
+        font-size: 1.4rem;
+        font-weight: 500; }
+      .welcome-screen .right .about .demo {
+        color: var(--blue-gray);
+        box-shadow: 0 0 5px var(--blue-gray-clear); }
+      .welcome-screen .right .about .early-accesss {
+        font-weight: 500;
+        margin-top: 3rem;
+        font-size: 1.4rem;
+        margin-bottom: 1rem; }
+      .welcome-screen .right .about ul li {
+        margin-left: 1rem;
+        font-size: 1.5rem;
+        position: relative;
+        margin-top: 1rem; }
+        .welcome-screen .right .about ul li::before {
+          content: "";
+          top: 0.5rem;
+          left: -1.2rem;
+          position: absolute;
+          width: 1rem;
+          height: 1rem;
+          background-color: var(--tangerine);
+          clip-path: polygon(0% 30%, 60% 30%, 60% 0%, 100% 50%, 60% 100%, 60% 70%, 0% 70%); }
+  .welcome-screen .left {
+    flex: 35%; }
+    @media only screen and (max-width: 1200px) {
+      .welcome-screen .left {
+        margin-bottom: 10rem;
+        margin-top: 10rem; } }
+    .welcome-screen .left .sign-in {
+      border: 4px solid var(--cream-clear);
+      padding: 2rem 3rem;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: var(--blue-gray-clear);
+      border-radius: 2rem;
+      z-index: 50; }
+      .welcome-screen .left .sign-in .form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0; }
+        .welcome-screen .left .sign-in .form input {
+          margin: 0.5rem auto; }
+    .welcome-screen .left h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--cream); }
 
 .pop-up {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
@@ -145,9 +290,15 @@ button:focus {
   text-align: center;
   padding-bottom: 1rem; }
 #alert-message-container .message {
+  color: var(--cream);
   font-size: 1.5rem; }
 #alert-message-container .button {
   margin: 0 auto; }
+
+.break-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; }
 
 .button {
   border: 4px solid var(--cream-clear);
@@ -164,6 +315,29 @@ button:focus {
     margin-top: 1rem; }
   .button:hover {
     background-color: transparent; }
+  .button.sign-out {
+    position: absolute;
+    top: 0.75rem;
+    left: 1rem; }
+  .button.small {
+    padding: 0.2rem;
+    margin: 0 0.2rem;
+    font-size: 0.8rem;
+    border-width: 1px; }
+  .button.notes {
+    position: absolute;
+    top: 0.15rem;
+    left: 12rem; }
+
+::-webkit-scrollbar {
+  width: 10px; }
+
+::-webkit-scrollbar-track {
+  background: transparent; }
+
+::-webkit-scrollbar-thumb {
+  background: -webkit-gradient(linear, left top, left bottom, from(var(--turquoise)), to(var(--blue-gray)));
+  box-shadow: inset 1px 1px 1px var(--turquoise-clear); }
 
 #root #top-rota-header {
   display: flex;
@@ -179,187 +353,256 @@ button:focus {
     background-color: var(--cream-clear); }
     #root #top-rota-header .react-date-picker__wrapper input:focus {
       outline: none; }
-#root .rota-container .react-calendar {
-  border: 4px solid var(--cream-clear);
-  border-radius: 1rem;
-  background-color: var(--blue-gray);
-  box-shadow: var(--shadow-medium); }
-  #root .rota-container .react-calendar .react-calendar__month-view__days__day--weekend {
-    color: var(--tangerine); }
-  #root .rota-container .react-calendar .react-calendar__tile--active {
-    background: var(--turquoise); }
-  #root .rota-container .react-calendar .react-calendar__tile--now {
-    background: var(--turquoise-clear); }
-#root .rota-container .weekdays {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; }
-  #root .rota-container .weekdays li {
-    text-align: center; }
-#root .rota-container .rota {
-  display: flex;
-  flex-direction: column; }
-#root .rota-container .week-total,
-#root .rota-container .all-week-total {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; }
-  #root .rota-container .week-total span,
-  #root .rota-container .all-week-total span {
-    box-shadow: var(--shadow-medium);
+#root.options {
+  overflow: hidden; }
+#root .rota-container {
+  min-width: 1800px; }
+  #root .rota-container .react-calendar {
     border: 4px solid var(--cream-clear);
-    text-align: center;
-    width: 4rem;
-    height: 4rem;
-    background-color: var(--turquoise);
-    margin: auto;
-    line-height: 4;
-    border-radius: 50%; }
-  #root .rota-container .week-total.overtime span,
-  #root .rota-container .all-week-total.overtime span {
-    background-color: var(--tangerine); }
-#root .rota-container .rota-header {
-  border: 4px solid var(--cream-clear);
-  background-color: var(--turquoise); }
-#root .rota-container .rota-footer {
-  padding: 0.4rem 0; }
-#root .rota-container .person-container,
-#root .rota-container .rota-footer,
-#root .rota-container .rota-header {
-  display: grid;
-  grid-template-columns: 1fr 5fr 0.5fr; }
-  #root .rota-container .person-container .week-total,
-  #root .rota-container .rota-footer .week-total,
-  #root .rota-container .rota-header .week-total {
-    text-align: center; }
-  #root .rota-container .person-container .about,
-  #root .rota-container .person-container .shifts-container,
-  #root .rota-container .person-container .week-total,
-  #root .rota-container .rota-footer .about,
-  #root .rota-container .rota-footer .shifts-container,
-  #root .rota-container .rota-footer .week-total,
-  #root .rota-container .rota-header .about,
-  #root .rota-container .rota-header .shifts-container,
-  #root .rota-container .rota-header .week-total {
-    padding: 0.5rem; }
-  #root .rota-container .person-container .about .name,
-  #root .rota-container .person-container .about .title,
-  #root .rota-container .rota-footer .about .name,
-  #root .rota-container .rota-footer .about .title,
-  #root .rota-container .rota-header .about .name,
-  #root .rota-container .rota-header .about .title {
-    color: var(--blue-gray); }
-  #root .rota-container .person-container .about .name,
-  #root .rota-container .rota-footer .about .name,
-  #root .rota-container .rota-header .about .name {
-    font-size: 2rem;
-    font-weight: 600; }
-  #root .rota-container .person-container .about .title,
-  #root .rota-container .rota-footer .about .title,
-  #root .rota-container .rota-header .about .title {
-    font-size: 1.3rem;
-    font-weight: 300; }
-  #root .rota-container .person-container .shifts-container,
-  #root .rota-container .rota-footer .shifts-container,
-  #root .rota-container .rota-header .shifts-container {
+    border-radius: 1rem;
+    background-color: var(--blue-gray);
+    box-shadow: var(--shadow-medium); }
+    #root .rota-container .react-calendar .react-calendar__month-view__days__day--weekend {
+      color: var(--tangerine); }
+    #root .rota-container .react-calendar .react-calendar__tile--active {
+      background: var(--turquoise); }
+    #root .rota-container .react-calendar .react-calendar__tile--now {
+      background: var(--turquoise-clear); }
+  #root .rota-container .weekdays {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr; }
-    #root .rota-container .person-container .shifts-container .shift-container,
-    #root .rota-container .rota-footer .shifts-container .shift-container,
-    #root .rota-container .rota-header .shifts-container .shift-container {
-      transition: opacity 0.5s ease; }
-      #root .rota-container .person-container .shifts-container .shift-container.off,
-      #root .rota-container .rota-footer .shifts-container .shift-container.off,
-      #root .rota-container .rota-header .shifts-container .shift-container.off {
-        opacity: 0.2; }
+    overflow: hidden; }
+    #root .rota-container .weekdays li {
+      text-align: center;
+      position: relative;
+      height: 3rem;
+      transition: height 0.5s ease; }
+    #root .rota-container .weekdays .weekday-note {
+      border-radius: 1rem;
+      position: relative;
+      bottom: -10rem;
+      padding: 0.3rem 0.5rem;
+      transition: bottom 0.5s ease;
+      max-height: 6rem;
+      min-height: 4rem;
+      max-width: 9rem;
+      min-width: 7rem; }
+    #root .rota-container .weekdays.notes li {
+      height: 10rem; }
+    #root .rota-container .weekdays.notes .weekday-note {
+      bottom: 0; }
+  #root .rota-container .rota {
+    display: flex;
+    flex-direction: column; }
+  #root .rota-container .week-total,
+  #root .rota-container .all-week-total {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+    #root .rota-container .week-total span,
+    #root .rota-container .all-week-total span {
+      box-shadow: var(--shadow-medium);
+      border: 4px solid var(--cream-clear);
+      text-align: center;
+      width: 4rem;
+      height: 4rem;
+      background-color: var(--turquoise);
+      margin: auto;
+      line-height: 4;
+      border-radius: 50%; }
+    #root .rota-container .week-total.overtime span,
+    #root .rota-container .all-week-total.overtime span {
+      background-color: var(--tangerine); }
+  #root .rota-container .rota-header {
+    border: 4px solid var(--cream-clear);
+    background-color: var(--turquoise);
+    position: sticky;
+    top: 0;
+    border-left: none;
+    border-right: none;
+    z-index: 1; }
+    #root .rota-container .rota-header .name {
+      margin: auto;
+      margin-left: 0.5rem; }
+  #root .rota-container .rota-footer {
+    padding: 0.4rem 0; }
+  #root .rota-container .person-container:last-of-type {
+    border-bottom: 2px solid var(--blue-gray-clear);
+    box-shadow: 0 2px 4px var(--blue-gray-clear); }
+  #root .rota-container .person-container,
+  #root .rota-container .rota-footer,
+  #root .rota-container .rota-header {
+    display: grid;
+    grid-template-columns: 1fr 5fr 0.5fr; }
+    #root .rota-container .person-container .week-total,
+    #root .rota-container .rota-footer .week-total,
+    #root .rota-container .rota-header .week-total {
+      text-align: center; }
+    #root .rota-container .person-container .about,
+    #root .rota-container .person-container .shift-container,
+    #root .rota-container .person-container .week-total,
+    #root .rota-container .rota-footer .about,
+    #root .rota-container .rota-footer .shift-container,
+    #root .rota-container .rota-footer .week-total,
+    #root .rota-container .rota-header .about,
+    #root .rota-container .rota-header .shift-container,
+    #root .rota-container .rota-header .week-total {
+      padding: 0.5rem; }
+    #root .rota-container .person-container .about .name,
+    #root .rota-container .person-container .about .title,
+    #root .rota-container .rota-footer .about .name,
+    #root .rota-container .rota-footer .about .title,
+    #root .rota-container .rota-header .about .name,
+    #root .rota-container .rota-header .about .title {
+      color: var(--blue-gray); }
+    #root .rota-container .person-container .about .name,
+    #root .rota-container .rota-footer .about .name,
+    #root .rota-container .rota-header .about .name {
+      font-size: 2rem;
+      font-weight: 600; }
+    #root .rota-container .person-container .about .title,
+    #root .rota-container .rota-footer .about .title,
+    #root .rota-container .rota-header .about .title {
+      font-size: 1.3rem;
+      font-weight: 300; }
+    #root .rota-container .person-container .shifts-container,
+    #root .rota-container .rota-footer .shifts-container,
+    #root .rota-container .rota-header .shifts-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-rows: 1fr; }
+      #root .rota-container .person-container .shifts-container .shift-container,
+      #root .rota-container .rota-footer .shifts-container .shift-container,
+      #root .rota-container .rota-header .shifts-container .shift-container {
+        transition: opacity 0.5s ease; }
+        #root .rota-container .person-container .shifts-container .shift-container:nth-child(odd),
+        #root .rota-container .rota-footer .shifts-container .shift-container:nth-child(odd),
+        #root .rota-container .rota-header .shifts-container .shift-container:nth-child(odd) {
+          background-color: var(--x-blue-gray-clear); }
+        #root .rota-container .person-container .shifts-container .shift-container.off .shift,
+        #root .rota-container .rota-footer .shifts-container .shift-container.off .shift,
+        #root .rota-container .rota-header .shifts-container .shift-container.off .shift {
+          opacity: 0.2; }
         #root .rota-container .person-container .shifts-container .shift-container.off .time,
         #root .rota-container .rota-footer .shifts-container .shift-container.off .time,
         #root .rota-container .rota-header .shifts-container .shift-container.off .time {
           box-shadow: none;
           border-color: var(--blue-gray); }
-      #root .rota-container .person-container .shifts-container .shift-container:hover,
-      #root .rota-container .rota-footer .shifts-container .shift-container:hover,
-      #root .rota-container .rota-header .shifts-container .shift-container:hover {
-        opacity: 0.8; }
-        #root .rota-container .person-container .shifts-container .shift-container:hover .time,
-        #root .rota-container .rota-footer .shifts-container .shift-container:hover .time,
-        #root .rota-container .rota-header .shifts-container .shift-container:hover .time {
-          box-shadow: var(--shadow-medium); }
-    #root .rota-container .person-container .shifts-container .location-selector,
-    #root .rota-container .rota-footer .shifts-container .location-selector,
-    #root .rota-container .rota-header .shifts-container .location-selector {
-      padding: 0.4rem 0 0;
-      display: flex;
-      justify-content: center; }
-      #root .rota-container .person-container .shifts-container .location-selector select,
-      #root .rota-container .rota-footer .shifts-container .location-selector select,
-      #root .rota-container .rota-header .shifts-container .location-selector select {
+        #root .rota-container .person-container .shifts-container .shift-container.off .shift-total,
+        #root .rota-container .rota-footer .shifts-container .shift-container.off .shift-total,
+        #root .rota-container .rota-header .shifts-container .shift-container.off .shift-total {
+          background: transparent; }
+        #root .rota-container .person-container .shifts-container .shift-container:hover,
+        #root .rota-container .rota-footer .shifts-container .shift-container:hover,
+        #root .rota-container .rota-header .shifts-container .shift-container:hover {
+          background-color: var(--tangerine); }
+      #root .rota-container .person-container .shifts-container .shift,
+      #root .rota-container .rota-footer .shifts-container .shift,
+      #root .rota-container .rota-header .shifts-container .shift {
         border: 4px solid var(--cream-clear);
-        box-shadow: var(--shadow-medium);
-        border-width: 3px;
-        padding: 0.25rem;
-        background-color: var(--tangerine);
-        border-radius: 2rem;
-        font-size: 0.8rem;
-        color: var(--black);
-        cursor: pointer;
-        transition: 0.5s ease;
-        margin: 0 auto; }
-        #root .rota-container .person-container .shifts-container .location-selector select:hover,
-        #root .rota-container .rota-footer .shifts-container .location-selector select:hover,
-        #root .rota-container .rota-header .shifts-container .location-selector select:hover {
-          background-color: transparent; }
-        #root .rota-container .person-container .shifts-container .location-selector select:focus,
-        #root .rota-container .rota-footer .shifts-container .location-selector select:focus,
-        #root .rota-container .rota-header .shifts-container .location-selector select:focus {
-          outline: none; }
-        #root .rota-container .person-container .shifts-container .location-selector select option,
-        #root .rota-container .rota-footer .shifts-container .location-selector select option,
-        #root .rota-container .rota-header .shifts-container .location-selector select option {
+        border-radius: 1rem;
+        margin: auto;
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 1fr 1fr; }
+        #root .rota-container .person-container .shifts-container .shift .data,
+        #root .rota-container .person-container .shifts-container .shift .shift-time,
+        #root .rota-container .rota-footer .shifts-container .shift .data,
+        #root .rota-container .rota-footer .shifts-container .shift .shift-time,
+        #root .rota-container .rota-header .shifts-container .shift .data,
+        #root .rota-container .rota-header .shifts-container .shift .shift-time {
+          display: grid;
+          grid-template-rows: 1fr 1fr;
+          padding: 0 0.2rem; }
+        #root .rota-container .person-container .shifts-container .shift .time,
+        #root .rota-container .person-container .shifts-container .shift .shift-total,
+        #root .rota-container .person-container .shifts-container .shift .locations,
+        #root .rota-container .rota-footer .shifts-container .shift .time,
+        #root .rota-container .rota-footer .shifts-container .shift .shift-total,
+        #root .rota-container .rota-footer .shifts-container .shift .locations,
+        #root .rota-container .rota-header .shifts-container .shift .time,
+        #root .rota-container .rota-header .shifts-container .shift .shift-total,
+        #root .rota-container .rota-header .shifts-container .shift .locations {
+          display: block;
+          width: 80px;
+          padding: 0.2rem 0.3rem;
+          margin: 0.2rem 0 0.2rem 0;
+          background-color: var(--white); }
+        #root .rota-container .person-container .shifts-container .shift .time,
+        #root .rota-container .rota-footer .shifts-container .shift .time,
+        #root .rota-container .rota-header .shifts-container .shift .time {
+          border: none;
+          font-family: var(--font-quicksand);
           font-size: 1rem; }
-    #root .rota-container .person-container .shifts-container .shift-total,
-    #root .rota-container .rota-footer .shifts-container .shift-total,
-    #root .rota-container .rota-header .shifts-container .shift-total {
-      display: block;
-      width: 5rem;
-      margin: auto;
-      text-align: center; }
-    #root .rota-container .person-container .shifts-container .shift,
-    #root .rota-container .rota-footer .shifts-container .shift,
-    #root .rota-container .rota-header .shifts-container .shift {
-      margin: auto;
-      display: grid;
-      justify-content: center;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
-      #root .rota-container .person-container .shifts-container .shift .time,
-      #root .rota-container .rota-footer .shifts-container .shift .time,
-      #root .rota-container .rota-header .shifts-container .shift .time {
-        border: 2px solid var(--white);
-        box-shadow: var(--shadow-medium);
-        border-radius: 2rem;
-        padding: 0.3rem 0.5rem;
-        margin: 0.2rem auto;
-        max-width: 80px;
-        background-color: var(--white); }
-        #root .rota-container .person-container .shifts-container .shift .time:focus,
-        #root .rota-container .rota-footer .shifts-container .shift .time:focus,
-        #root .rota-container .rota-header .shifts-container .shift .time:focus {
-          outline: none; }
-  #root .rota-container .person-container:nth-child(odd),
-  #root .rota-container .rota-footer:nth-child(odd),
-  #root .rota-container .rota-header:nth-child(odd) {
-    background-color: var(--blue-gray-clear); }
-    #root .rota-container .person-container:nth-child(odd) .title,
-    #root .rota-container .person-container:nth-child(odd) .name,
-    #root .rota-container .rota-footer:nth-child(odd) .title,
-    #root .rota-container .rota-footer:nth-child(odd) .name,
-    #root .rota-container .rota-header:nth-child(odd) .title,
-    #root .rota-container .rota-header:nth-child(odd) .name {
-      color: var(--cream); }
-  #root .rota-container .person-container:last-child,
-  #root .rota-container .rota-footer:last-child,
-  #root .rota-container .rota-header:last-child {
-    background-color: var(--turquoise-clear); }
+          #root .rota-container .person-container .shifts-container .shift .time:focus,
+          #root .rota-container .rota-footer .shifts-container .shift .time:focus,
+          #root .rota-container .rota-header .shifts-container .shift .time:focus {
+            outline: none; }
+        #root .rota-container .person-container .shifts-container .shift .shift-total,
+        #root .rota-container .rota-footer .shifts-container .shift .shift-total,
+        #root .rota-container .rota-header .shifts-container .shift .shift-total {
+          border-radius: 0.2rem;
+          background-color: var(--tangerine-clear); }
+          #root .rota-container .person-container .shifts-container .shift .shift-total::after,
+          #root .rota-container .rota-footer .shifts-container .shift .shift-total::after,
+          #root .rota-container .rota-header .shifts-container .shift .shift-total::after {
+            padding-left: 0.2rem;
+            content: "total"; }
+        #root .rota-container .person-container .shifts-container .shift .locations,
+        #root .rota-container .rota-footer .shifts-container .shift .locations,
+        #root .rota-container .rota-header .shifts-container .shift .locations {
+          cursor: pointer;
+          border: none;
+          width: 89.58px; }
+          #root .rota-container .person-container .shifts-container .shift .locations:focus,
+          #root .rota-container .rota-footer .shifts-container .shift .locations:focus,
+          #root .rota-container .rota-header .shifts-container .shift .locations:focus {
+            outline: none; }
+          #root .rota-container .person-container .shifts-container .shift .locations option,
+          #root .rota-container .rota-footer .shifts-container .shift .locations option,
+          #root .rota-container .rota-header .shifts-container .shift .locations option {
+            font-size: 1rem; }
+    #root .rota-container .person-container:nth-child(odd),
+    #root .rota-container .rota-footer:nth-child(odd),
+    #root .rota-container .rota-header:nth-child(odd) {
+      background-color: var(--blue-gray-clear); }
+      #root .rota-container .person-container:nth-child(odd) .title,
+      #root .rota-container .person-container:nth-child(odd) .name,
+      #root .rota-container .rota-footer:nth-child(odd) .title,
+      #root .rota-container .rota-footer:nth-child(odd) .name,
+      #root .rota-container .rota-header:nth-child(odd) .title,
+      #root .rota-container .rota-header:nth-child(odd) .name {
+        color: var(--cream); }
+    #root .rota-container .person-container:last-child,
+    #root .rota-container .rota-footer:last-child,
+    #root .rota-container .rota-header:last-child {
+      background-color: var(--turquoise-clear); }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 1.2rem;
+  backdrop-filter: blur(40px);
+  background-color: var(--turquoise-clear);
+  clip-path: polygon(50% 0%, 100% 40%, 100% 100%, 0 100%, 0 40%);
+  z-index: 999999;
+  box-shadow: 0 0 15px var(--blue-gray-clear); }
+  .footer ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 1rem 0 0; }
+    .footer ul a {
+      margin: 0.5rem; }
+      .footer ul a img {
+        width: 1.2rem; }
+      .footer ul a:hover {
+        opacity: 0.5; }
 
 /*# sourceMappingURL=index.css.map */
 

@@ -1,66 +1,65 @@
-function WeekDays (props) {
+import React, { Component } from 'react';
+import Weekday from './Weekday';
+import { getStandartDate } from '../Functions';
 
-    const {monday} = props;
+export default class WeekDays extends Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+             notesVisible: false,
+             monday: props.monday
+        }
+        this.toggleNotes = this.toggleNotes.bind(this)
+    }
+    
 
-    let tuesday = new Date(monday);
-    let wednesday = new Date(monday);
-    let thursday = new Date(monday);
-    let friday = new Date(monday);
-    let saturday = new Date(monday);
-    let sunday = new Date(monday);
+    toggleNotes(){
+        this.setState({ notesVisible: !this.state.notesVisible })
+    }
+    static getDerivedStateFromProps(props, state) {
+        let week = []
+        const { monday } = state;
 
-    tuesday = tuesday.addDays(1)
-    wednesday = wednesday.addDays(2)
-    thursday = thursday.addDays(3)
-    friday = friday.addDays(4)
-    saturday = saturday.addDays(5)
-    sunday = sunday.addDays(6)
+        class WeekDay {
+            constructor(day, date, note) {
+                this.day = day;
+                this.date = date;
+                this.note = note;
+            }
+            setDate(){
+                this.date = this.date.addDays(this.day)
+            }
+        }
+        for(let i = 0; i < 7; i++) {
+            week[i] = new WeekDay(i, new Date(monday))
+            week[i].setDate()
 
-    return (
-        <ul className='weekdays'>
-            <li>
-                <div className='day'>Monday</div>
-                <div className='date'>
-                    {`${monday.getMonth() + 1}-${monday.getDate()}`}
-                </div>
-            </li>
-            <li>
-                <div className='day'>Tuesday</div>
-                <div className='date'>
-                    {`${tuesday.getMonth() + 1}-${tuesday.getDate()}`}
-                </div>
-            </li>
-            <li>
-                <div className='day'>Wednesday</div>
-                <div className='date'>
-                    {`${wednesday.getMonth() + 1}-${wednesday.getDate()}`}
-                </div>
-            </li>
-            <li>
-                <div className='day'>Thursday</div>
-                <div className='date'>
-                    {`${thursday.getMonth() + 1}-${thursday.getDate()}`}
-                </div>
-            </li>
-            <li>
-                <div className='day'>Friday</div>
-                <div className='date'>
-                    {`${friday.getMonth() + 1}-${friday.getDate()}`}
-                </div>
-            </li>
-            <li>
-                <div className='day'>Saturday</div>
-                <div className='date'>
-                    {`${saturday.getMonth() + 1}-${saturday.getDate()}`}
-                </div>
-            </li>
-            <li>
-                <div className='day'>Sunday</div>
-                <div className='date'>
-                    {`${sunday.getMonth() + 1}-${sunday.getDate()}`}
-                </div>
-            </li>
-        </ul>
-    )
+            if( props.notes !== undefined ) {
+                for (let u = 0; u < props.notes.length; u++) {
+                    let jsDate = new Date(Date.parse(props.notes[u].notesDate));
+                    if( jsDate.getDay() === week[i].date.getDay()) {
+                        week[i].note = props.notes[u]
+                    }
+                }
+            }
+        }
+        return {week: week}
+    } 
+
+    render() {
+
+        const { notesVisible } = this.state
+        return (
+            <>
+                <ul 
+                    className={`weekdays ${notesVisible ? 'notes' : ''}`}>
+                    {this.state.week.map( day => <Weekday updateNotes={this.props.updateNotes} key={day.day} note={day.note} day={day.date}/>)}
+                </ul>
+                <button className='button notes' onClick={this.toggleNotes}>
+                    {notesVisible ? 'hide notes' : 'show notes'}
+                </button>
+            </>
+        )
+    }
 }
-export default WeekDays;

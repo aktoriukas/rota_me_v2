@@ -12,7 +12,9 @@ export default class Header extends Component {
         this.state = {
              options: false,
              alertBox: false,
-             message: ''
+             message: '',
+             people: [],
+             usersID: props.usersID
         }
         this.toggleOptions = this.toggleOptions.bind(this)
         this.updateState = this.updateState.bind(this)
@@ -24,9 +26,13 @@ export default class Header extends Component {
     }
     getPeople = () => {
         return new Promise(resolve => {
-            this.props.Axios.get('http://localhost:3001/api/getPeople').then(response => {
-                resolve(response.data)
-            })    
+            const userID = {
+                userID: this.state.usersID
+            }
+            this.props.Axios.get(`${this.props.API}/api/getPeople`, { params: { userID } })
+            .then(response => {
+                resolve(response.data);
+            })
         })
     }
     updateState(people) {
@@ -41,13 +47,13 @@ export default class Header extends Component {
     }
     sendDeleteRequest(id) {
         return new Promise(resolve => {
-            this.props.Axios.delete(`http://localhost:3001/api/delete/employee/${id}`).then(response => {
+            this.props.Axios.delete(`${this.props.API}/api/delete/employee/${id}`).then(response => {
                 resolve(response)
             })
         })
     }
     sendDeleteRequestLocation(id) {
-        this.props.Axios.delete(`http://localhost:3001/api/delete/location/${id}`).then(response => {
+        this.props.Axios.delete(`${this.props.API}/api/delete/location/${id}`).then(response => {
             this.props.getLocations()
         })
     }
@@ -62,10 +68,10 @@ export default class Header extends Component {
         })
     }
     addNewLocation = (name) => {
+        console.log(this.state)
         if (name !== '' && name !== undefined) {
-            this.props.Axios.post('http://localhost:3001/api/insert/location',
-            {name: name}).then(() => {
-                console.log(this)
+            this.props.Axios.post(`${this.props.API}/api/insert/location`,
+            {name: name, userID: this.state.usersID}).then(() => {
                 this.setState({ 
                     alertBox: true,
                     message: 'Location been saved'
@@ -82,8 +88,11 @@ export default class Header extends Component {
     submitPerson = (name, role) => {
         if(!/[^a-z]/i.test(name) && !/[^a-z]/i.test(role)) {
             if(name.length !== 0 || role.length !== 0) {
-                this.props.Axios.post('http://localhost:3001/api/insert/people',
-                {name: name, role: role})    
+                this.props.Axios.post(`${this.props.API}/api/insert/people`,
+                {name: name, role: role, userID: this.props.usersID}).then(() => {
+                    this.props.rerender()
+                    this.componentDidMount()
+                })  
             }else {
                 this.setState({ 
                     alertBox: true,
@@ -101,13 +110,19 @@ export default class Header extends Component {
     closeAlert() { this.setState({ alertBox: false })}
 
     render() {
-        const { people, alertBox, message } = this.state;
+        const { people, alertBox, message, options } = this.state;
         const { locations } = this.props;
+        const root = document.getElementById('root');
+        if( options ) { 
+            root.classList.add('options')
+        } else {
+            root.classList.remove('options')
+        }
         return (
             <div>
                 <button className='button' onClick={this.toggleOptions}>Options</button>
 
-                {this.state.options ?
+                {options ?
                     <div className='pop-up options'>
                         <div className='inner'>
                             <NewWorker 

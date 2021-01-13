@@ -7,8 +7,6 @@ import RotaFooter from './RotaFooter';
 import AlertBox from './AlertBox';
 import Header from './Header';
 
-// import cloneDeep from 'lodash/cloneDeep';
-
 export default class Rota extends Component {
     constructor(props) {
         super(props)
@@ -19,7 +17,11 @@ export default class Rota extends Component {
              date: new Date(),
              monday: getMondayDate(new Date()),
              allWeekTotal: 0,
-             alertBox: false
+             alertBox: false,
+             locations: {},
+             notes: undefined,
+             userAccess: props.userAccess,
+             message: ''
 
         }
         this.updateDate = this.updateDate.bind(this)
@@ -30,6 +32,8 @@ export default class Rota extends Component {
         this.closeAlert = this.closeAlert.bind(this)
         this.rerender = this.rerender.bind(this)
         this.getLocations = this.getLocations.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
+        this.updateNotes = this.updateNotes.bind(this)
 
         // Prototype to add days
         Date.prototype.addDays = function(days) {
@@ -41,12 +45,35 @@ export default class Rota extends Component {
     getPeople =  () => {
         return new Promise(resolve => {
             let newPeople;
-            this.props.Axios.get('http://localhost:3001/api/getPeople')
+            const userID = {
+                userID: this.props.usersID
+            }
+            this.props.Axios.get(`${this.props.API}/api/getPeople`, { params: { userID } })
             .then(response => {
                 newPeople = [...response.data];
                 newPeople.map((item) => item.weekDays = []);
               resolve(newPeople)
-        
+            })
+        })
+    }
+    getLocations() {
+        const userID = {
+            userID: this.props.usersID
+        }
+        this.props.Axios.get(`${this.props.API}/api/getLocations`, { params: { userID } })
+        .then( response => this.setState({ locations: response.data }) )
+    }
+    getNotes = () => {
+        return new Promise(resolve => {
+            let interval = {
+                weekBegining: getStandartDate(this.state.monday),
+                weekEnd : getStandartDate(this.state.monday.addDays(6)),
+                userID: this.props.usersID   
+            }
+            this.props.Axios.get(`${this.props.API}/api/getNotes`, { params: {interval} })
+            .then((response)=> {
+                let notes = [...response.data]
+                resolve(notes)
             })
         })
     }
@@ -55,16 +82,17 @@ export default class Rota extends Component {
       
             let interval = {
                 weekBegining: getStandartDate(this.state.monday),
-                weekEnd : getStandartDate(this.state.monday.addDays(6))    
+                weekEnd : getStandartDate(this.state.monday.addDays(6)),
+                userID: this.props.usersID   
             }
-            this.props.Axios.get(`http://localhost:3001/api/getShifts`, { params: {interval} })
+            this.props.Axios.get(`${this.props.API}/api/getShifts`, { params: {interval} })
             .then((response)=> {
                 let shift = [...response.data]
                 resolve(shift)
             })
         });
     };
-    addShiftsToPeople(shifts, people) {
+    addShiftsToPeople(shifts, people, notes) {
         shifts.forEach(shift => {
 
             let jsDate = new Date(Date.parse(shift.shiftsDate));
@@ -82,20 +110,20 @@ export default class Rota extends Component {
                         date: jsDate,
                         shiftID: shift.shiftsID,
                         location: shift.location,
-                        locationID: shift.locationsID
+                        locationID: shift.locationsID,
+                        shiftBreak: shift.shiftBreak
                     }
                 }
             }
         });
         this.setState({
             people: people,
+            notes: notes,
             isLoaded: true
-        }, () => {
-            this.calculateAllTotal()
-        })
+        }, () => this.calculateAllTotal() )
     }
     clearOldShifts() {
-        this.setState({people: undefined, isLoaded: false})
+        this.setState({ people: undefined, isLoaded: false })
     }
     calculateAllTotal() {
         let peopleCopy = [...this.state.people]
@@ -109,33 +137,20 @@ export default class Rota extends Component {
                 total += dayTotal
             })
         });
-        this.setState({
-            allWeekTotal: total
-        })
+        this.setState({ allWeekTotal: total })
     }
-    getLocations() {
-        this.props.Axios.get('http://localhost:3001/api/getLocations')
-        .then(response => {
-            this.setState({ locations: response.data })
-        })
-    }
-    componentDidMount(state) {
+    componentDidMount = async (state) => {
 
-        const getShifts = this.getShifts
-        const getPeople = this.getPeople
-        const addShiftsToPeople = this.addShiftsToPeople
-        const clearOldShifts = this.clearOldShifts
-        
-        this.getLocations()
+        try {
+            this.getLocations()
 
-        getPeople()
-        .then(function(people) { 
-
-        getShifts()
-        .then(function(shifts){
-            clearOldShifts()
-            addShiftsToPeople(shifts, people)
-        })})
+            const people = await this.getPeople()
+            const shifts = await this.getShifts()
+            const notes = await this.getNotes()
+            this.clearOldShifts()
+            this.addShiftsToPeople(shifts, people, notes)   
+        }
+        catch(err){ console.log(err) }
     }
  
     updateDate(t) {
@@ -144,7 +159,7 @@ export default class Rota extends Component {
         this.setState({
             date: t,
             monday: monday
-        }, this.componentDidMount())
+        }, () => this.componentDidMount() )
     }
     updatePeopleShifts(shift) {
         const { people } = this.state
@@ -156,7 +171,9 @@ export default class Rota extends Component {
                     finishingTime: shift.finishingTime,
                     date: shift.date,
                     locationID: shift.locationID,
-                    shiftID: shift.shiftID
+                    shiftID: shift.shiftID,
+                    userID: this.props.usersID,
+                    shiftBreak: shift.shiftBreal
                 }
             }
             return person
@@ -165,49 +182,72 @@ export default class Rota extends Component {
             people: peopleCopy
         }, this.calculateAllTotal)
     }
+    updateNotes(newNotes) {
+        const { notes } = this.state;
+        let copyNotes = [...notes]
+        console.log(copyNotes)
+        console.log(newNotes)
+        let index = copyNotes.findIndex(note => note.notesID === newNotes.noteID)
+        if(index >= 0) {
+            copyNotes[index].notesText = newNotes.notesText
+        }else {
+            copyNotes.push(newNotes)
+        }
+        this.setState({ notes: copyNotes })
+    }
     saveData = () => {
         let update = [];
         let insert = [];
-
-        this.state.people.forEach(person => {
-            person.weekDays.forEach(day => {
-                let shift = {}
-
-                let sqlDate = makeSqlDate(day.date)
-                shift = {
-                    peopleID: person.peopleID,
-                    startingTime: day.startingTime,
-                    finishingTime: day.finishingTime,
-                    date: sqlDate,
-                    locationID: day.locationID
-                }
-
-                if ( day.shiftID === undefined) {
-                    insert.push(shift)
-                } else {
-                    shift.shiftID = day.shiftID
-                    update.push(shift)
-                }
+        if(this.state.userAccess === 1){
+            this.state.people.forEach(person => {
+                person.weekDays.forEach(day => {
+                    let shift = {}
+    
+                    let sqlDate = makeSqlDate(day.date)
+                    shift = {
+                        peopleID: person.peopleID,
+                        startingTime: day.startingTime,
+                        finishingTime: day.finishingTime,
+                        date: sqlDate,
+                        locationID: day.locationID,
+                        userID: this.props.usersID
+                    }
+                    console.log(this.props)
+                    if ( day.shiftID === undefined) {
+                        insert.push(shift)
+                    } else {
+                        shift.shiftID = day.shiftID
+                        update.push(shift)
+                    }
+                })
             })
-        })
-        console.log(update)
-        console.log(insert)
-        this.props.Axios.put(`http://localhost:3001/api/update`, {
-            update: update,
-            insert: insert
-        }).then(() => {
-            this.setState({ alertBox: true })
-        })
+            this.props.Axios.put(`${this.props.API}/api/update`, {
+                update: update,
+                insert: insert
+            }).then(() =>  this.setState({ 
+                alertBox: true,
+                message: 'Your data have been saved'
+            }) )
+        }else {
+            this.setState({
+                alertBox: true,
+                message: 'You not allowed this action'
+            })
+        }
     }
+
     closeAlert() {
-        this.setState({ alertBox: false })
+        this.setState({ 
+            alertBox: false,
+            message: ''
+        })
     }
-    rerender() {
-        this.componentDidMount()
-    }
+
+    rerender = () => this.componentDidMount();
 
     render() {
-        const { isLoaded, people, alertBox, locations, monday } = this.state;
+        const { isLoaded, people, alertBox, locations, monday, notes, allWeekTotal, message } = this.state;
+        const { Axios, usersID, API } = this.props;
         let peopleElements = []
         if(isLoaded) {
             peopleElements = people.map(person => {
@@ -222,9 +262,8 @@ export default class Rota extends Component {
                 )
             })    
         }
-        // console.log(this.state)
         return (
-            <div className='rota-container'>
+            <div className={`rota-container ${alertBox ? 'lock':''}`}>
 
                 <header id='top-rota-header'>
                     <this.props.DatePicker 
@@ -232,20 +271,29 @@ export default class Rota extends Component {
                         value={this.state.date}
                     />
                     <Header
-                        Axios={this.props.Axios}
+                        Axios={Axios}
                         rerender={this.rerender}
-                        locations={this.state.locations}
+                        locations={locations}
                         getLocations={this.getLocations}
+                        API={API}
+                        usersID={usersID}
                     />
                 </header>
-
+                {isLoaded ?
                 <ul className='rota-header'>
                     <li className='name'>Name</li>
                     <li>
-                        <WeekDays monday={this.state.monday}/>
+                        <WeekDays 
+                            monday={monday}
+                            notes={notes}
+                            updateNotes={this.updateNotes}
+                            />
                     </li>
                     <li className='week-total'>Week total</li>
-                </ul>
+                </ul>            
+                :
+                ''
+                }
 
                 {isLoaded ?
                     peopleElements
@@ -253,12 +301,12 @@ export default class Rota extends Component {
                     <div>Loading</div>
                 }
                 <RotaFooter
-                    allWeekTotal={this.state.allWeekTotal}
+                    allWeekTotal={allWeekTotal}
                     saveData={this.saveData}
                 />
                 {alertBox ?
                     <AlertBox 
-                        message='Your data been saved'
+                        message={message}
                         close={this.closeAlert}
                     />
                     :

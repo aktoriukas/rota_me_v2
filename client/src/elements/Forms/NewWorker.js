@@ -21,7 +21,8 @@ export default class NewWorker extends Component {
             role: value
         })
     }
-    register() {
+    register(e) {
+        e.preventDefault()
         this.props.submitPerson(this.state.name, this.state.role)
     }
 
@@ -41,7 +42,7 @@ export default class NewWorker extends Component {
                         }}/>
                     </div>
                     <div>
-                      <button className='button' onClick={this.register}>Register</button>
+                      <button type='submit' className='button' onClick={this.register}>Register</button>
                     </div>
                 </form>
             </div>

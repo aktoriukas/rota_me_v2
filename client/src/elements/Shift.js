@@ -17,7 +17,9 @@ export default class Shift extends Component {
             date: date,
             weekDay: props.weekDay,
             location: '',
-            locationID: 0
+            locationID: 0,
+            shiftBreak: props.weekDay.shiftBreak ? props.weekDay.shiftBreak : 0,
+            shiftBeakStr: '0:00'
         }
         this.updateTime = this.updateTime.bind(this)
         this.updateState = this.updateState.bind(this)
@@ -65,60 +67,59 @@ export default class Shift extends Component {
             this.props.handleChange(this.state)
         })
     }
-
     render() {
         const { totalString, totalMinutes, locationID } = this.state;
         const { handleChange, locations } = this.props;
-        let shiftState = ''
-        // console.log(this.state)
-        if (totalMinutes === 0) {
-            shiftState = 'off'
-        }
+        let shiftState = '';
         let backgroundColor;
+        if (totalMinutes === 0) { shiftState = 'off' }
         if (locationID === 0 ) { backgroundColor = 'transparent'}
+        else { backgroundColor = `hsl(${(locationID * 25) % 360}, 30%, 50%)`}
         const locationColor = {
             backgroundColor: backgroundColor
         }
         return (
             <li className={`shift-container ${shiftState}`}>
-                <div className='shift'>
-                    <input 
-                        className='time starting'
-                        type='time' 
-                        defaultValue={this.state.startingTime}
-                        onChange={this.updateTime}
-                        onBlur={() => handleChange(this.state)}
-                    ></input>
-                    <input 
-                        className='time finishing'
-                        type='time' 
-                        defaultValue={this.state.finishingTime}
-                        onChange={this.updateTime}
-                        onBlur={() => handleChange(this.state)}
-                    ></input>
-                </div>
-                <span className={`shift-total`}>
-                    {totalString === '' ? '-' : totalString}
-                </span>
-                <div className='location-selector'>
-                <select 
-                    value={locationID}
-                    onChange={this.changeLocation}
-                    onBlur={() => handleChange(this.state)}
-                    style={locationColor}
-                    >
-                    <option value='0'>OFF</option>
-                    {locations.map(location => {
-                        return (
-                            <option 
-                                key={location.locationsID}
-                                value={location.locationsID}
-                                >
-                            {location.location}
-                            </option>
-                        )
-                    })}
-                </select>
+                <div className='shift' style={locationColor}>
+                    <div className='shift-time'>
+                        <input 
+                            className='time starting'
+                            type='time' 
+                            defaultValue={this.state.startingTime}
+                            onChange={this.updateTime}
+                            onBlur={() => handleChange(this.state)}
+                        />
+                        <input 
+                            className='time finishing'
+                            type='time' 
+                            defaultValue={this.state.finishingTime}
+                            onChange={this.updateTime}
+                            onBlur={() => handleChange(this.state)}
+                        />
+                    </div>
+                    <div className='data'>
+                        <span className={`shift-total`}>
+                            {totalString === '' ? '-' : `${totalString}`}
+                        </span>
+                        <select 
+                            value={locationID}
+                            onChange={this.changeLocation}
+                            onBlur={() => handleChange(this.state)}
+                            className='locations'
+                            >
+                            <option value='0'>OFF</option>
+                            {locations.map(location => {
+                                return (
+                                    <option 
+                                        key={location.locationsID}
+                                        value={location.locationsID}
+                                        >
+                                    {location.location}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    </div>
                 </div>
             </li>
         )
