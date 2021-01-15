@@ -3,6 +3,7 @@ import NewWorker from './Forms/NewWorker';
 import EmployeesList from './EmployeesList';
 import Locations from './Locations';
 import AlertBox from './AlertBox';
+import { SavePerson, SaveLocation } from '../API';
 
 export default class Header extends Component {
 
@@ -38,9 +39,9 @@ export default class Header extends Component {
     updateState(people) {
         this.setState({ people: people })
     }
-    componentDidMount(state, props) {
+    componentDidMount = async (state, props) => {
         let updateState = this.updateState
-        this.getPeople()
+        await this.getPeople()
         .then(function(people) {
             updateState(people)
         })
@@ -59,52 +60,55 @@ export default class Header extends Component {
     }
     deleteEmployee(id) {
         let updateState = this.updateState
-        this.sendDeleteRequest(id).then(response => {
-            console.log(response)
-            this.getPeople().then((people)=> {
-                updateState(people)
-            })
+        this.sendDeleteRequest(id)
+        .then(response => {
+            this.getPeople()
+        .then((people)=> {
+            updateState(people)
+        })
             this.props.rerender()
         })
     }
-    addNewLocation = (name) => {
-        console.log(this.state)
-        if (name !== '' && name !== undefined) {
-            this.props.Axios.post(`${this.props.API}/api/insert/location`,
-            {name: name, userID: this.state.usersID}).then(() => {
-                this.setState({ 
-                    alertBox: true,
-                    message: 'Location been saved'
-                },() => this.props.getLocations())
-            })    
-        }else {
-            this.setState({ 
-                alertBox: true,
-                message: 'locations is empty'
-            })
+    addNewLocation = async (name) => {
+        const { Axios, API, usersID } = this.props 
+        let message = ''
+        const result = await SaveLocation(Axios, API, usersID, name)
+
+        switch (result) {
+            case 0:
+                this.props.getLocations()
+                message = 'saved'
+                break;
+            case 1: message = 'field is empty'
+                break
+            case 2: message = 'wrong input'
+                break
+            default: message = 'error'
+                break
         }
+        this.setState({ alertBox: true, message: message})
     }
 
-    submitPerson = (name, role) => {
-        if(!/[^a-z]/i.test(name) && !/[^a-z]/i.test(role)) {
-            if(name.length !== 0 || role.length !== 0) {
-                this.props.Axios.post(`${this.props.API}/api/insert/people`,
-                {name: name, role: role, userID: this.props.usersID}).then(() => {
-                    this.props.rerender()
-                    this.componentDidMount()
-                })  
-            }else {
-                this.setState({ 
-                    alertBox: true,
-                    message: 'field is empty'
-                })    
-            }
-        }else {
-            this.setState({ 
-                alertBox: true,
-                message: 'wrong input'
-            })
+    submitPerson = async (name, role) => {
+
+        const { Axios, API, usersID } = this.props 
+        const result = await SavePerson(Axios, API, usersID, name, role)
+        let message = ''
+
+        switch (result){
+            case 0:
+                this.props.rerender()
+                this.componentDidMount()
+                message = 'saved'
+                break
+            case 1: message = 'field is empty'
+                break
+            case 2: message = 'wrong input'
+                break
+            default: message = 'error'
+                break
         }
+        this.setState({ alertBox: true, message: message})
     };    
     toggleOptions() { this.setState({ options: !this.state.options })}
     closeAlert() { this.setState({ alertBox: false })}

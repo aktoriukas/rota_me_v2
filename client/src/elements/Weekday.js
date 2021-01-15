@@ -9,8 +9,10 @@ export default class Weekday extends Component {
         this.state = {
              notesText: '',
              date: props.day,
-             notesDate: props.day
+             notesDate: new Date(Date.parse(props.day)),
+             day: props.day.getDay()
         }
+
         this.updatevalue = this.updatevalue.bind(this)
         this.sendNotes = this.sendNotes.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
@@ -21,7 +23,7 @@ export default class Weekday extends Component {
             this.setState({
                 notesText: note.notesText,
                 notesDate: note.notesDate,
-                noteID: note.notesID
+                notesID: note.notesID
             })
         }
     }

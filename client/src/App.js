@@ -41,6 +41,7 @@ export default class App extends Component {
     .then((response)=> {
       if(response.data) {
         this.state.cookies.set('userID', `${response.data.usersID}` , { path: '/'} )
+        this.state.cookies.set('userAccess', `${response.data.userAccess}` , { path: '/'} )
         this.setState({ 
           signIn: true,
           userAccess: response.data.userAccess
@@ -59,6 +60,7 @@ export default class App extends Component {
           if (response.data) {
             this.state.cookies.set('logIn', 'true' , { path: '/'} )
             this.state.cookies.set('userID', `${response.data.usersID}` , { path: '/'} )
+            this.state.cookies.set('userAccess', `${response.data.userAccess}` , { path: '/'} )
             this.setState({ 
               signIn: true, 
               userAccess: response.data.userAccess
@@ -81,6 +83,7 @@ export default class App extends Component {
   signOut() {
     this.state.cookies.set('userID', undefined , { path: '/'} )
     this.state.cookies.set('logIn', 'false' , { path: '/'} )
+    this.state.cookies.set('userAccess', `${undefined}` , { path: '/'} )
     this.setState({ signIn: false })
   }
     
@@ -94,7 +97,7 @@ export default class App extends Component {
             Axios={Axios}
             DatePicker={DatePicker}
             API={this.state.API}
-            userAccess={userAccess}
+            userAccess={Number(cookies.get('userAccess'))}
             usersID={Number(cookies.get('userID'))}
           />
           <button className='button sign-out' onClick={this.signOut}>Sign Out</button>
