@@ -1,29 +1,29 @@
 import React, { Component } from 'react'
+import Cookies from 'universal-cookie';
+
 
 export default class NewWorker extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
-             
+            cookies: new Cookies(),
+            access: 2
         }
         this.setName = this.setName.bind(this);
         this.setRole = this.setRole.bind(this);
         this.register = this.register.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this)
     }
-    setName(value) {
-        this.setState({
-            name: value
-        })
+    componentDidMount() {
+        this.setState({ access: Number(this.state.cookies.get('userAccess'))})
     }
-    setRole(value) {
-        this.setState({
-            role: value
-        })
-    }
+    setName(value) { this.setState({ name: value }) }
+    setRole(value) { this.setState({ role: value }) }
     register(e) {
         e.preventDefault()
-        this.props.submitPerson(this.state.name, this.state.role)
+        if(this.state.access > 1) { this.props.showAlert('access denied')}
+        else{this.props.submitPerson(this.state.name, this.state.role)}
     }
 
     render() {

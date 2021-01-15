@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
 import Warning from './Warning';
+import Cookies from 'universal-cookie';
 
 export default class EmployeesList extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
-             warning: false
+             warning: false,
+             cookies: new Cookies(),
+             access: 2 
         }
         this.showWarning = this.showWarning.bind(this);
         this.hideWarning = this.hideWarning.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this)
     };
+    componentDidMount() { this.setState({ access: Number(this.state.cookies.get('userAccess'))})}
 
     showWarning = (id) => {
-        this.setState({
-            id: id,
-            warning: true
-        })
+        if(this.state.access > 1) { this.props.showAlert('access denied')}
+        else {
+            this.setState({
+                id: id,
+                warning: true
+            })    
+        }
     }
-    hideWarning = () => {
-        this.setState({ warning: false })
-    }
+    hideWarning = () => { this.setState({ warning: false }) }
     handleDelete() {
         this.hideWarning()
         this.props.delete(this.state.id)

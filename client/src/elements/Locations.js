@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Warning from './Warning';
+import Cookies from 'universal-cookie';
 
 export default class Locations extends Component {
     constructor(props) {
@@ -9,12 +10,16 @@ export default class Locations extends Component {
              newLocation: '',
              warning: false,
              id: 0,
-             message: 'Are you sure wanna delete it?'
+             message: 'Are you sure wanna delete it?',
+             cookies: new Cookies(),
+             access: 2 
         }
         this.updateNewLocation = this.updateNewLocation.bind(this)
         this.handleClick = this.handleClick.bind(this)
         this.closeWarning = this.closeWarning.bind(this)
+        this.componentDidMount = this.componentDidMount.bind(this)
     }
+    componentDidMount() { this.setState({ access: Number(this.state.cookies.get('userAccess'))})}
     updateNewLocation(e){
         this.setState({ newLocation: e.target.value })
     }
@@ -23,7 +28,8 @@ export default class Locations extends Component {
         this.setState({ newLocation: '' })
     }
     showWarning(id) {
-        this.setState({ warning: true, id: id })
+        if(this.state.access > 1) { this.props.showAlert('access denied')}
+        else { this.setState({ warning: true, id: id }) }
     }
     closeWarning() {
         this.setState({ warning: false, id: 0 })
@@ -57,8 +63,21 @@ export default class Locations extends Component {
                             )
                         })}
                         <tr className='form'>
-                            <td><input placeholder='location' className='input' value={newLocation} name='location' type='text' onChange={this.updateNewLocation}/></td>
-                            <td className='options'><button onClick={this.handleClick} className='button'>add</button></td>
+                            <td>
+                                <input 
+                                placeholder='location' 
+                                className='input' 
+                                value={newLocation} 
+                                name='location' type='text' 
+                                onChange={this.updateNewLocation}/>
+                            </td>
+                            <td className='options'>
+                                <button 
+                                    onClick={this.handleClick} 
+                                    className='button'>
+                                    add
+                                </button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

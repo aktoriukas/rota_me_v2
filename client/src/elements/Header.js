@@ -23,6 +23,7 @@ export default class Header extends Component {
         this.deleteEmployee = this.deleteEmployee.bind(this)
         this.addNewLocation = this.addNewLocation.bind(this)
         this.closeAlert = this.closeAlert.bind(this)
+        this.showAlert = this.showAlert.bind(this)
         this.sendDeleteRequestLocation = this.sendDeleteRequestLocation.bind(this)
     }
     getPeople = () => {
@@ -111,7 +112,8 @@ export default class Header extends Component {
                 break
         }
         this.setState({ alertBox: true, message: message})
-    };    
+    };   
+    showAlert(message) { this.setState({ alertBox: true, message: message})} 
     toggleOptions() { this.setState({ options: !this.state.options })}
     closeAlert() { this.setState({ alertBox: false })}
 
@@ -133,16 +135,19 @@ export default class Header extends Component {
                         <div className='inner'>
                             <NewWorker 
                                 submitPerson={this.submitPerson}
+                                showAlert={this.showAlert}
                             />
                             <div className='settings'>
                                 <EmployeesList 
                                     people={people}
                                     delete={this.deleteEmployee}
+                                    showAlert={this.showAlert}
                                 />
                                 <Locations
                                     locations={locations}
                                     addNewLocation={this.addNewLocation}
                                     sendDeleteRequestLocation={this.sendDeleteRequestLocation}
+                                    showAlert={this.showAlert}
                                 />
                             </div>
                             <button className='button' onClick={this.toggleOptions}>close</button>
