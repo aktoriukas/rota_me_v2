@@ -148,7 +148,8 @@ button:focus {
       @media only screen and (max-width: 1200px) {
         .welcome-screen .right .images {
           left: -2rem;
-          top: 2rem; }
+          top: 2rem;
+          margin: auto; }
           .welcome-screen .right .images .container {
             width: 15rem; }
             .welcome-screen .right .images .container:nth-child(2) {

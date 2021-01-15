@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Footer from './elements/Footer';
 import img from './img/shot.png'
 import img1 from './img/shot1.png'
 import img2 from './img/shot2.png'
@@ -25,9 +24,9 @@ export default class WelcomeScreen extends Component {
               <button onClick={this.props.loginWithDemo} className='button demo'>For demo press here</button>
             </div>
             <div className='images'>
-                <div className='container'><img src={img}></img></div>
-                <div className='container'><img src={img1}></img></div>
-                <div className='container'><img src={img2}></img></div>
+                <div className='container'><img alt='screenshot' src={img}></img></div>
+                <div className='container'><img alt='screenshot1' src={img1}></img></div>
+                <div className='container'><img alt='screenshot2' src={img2}></img></div>
             </div>
           </div>
           )

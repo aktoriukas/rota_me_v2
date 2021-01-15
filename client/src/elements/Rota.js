@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Person from './Person';
-import { getMondayDate, convertToMinutes, calculateTotal } from '../Calculations';
+import { getMondayDate } from '../Calculations';
 import { GetPeople, GetShifts, GetLocations, GetNotes, SaveDatatoDB } from '../API';
 import { getStandartDate, getAllTotal, getUpdatedShifts } from '../Functions'
 import WeekDays from './WeekDays';
@@ -23,7 +23,6 @@ export default class Rota extends Component {
              notes: undefined,
              userAccess: props.userAccess,
              message: ''
-
         }
         this.updateDate = this.updateDate.bind(this)
         this.updateStateWithData = this.updateStateWithData.bind(this)
@@ -38,6 +37,7 @@ export default class Rota extends Component {
         this.getLocations = this.getLocations.bind(this)
 
         // Prototype to add days
+        /*eslint no-extend-native: ["error", { "exceptions": ["Date"] }]*/
         Date.prototype.addDays = function(days) {
             var date = new Date(this.valueOf());
             date.setDate(date.getDate() + days);

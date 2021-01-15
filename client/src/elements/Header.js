@@ -26,11 +26,12 @@ export default class Header extends Component {
         this.sendDeleteRequestLocation = this.sendDeleteRequestLocation.bind(this)
     }
     getPeople = () => {
+        const { Axios, API } = this.props
         return new Promise(resolve => {
             const userID = {
                 userID: this.state.usersID
             }
-            this.props.Axios.get(`${this.props.API}/api/getPeople`, { params: { userID } })
+            Axios.get(`${API}/api/getPeople`, { params: { userID } })
             .then(response => {
                 resolve(response.data);
             })
@@ -47,14 +48,16 @@ export default class Header extends Component {
         })
     }
     sendDeleteRequest(id) {
+        const { Axios, API } = this.props
         return new Promise(resolve => {
-            this.props.Axios.delete(`${this.props.API}/api/delete/employee/${id}`).then(response => {
+            Axios.delete(`${API}/api/delete/employee/${id}`).then(response => {
                 resolve(response)
             })
         })
     }
     sendDeleteRequestLocation(id) {
-        this.props.Axios.delete(`${this.props.API}/api/delete/location/${id}`).then(response => {
+        const { Axios, API } = this.props
+        Axios.delete(`${API}/api/delete/location/${id}`).then(response => {
             this.props.getLocations()
         })
     }
@@ -90,7 +93,6 @@ export default class Header extends Component {
     }
 
     submitPerson = async (name, role) => {
-
         const { Axios, API, usersID } = this.props 
         const result = await SavePerson(Axios, API, usersID, name, role)
         let message = ''

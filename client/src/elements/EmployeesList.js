@@ -50,7 +50,7 @@ export default class EmployeesList extends Component {
                                             onClick={() => this.showWarning(person.peopleID)} 
                                             className='button'>delete
                                         </button>
-                                        <button className='button'>edit</button>
+                                        {/* <button className='button'>edit</button> */}
                                     </td>
                                 </tr>
                             )

@@ -167,6 +167,7 @@ button:focus {
       @media only screen and (max-width: 1200px) {
         left: -2rem;
         top: 2rem;
+        margin: auto;
         .container {
           width: 15rem;
           &:nth-child(2) {

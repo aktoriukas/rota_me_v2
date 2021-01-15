@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Weekday from './Weekday';
-import { getStandartDate } from '../Functions';
 
 export default class WeekDays extends Component {
     constructor(props) {

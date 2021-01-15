@@ -88,7 +88,7 @@ export default class App extends Component {
   }
     
   render() {
-    const { signIn , message, alert, name, pass, cookies, userAccess } = this.state;
+    const { signIn , message, alert, name, pass, cookies } = this.state;
     return (
       <>
         {signIn === true || cookies.get('logIn') === 'true'  ? 
