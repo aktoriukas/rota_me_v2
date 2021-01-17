@@ -40,7 +40,7 @@ export const convertToString = (number) => {
 }
 export const getMondayDate = (date) => {
     let weekday = date.getDay();
-    
+    if (weekday === 0 ) { weekday = 7 }
     let monday = new Date(date.getTime());
 
     monday.setDate(monday.getDate() - (weekday - 1) )

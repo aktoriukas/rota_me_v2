@@ -95,7 +95,6 @@ export default class Rota extends Component {
         const { Axios, API, usersID } = this.props
         const monday = getStandartDate(this.state.monday);
         const sunday = getStandartDate(this.state.monday.addDays(6));
-
         try {
             const locations = await GetLocations(Axios, API, usersID)
             const people = await GetPeople(Axios, API, usersID)

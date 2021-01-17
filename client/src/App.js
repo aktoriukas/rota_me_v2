@@ -104,6 +104,7 @@ export default class App extends Component {
         </>
         :
         <div className='welcome-screen'>
+          <div className='container'>
           <div className='left'>
             <div className='sign-in'>
                 <h1>Sign in</h1>
@@ -115,6 +116,7 @@ export default class App extends Component {
             </div>
           </div>
           <Welcome loginWithDemo={this.loginWithDemo}/>
+          </div>
           
           <Footer />
         </div>

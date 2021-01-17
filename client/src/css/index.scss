@@ -112,11 +112,8 @@ button:focus {
   }
 }
 .welcome-screen {
-  display: flex;
-  flex-direction: row;
+  width: 100%;
   height: 100%;
-  background-color: var(--cream-clear);
-  overflow-x: hidden;
   &:before {
     position: absolute;
     content: "";
@@ -125,6 +122,22 @@ button:focus {
     background-color: var(--x-blue-gray-clear);
     clip-path: ellipse(100% 88% at 12% 99%);
   }
+}
+.welcome-screen .container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  background-color: var(--cream-clear);
+  overflow-x: hidden;
+  // &:before {
+  //   position: absolute;
+  //   content: "";
+  //   width: 100%;
+  //   height: 100%;
+  //   background-color: var(--x-blue-gray-clear);
+  //   clip-path: ellipse(100% 88% at 12% 99%);
+  // }
   @media only screen and (max-width: 1200px) {
     flex-direction: column-reverse;
   }

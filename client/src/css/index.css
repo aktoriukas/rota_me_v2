@@ -100,11 +100,8 @@ button:focus {
       margin: 1rem auto 0; }
 
 .welcome-screen {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  background-color: var(--cream-clear);
-  overflow-x: hidden; }
+  width: 100%;
+  height: 100%; }
   .welcome-screen:before {
     position: absolute;
     content: "";
@@ -112,80 +109,88 @@ button:focus {
     height: 100%;
     background-color: var(--x-blue-gray-clear);
     clip-path: ellipse(100% 88% at 12% 99%); }
+
+.welcome-screen .container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  background-color: var(--cream-clear);
+  overflow-x: hidden; }
   @media only screen and (max-width: 1200px) {
-    .welcome-screen {
+    .welcome-screen .container {
       flex-direction: column-reverse; } }
-  .welcome-screen .right,
-  .welcome-screen .left {
+  .welcome-screen .container .right,
+  .welcome-screen .container .left {
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-bottom: 5rem; }
-  .welcome-screen .right {
+  .welcome-screen .container .right {
     flex: 65%; }
-    .welcome-screen .right .images {
+    .welcome-screen .container .right .images {
       position: relative;
       display: flex;
       flex-direction: row;
       top: -5rem;
       left: 20rem;
       width: fit-content; }
-      .welcome-screen .right .images .container {
+      .welcome-screen .container .right .images .container {
         border: 4px solid var(--cream-clear);
         width: 20rem;
         position: relative;
         box-shadow: 0 2px 15px var(--blue-gray-clear); }
-        .welcome-screen .right .images .container img {
+        .welcome-screen .container .right .images .container img {
           width: 100%;
           height: 100%; }
-        .welcome-screen .right .images .container:nth-child(2) {
+        .welcome-screen .container .right .images .container:nth-child(2) {
           left: -14rem;
           top: 2rem; }
-        .welcome-screen .right .images .container:nth-child(3) {
+        .welcome-screen .container .right .images .container:nth-child(3) {
           left: -22rem;
           top: 4rem; }
       @media only screen and (max-width: 1200px) {
-        .welcome-screen .right .images {
+        .welcome-screen .container .right .images {
           left: -2rem;
           top: 2rem;
           margin: auto; }
-          .welcome-screen .right .images .container {
+          .welcome-screen .container .right .images .container {
             width: 15rem; }
-            .welcome-screen .right .images .container:nth-child(2) {
+            .welcome-screen .container .right .images .container:nth-child(2) {
               left: -8rem; }
-            .welcome-screen .right .images .container:nth-child(3) {
+            .welcome-screen .container .right .images .container:nth-child(3) {
               left: -15rem; } }
-    .welcome-screen .right .about {
+    .welcome-screen .container .right .about {
       background-color: var(--turquoise-clear);
       padding: 4rem 6rem;
       color: var(--blue-gray);
       backdrop-filter: blur(10px);
       border-radius: 1rem; }
       @media only screen and (max-width: 1200px) {
-        .welcome-screen .right .about {
+        .welcome-screen .container .right .about {
           padding: 3rem 1.5rem; } }
-      .welcome-screen .right .about h1 {
+      .welcome-screen .container .right .about h1 {
         font-size: 3rem; }
-      .welcome-screen .right .about p {
+      .welcome-screen .container .right .about p {
         margin: 0 0 3rem 0; }
-      .welcome-screen .right .about .info {
+      .welcome-screen .container .right .about .info {
         font-size: 1.4rem;
         font-weight: 500; }
-      .welcome-screen .right .about .demo {
+      .welcome-screen .container .right .about .demo {
         color: var(--blue-gray);
         box-shadow: 0 0 5px var(--blue-gray-clear); }
-      .welcome-screen .right .about .early-accesss {
+      .welcome-screen .container .right .about .early-accesss {
         font-weight: 500;
         margin-top: 3rem;
         font-size: 1.4rem;
         margin-bottom: 1rem; }
-      .welcome-screen .right .about ul li {
+      .welcome-screen .container .right .about ul li {
         margin-left: 1rem;
         font-size: 1.5rem;
         position: relative;
         margin-top: 1rem; }
-        .welcome-screen .right .about ul li::before {
+        .welcome-screen .container .right .about ul li::before {
           content: "";
           top: 0.5rem;
           left: -1.2rem;
@@ -194,13 +199,13 @@ button:focus {
           height: 1rem;
           background-color: var(--tangerine);
           clip-path: polygon(0% 30%, 60% 30%, 60% 0%, 100% 50%, 60% 100%, 60% 70%, 0% 70%); }
-  .welcome-screen .left {
+  .welcome-screen .container .left {
     flex: 35%; }
     @media only screen and (max-width: 1200px) {
-      .welcome-screen .left {
+      .welcome-screen .container .left {
         margin-bottom: 10rem;
         margin-top: 10rem; } }
-    .welcome-screen .left .sign-in {
+    .welcome-screen .container .left .sign-in {
       border: 4px solid var(--cream-clear);
       padding: 2rem 3rem;
       margin: auto;
@@ -210,13 +215,13 @@ button:focus {
       background-color: var(--blue-gray-clear);
       border-radius: 2rem;
       z-index: 50; }
-      .welcome-screen .left .sign-in .form {
+      .welcome-screen .container .left .sign-in .form {
         display: flex;
         flex-direction: column;
         margin-bottom: 0; }
-        .welcome-screen .left .sign-in .form input {
+        .welcome-screen .container .left .sign-in .form input {
           margin: 0.5rem auto; }
-    .welcome-screen .left h1 {
+    .welcome-screen .container .left h1 {
       text-align: center;
       margin-bottom: 1rem;
       color: var(--cream); }
