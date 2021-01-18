@@ -47,6 +47,7 @@ export default class Rota extends Component {
     updateStateWithData(shifts, people, notes, locations) {
         shifts.forEach(shift => {
 
+            console.log(shift.shiftsDate)
             let jsDate = new Date(Date.parse(shift.shiftsDate));
             let weekDay = jsDate.getDay();
             if(weekDay === 0) { weekDay = 7}

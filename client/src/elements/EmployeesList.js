@@ -41,53 +41,58 @@ export default class EmployeesList extends Component {
     render() {
         const { warning, options, optionsPerson } = this.state
         return (
-            <div className='employees-list'>
-                <h1>Employees</h1>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>options</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.people.map(person => {
-                            return (
-                                <tr key={person.peopleID}>
-                                    <td><h2>{person.peopleName}</h2></td>
-                                    <td><h3>{person.peopleRole}</h3></td>
-                                    <td>
-                                        <button 
-                                            onClick={() => this.showWarning(person.peopleID)} 
-                                            className='button'>delete
-                                        </button>
-                                        <button onClick={() => this.openOptions(person)} className='button'>options</button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
-                {warning ?
-                    <Warning
-                        yes={this.handleDelete}
-                        no={this.hideWarning}
-                        message={'Are you sure you wanna delete this employee and all related shifts?'}
-                    />
-                :
-                    ''
-                }
-                {options ?
-                    <EmployeesOptions 
-                        person={optionsPerson}
-                        API={this.props.API}
-                        usersID={this.props.usersID}
-                    />
-                :
-                    ''
-                }
-            </div>
+            <>
+                <div className='employees-list'>
+                    <h1>Employees</h1>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>options</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.people.map(person => {
+                                return (
+                                    <tr key={person.peopleID}>
+                                        <td><h2>{person.peopleName}</h2></td>
+                                        <td><h3>{person.peopleRole}</h3></td>
+                                        <td>
+                                            <button 
+                                                onClick={() => this.showWarning(person.peopleID)} 
+                                                className='button'>delete
+                                            </button>
+                                            <button onClick={() => this.openOptions(person)} className='button'>options</button>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                    {warning ?
+                        <Warning
+                            yes={this.handleDelete}
+                            no={this.hideWarning}
+                            message={'Are you sure you wanna delete this employee and all related shifts?'}
+                        />
+                    :
+                        ''
+                    }
+                </div>
+                <div className='employees-options'>
+                    <h1>Options</h1>
+                    {options ?
+                            <EmployeesOptions 
+                                person={optionsPerson}
+                                API={this.props.API}
+                                usersID={this.props.usersID}
+                            />
+                        :
+                            ''
+                    }
+                </div>
+            </>
         )
     }
 }

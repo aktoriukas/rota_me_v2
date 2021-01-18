@@ -155,9 +155,48 @@
   flex-direction: row; }
   .settings > div {
     padding: 0 3rem;
-    border-right: 4px solid var(--cream-clear); }
+    border-right: 4px solid var(--cream-clear);
+    min-width: 580px; }
     .settings > div:last-child {
       border-right: none; }
+
+.employees-options-inner .about {
+  display: flex;
+  flex-direction: column; }
+  .employees-options-inner .about input {
+    margin: 0 auto 0 0; }
+  .employees-options-inner .about label {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 500; }
+.employees-options-inner .add-new .react-date-picker {
+  padding-right: 2rem; }
+  .employees-options-inner .add-new .react-date-picker:after {
+    top: 0.6rem; }
+.employees-options-inner .button {
+  float: right; }
+.employees-options-inner .holidays {
+  padding: 3rem 0; }
+.employees-options-inner .holidays-list {
+  margin-top: 2rem; }
+  .employees-options-inner .holidays-list .hol {
+    padding: 1rem 0; }
+    .employees-options-inner .holidays-list .hol .start,
+    .employees-options-inner .holidays-list .hol .end {
+      font-size: 1.3rem;
+      font-weight: 500; }
+    .employees-options-inner .holidays-list .hol .start {
+      padding-right: 2rem;
+      position: relative; }
+.employees-options-inner .start::after {
+  content: "";
+  top: 0.25rem;
+  right: 0.5rem;
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--tangerine);
+  clip-path: polygon(0% 30%, 60% 30%, 60% 0%, 100% 50%, 60% 100%, 60% 70%, 0% 70%); }
 
 :root {
   --blue-gray: #5d6c89;

@@ -113,12 +113,20 @@ export const saveHolidays = ( Axios, link, userID, peopleID, start, end) => {
             userID,
             peopleID,
             start,
-            end
-        }
+            end }
         Axios.put(`${link}/api/putHolidays`, { params: {holidays}})
-        .then(response => {
-            resolve()
-        })
+        .then(response => { resolve() })
+    })
+}
+export const deleteHolidays = ( Axios, link, userID, holidaysID) => {
+
+    return new Promise ((resolve, reject) => {
+        const id = {
+            userID,
+            holidaysID
+        }
+        Axios.delete(`${link}/api/delete/holidays`, { params: {id} })
+        .then(response => { resolve() })
     })
 }
 export const SaveDatatoDB = (Axios, link, id, state) => {

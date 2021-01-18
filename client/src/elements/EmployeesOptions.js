@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 import { makeSqlDate } from '../Functions';
 import Axios from 'axios';
-import { getHolidays, saveHolidays } from '../API';
+import { getHolidays, saveHolidays, deleteHolidays } from '../API';
 
 
 export default class EmployeesOptions extends Component {
@@ -19,18 +19,22 @@ export default class EmployeesOptions extends Component {
              peopleRole: person.peopleRole,
              peopleID: person.peopleID,
              holidaysStartDate: makeSqlDate(new Date()),
-             holidaysEndDate: makeSqlDate(new Date())
+             holidaysEndDate: makeSqlDate(new Date()),
+             holidays: []
         }
         this.updatename = this.updatename.bind(this)
         this.updateRole = this.updateRole.bind(this)
         this.updateStarting = this.updateStarting.bind(this)
         this.updateEnding = this.updateEnding.bind(this)
+        this.updateHolidays = this.updateHolidays.bind(this)
     }
     componentDidMount = async () => {
         const { peopleID } = this.state
         const { usersID, API } = this.props
         const holidays = await getHolidays(Axios, API, usersID, peopleID)
+        this.updateHolidays(holidays)
     }
+    updateHolidays = (holidays) => { this.setState({ holidays }) }
     updateStarting(t) { this.setState({ holidaysStartDate: makeSqlDate(t), startDate: t }) }
     updateEnding(t) { this.setState({ holidaysEndDate: makeSqlDate(t), endDate: t }) }
     updatename = (e) => { this.setState({ peopleName: e.target.value}) }
@@ -40,11 +44,36 @@ export default class EmployeesOptions extends Component {
         const { usersID, API } = this.props
         await saveHolidays(Axios, API, usersID, peopleID, holidaysStartDate, holidaysEndDate)
     }
+    deleteHolidays = (id) => {
+        const { usersID, API } = this.props
+        deleteHolidays(Axios, API, usersID, id)
+    }
 
     render() {
-        const { peopleName, peopleRole, startDate, endDate } = this.state
+        const { peopleName, peopleRole, startDate, endDate, holidays } = this.state
+
+        let Holidays = holidays.map(item => {
+            console.log(item)
+            let start = new Date(Date.parse(item.holidaysStartDate));
+            let end = new Date(Date.parse(item.holidaysEndDate));
+            start = makeSqlDate(start)
+            end = makeSqlDate(end)
+            console.log(start)
+            console.log(end)
+            return (
+                <div key={item.holidaysID} className='hol'>
+                    <span className='start'>{start}</span>
+                    <span className='end'>{end}</span>
+                    <button 
+                        className='button' 
+                        onClick={() => this.deleteHolidays(item.holidaysID)}>
+                        delete
+                    </button>
+                </div>
+            )
+        })
         return (
-            <div className='employees-options'>
+            <div className='employees-options-inner'>
                 <div className='about form'>
                     <label>Name</label>
                     <input className='input' onChange={this.updatename} value={peopleName}/>
@@ -53,7 +82,7 @@ export default class EmployeesOptions extends Component {
                 </div>
                 <div className='holidays'>
                     <div className='add-new'>
-                        <p>Add new Holidays</p>
+                        <h1>Add new Holidays</h1>
                         <DatePicker 
                             className='start'
                             onChange={this.updateStarting}
@@ -67,7 +96,8 @@ export default class EmployeesOptions extends Component {
                         <button onClick={this.addHolidays} className='button'>add</button>
                     </div>
                     <div className='holidays-list'>
-
+                        <h1>Holidays</h1>
+                        {Holidays}
                     </div>
                 </div>
                 <button className='button'>save</button>
