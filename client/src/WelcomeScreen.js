@@ -6,7 +6,7 @@ import img2 from './img/shot2.png'
 export default class WelcomeScreen extends Component {
     render() {
         return (
-        <div className='right'>
+        <div className='main'>
             <div className='about'>
               <h1>rota_me</h1>
               <p>Make your day easier</p>

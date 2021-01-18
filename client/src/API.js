@@ -90,6 +90,37 @@ export const SaveLocation = (Axios, link, id, name) => {
         }else { resolve(1) }
     })
 }
+export const getHolidays = (Axios, link, userID, peopleID) => {
+    
+    return new Promise((resolve, reject) => {
+
+        let ids = {
+            userID,
+            peopleID 
+        }
+        Axios.get(`${link}/api/getHolidays`, { params: {ids} })
+        .then((response)=> {
+            const holidays = [...response.data]
+            resolve(holidays)
+        })
+    })
+}
+export const saveHolidays = ( Axios, link, userID, peopleID, start, end) => {
+
+    return new Promise((resolve, reject) => {
+
+        const holidays = {
+            userID,
+            peopleID,
+            start,
+            end
+        }
+        Axios.put(`${link}/api/putHolidays`, { params: {holidays}})
+        .then(response => {
+            resolve()
+        })
+    })
+}
 export const SaveDatatoDB = (Axios, link, id, state) => {
 
     return new Promise((resolve, reject) => {

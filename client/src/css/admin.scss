@@ -1,0 +1,13 @@
+.settings {
+  display: flex;
+  flex-direction: row;
+  > div {
+    padding: 0 3rem;
+    border-right: 4px solid var(--cream-clear);
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+.employees-options {
+}

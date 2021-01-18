@@ -119,7 +119,7 @@ export default class Header extends Component {
 
     render() {
         const { people, alertBox, message, options } = this.state;
-        const { locations } = this.props;
+        const { locations, usersID, API } = this.props;
         const root = document.getElementById('root');
         if( options ) { 
             root.classList.add('options')
@@ -142,6 +142,8 @@ export default class Header extends Component {
                                     people={people}
                                     delete={this.deleteEmployee}
                                     showAlert={this.showAlert}
+                                    API={API}
+                                    usersID={usersID}
                                 />
                                 <Locations
                                     locations={locations}

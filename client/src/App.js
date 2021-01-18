@@ -105,7 +105,7 @@ export default class App extends Component {
         :
         <div className='welcome-screen'>
           <div className='container'>
-          <div className='left'>
+          <div className='log-in'>
             <div className='sign-in'>
                 <h1>Sign in</h1>
                 <form className='form' onSubmit={this.checkPassword}>

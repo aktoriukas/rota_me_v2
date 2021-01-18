@@ -7,7 +7,7 @@ export default class Footer extends Component {
     render() {
         return (
             <footer className='log-in footer'>
-                <p>G.S <strong>©2020</strong></p>
+                <p>G.S <strong>©2020-2021</strong></p>
                 <ul>
                     <li>
                         <a target='_black' href="https://github.com/aktoriukas">
