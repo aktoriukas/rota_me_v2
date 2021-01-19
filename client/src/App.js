@@ -61,6 +61,8 @@ export default class App extends Component {
             this.state.cookies.set('logIn', 'true' , { path: '/'} )
             this.state.cookies.set('userID', `${response.data.usersID}` , { path: '/'} )
             this.state.cookies.set('userAccess', `${response.data.userAccess}` , { path: '/'} )
+            this.state.cookies.set('usersName', `${response.data.usersName}` , { path: '/'} )
+            console.log(response.data)
             this.setState({ 
               signIn: true, 
               userAccess: response.data.userAccess
@@ -81,9 +83,9 @@ export default class App extends Component {
   updatePass(e){ this.setState({ pass: e.target.value }) }
 
   signOut() {
-    this.state.cookies.set('userID', undefined , { path: '/'} )
-    this.state.cookies.set('logIn', 'false' , { path: '/'} )
-    this.state.cookies.set('userAccess', `${undefined}` , { path: '/'} )
+    this.state.cookies.remove('userID' , { path: '/'} )
+    this.state.cookies.remove('logIn' , { path: '/'} )
+    this.state.cookies.remove('userAccess' , { path: '/'} )
     this.setState({ signIn: false })
   }
     

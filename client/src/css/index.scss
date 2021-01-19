@@ -112,6 +112,19 @@ button:focus {
     }
     margin-bottom: 0;
   }
+  &.new-worker {
+    flex: 0 0 50%;
+    form {
+      flex-direction: row;
+      > div {
+        margin: 0.5rem 2rem 0.5rem 0;
+      }
+    }
+  }
+}
+.top-options {
+  display: flex;
+  flex-direction: row;
 }
 
 .pop-up {
@@ -228,7 +241,7 @@ button:focus {
     margin-top: 1rem;
   }
   &:hover {
-    background-color: transparent;
+    background-color: var(--tangerine-clear);
   }
   &.sign-out {
     position: absolute;

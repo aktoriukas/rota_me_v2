@@ -44,20 +44,32 @@ export default class EmployeesOptions extends Component {
     updatename = (e) => { this.setState({ peopleName: e.target.value}) }
     updateRole = (e) => { this.setState({ peopleRole: e.target.value}) }
     addHolidays = async () => { 
+        if ( this.props.userAccess > 1) {
+            this.props.showAlert('no access')
+            return }
         const { peopleID, holidaysStartDate, holidaysEndDate } = this.state
         const { usersID, API } = this.props
         await saveHolidays(Axios, API, usersID, peopleID, holidaysStartDate, holidaysEndDate)
+        this.props.showAlert('saved')
         this.getHolidaysAPI()
     }
     deleteHolidays = async (id) => {
+        if ( this.props.userAccess > 1) {
+            this.props.showAlert('access denied')
+            return }
         const { usersID, API } = this.props
         await deleteHolidays(Axios, API, usersID, id)
+        this.props.showAlert('deleted')
         this.getHolidaysAPI()
     }
     saveChanges = async () => {
+        if ( this.props.userAccess > 1) {
+            this.props.showAlert('access denied')
+            return }
         const { usersID, API } = this.props
         const { peopleID, peopleName, peopleRole } = this.state
-        saveChanges( Axios, API, usersID, peopleID, peopleName, peopleRole)
+        await saveChanges( Axios, API, usersID, peopleID, peopleName, peopleRole);
+        this.props.showAlert('saved')
     }
 
     render() {

@@ -4,6 +4,9 @@ import EmployeesList from './EmployeesList';
 import Locations from './Locations';
 import AlertBox from './AlertBox';
 import { SavePerson, SaveLocation } from '../API';
+import UserDetails from './Forms/UserDetails';
+import Cookies from 'universal-cookie';
+
 
 export default class Header extends Component {
 
@@ -15,7 +18,8 @@ export default class Header extends Component {
              alertBox: false,
              message: '',
              people: [],
-             usersID: props.usersID
+             usersID: props.usersID,
+             cookies: new Cookies()
         }
         this.toggleOptions = this.toggleOptions.bind(this)
         this.updateState = this.updateState.bind(this)
@@ -39,7 +43,10 @@ export default class Header extends Component {
         })
     }
     updateState(people) {
-        this.setState({ people: people })
+        this.setState({ 
+            people: people,
+            userAccess: Number(this.state.cookies.get('userAccess'))
+        })
     }
     componentDidMount = async (state, props) => {
         let updateState = this.updateState
@@ -50,6 +57,9 @@ export default class Header extends Component {
     }
     sendDeleteRequest(id) {
         const { Axios, API } = this.props
+        if ( this.state.userAccess > 1) {
+            this.setState({ alertBox: true, message: 'access denied'})
+            return }
         return new Promise(resolve => {
             Axios.delete(`${API}/api/delete/employee/${id}`).then(response => {
                 resolve(response)
@@ -94,6 +104,9 @@ export default class Header extends Component {
     }
 
     submitPerson = async (name, role) => {
+        if ( this.state.userAccess > 1) {
+            this.setState({ alertBox: true, message: 'access denied'})
+            return }
         const { Axios, API, usersID } = this.props 
         const result = await SavePerson(Axios, API, usersID, name, role)
         let message = ''
@@ -118,7 +131,7 @@ export default class Header extends Component {
     closeAlert() { this.setState({ alertBox: false })}
 
     render() {
-        const { people, alertBox, message, options } = this.state;
+        const { people, alertBox, message, options, userAccess } = this.state;
         const { locations, usersID, API } = this.props;
         const root = document.getElementById('root');
         if( options ) { 
@@ -133,15 +146,24 @@ export default class Header extends Component {
                 {options ?
                     <div className='pop-up options'>
                         <div className='inner'>
-                            <NewWorker 
-                                submitPerson={this.submitPerson}
-                                showAlert={this.showAlert}
-                            />
+                            <div className='top-options'>
+                                <NewWorker 
+                                    submitPerson={this.submitPerson}
+                                    showAlert={this.showAlert}
+                                />
+                                <UserDetails
+                                    API={API}
+                                    usersID={usersID}  
+                                    showAlert={this.showAlert}   
+                                    userAccess={userAccess}                           
+                                />
+                            </div>
                             <div className='settings'>
                                 <EmployeesList 
                                     people={people}
                                     delete={this.deleteEmployee}
                                     showAlert={this.showAlert}
+                                    userAccess={userAccess}
                                     API={API}
                                     usersID={usersID}
                                 />
@@ -150,6 +172,7 @@ export default class Header extends Component {
                                     addNewLocation={this.addNewLocation}
                                     sendDeleteRequestLocation={this.sendDeleteRequestLocation}
                                     showAlert={this.showAlert}
+                                    userAccess={userAccess}
                                 />
                             </div>
                             <button className='button' onClick={this.toggleOptions}>close</button>

@@ -36,7 +36,9 @@ export default class EmployeesList extends Component {
         this.hideWarning()
         this.props.delete(this.state.id)
     }
-    openOptions = (person) => { this.setState({ options: !this.state.options, optionsPerson: person})}
+    openOptions = (person) => { this.setState({ options: false }, () => {
+        this.setState({ options: true, optionsPerson: person })
+    })}
     
     render() {
         const { warning, options, optionsPerson } = this.state
@@ -87,6 +89,8 @@ export default class EmployeesList extends Component {
                                 person={optionsPerson}
                                 API={this.props.API}
                                 usersID={this.props.usersID}
+                                showAlert={this.props.showAlert}
+                                userAccess={this.props.userAccess}
                             />
                         :
                             ''

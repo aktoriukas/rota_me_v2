@@ -135,7 +135,7 @@
   padding: 1rem 0;
   font-size: 1.2rem;
   backdrop-filter: blur(40px);
-  background-color: var(--turquoise-clear);
+  background-color: var(--blue-gray-clear);
   z-index: 999999;
   box-shadow: 0 0 15px var(--blue-gray-clear); }
   .footer ul {
@@ -180,7 +180,7 @@
 .employees-options-inner .holidays-list {
   margin-top: 2rem; }
   .employees-options-inner .holidays-list .hol {
-    padding: 1rem 0; }
+    margin: 2.5rem 0; }
     .employees-options-inner .holidays-list .hol .start,
     .employees-options-inner .holidays-list .hol .end {
       font-size: 1.3rem;
@@ -197,6 +197,16 @@
   height: 1rem;
   background-color: var(--tangerine);
   clip-path: polygon(0% 30%, 60% 30%, 60% 0%, 100% 50%, 60% 100%, 60% 70%, 0% 70%); }
+
+.user-details .options {
+  display: flex;
+  flex-direction: row; }
+  .user-details .options h2,
+  .user-details .options form {
+    margin: auto 0; }
+  .user-details .options form input,
+  .user-details .options form button {
+    margin: 0 1rem; }
 
 :root {
   --blue-gray: #5d6c89;
@@ -298,6 +308,16 @@ button:focus {
     margin-bottom: 0; }
     .form.sign-in input {
       margin: 1rem auto 0; }
+  .form.new-worker {
+    flex: 0 0 50%; }
+    .form.new-worker form {
+      flex-direction: row; }
+      .form.new-worker form > div {
+        margin: 0.5rem 2rem 0.5rem 0; }
+
+.top-options {
+  display: flex;
+  flex-direction: row; }
 
 .pop-up {
   position: fixed;
@@ -394,7 +414,7 @@ button:focus {
   .button.save {
     margin-top: 1rem; }
   .button:hover {
-    background-color: transparent; }
+    background-color: var(--tangerine-clear); }
   .button.sign-out {
     position: absolute;
     top: 0.75rem;

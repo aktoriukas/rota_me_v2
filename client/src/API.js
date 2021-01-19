@@ -142,6 +142,22 @@ export const deleteHolidays = ( Axios, link, userID, holidaysID) => {
         .then(response => { resolve() })
     })
 }
+export const changePassword = (Axios, link, usersID, oldPass, newPass, userName) => {
+
+    return new Promise ((resolve, reject) => {
+
+        const details = {
+            usersID,
+            oldPass,
+            newPass,
+            userName
+        }
+        Axios.put(`${link}/api/editPass`, {params: { details }})
+        .then(response => {
+            resolve(response)
+        })
+    })
+}
 export const SaveDatatoDB = (Axios, link, id, state) => {
 
     return new Promise((resolve, reject) => {

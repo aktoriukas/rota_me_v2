@@ -24,6 +24,10 @@ export default class Locations extends Component {
         this.setState({ newLocation: e.target.value })
     }
     handleClick() {
+        if ( this.props.userAccess > 1) {
+            this.props.showAlert('no access')
+            return }
+
         this.props.addNewLocation(this.state.newLocation)
         this.setState({ newLocation: '' })
     }
