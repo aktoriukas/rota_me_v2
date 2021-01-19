@@ -211,6 +211,7 @@
 :root {
   --blue-gray: #5d6c89;
   --blue-gray-clear: #5d6c8982;
+  --y-blue-gray-clear: #5d6c89be;
   --x-blue-gray-clear: #5d6c8915;
   --turquoise: #36d6e7;
   --y-turquoise-clear: #36d5e7a3;
@@ -333,13 +334,14 @@ button:focus {
   overflow-y: scroll; }
   .pop-up .inner {
     border: 4px solid var(--cream-clear);
-    outline: 4px solid var(--blue-gray);
     padding: 2rem 3rem;
+    border-radius: 2rem;
     margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: var(--blue-gray); }
+    background-color: var(--y-blue-gray-clear);
+    backdrop-filter: blur(10px); }
     .pop-up .inner h1 {
       margin-bottom: 1rem;
       color: var(--cream); }

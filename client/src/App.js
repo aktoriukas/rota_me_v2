@@ -70,7 +70,7 @@ export default class App extends Component {
           }else {
             this.setState({ 
               alert: true, 
-              message: 'wrong password',
+              message: 'Incorrect details',
               name: '',
               pass: ''
             })
