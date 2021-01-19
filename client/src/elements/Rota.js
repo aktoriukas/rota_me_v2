@@ -47,7 +47,6 @@ export default class Rota extends Component {
     updateStateWithData(shifts, people, notes, locations) {
         shifts.forEach(shift => {
 
-            console.log(shift.shiftsDate)
             let jsDate = new Date(Date.parse(shift.shiftsDate));
             let weekDay = jsDate.getDay();
             if(weekDay === 0) { weekDay = 7}
@@ -106,9 +105,7 @@ export default class Rota extends Component {
         }
         catch(err){ console.log(err) }
     }
-    componentDidMount = () => {
-        this.getDataFromAPI()
-    }
+    componentDidMount = () => { this.getDataFromAPI() }
  
     updateDate(t) {
         let monday = getMondayDate(t)
@@ -125,9 +122,7 @@ export default class Rota extends Component {
             people: updatedPeople
         }, () => this.calculateAllTotal())
     }
-    updateNotes(newNotes) {
-        this.setState({ notes: newNotes })
-    }
+    updateNotes(newNotes) { this.setState({ notes: newNotes }) }
     saveData = async () => {
 
         const { Axios, API, usersID } = this.props
@@ -135,10 +130,7 @@ export default class Rota extends Component {
         this.setState({ alertBox: true, message: respond})
     }
 
-    closeAlert() {
-        this.setState({ alertBox: false, message: '' })
-    }
-
+    closeAlert() { this.setState({ alertBox: false, message: '' }) }
     rerender = () => this.getDataFromAPI();
 
     render() {
@@ -162,6 +154,7 @@ export default class Rota extends Component {
             <div className={`rota-container ${alertBox ? 'lock':''}`}>
 
                 <header id='top-rota-header'>
+                    <button onClick={() => this.updateDate(new Date())} className='button today'>today</button>
                     <this.props.DatePicker 
                         onChange={this.updateDate}
                         value={this.state.date}

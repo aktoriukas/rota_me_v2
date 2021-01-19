@@ -389,7 +389,8 @@ button:focus {
   color: var(--black);
   cursor: pointer;
   transition: 0.5s ease;
-  margin: 0 auto; }
+  margin: 0 auto;
+  min-width: 5rem; }
   .button.save {
     margin-top: 1rem; }
   .button:hover {
@@ -407,6 +408,8 @@ button:focus {
     position: absolute;
     top: 0.15rem;
     left: 12rem; }
+  .button.today {
+    margin: 0 0 0 auto; }
 
 ::-webkit-scrollbar {
   width: 10px; }

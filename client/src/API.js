@@ -108,13 +108,26 @@ export const getHolidays = (Axios, link, userID, peopleID) => {
 export const saveHolidays = ( Axios, link, userID, peopleID, start, end) => {
 
     return new Promise((resolve, reject) => {
-
         const holidays = {
             userID,
             peopleID,
             start,
             end }
         Axios.put(`${link}/api/putHolidays`, { params: {holidays}})
+        .then(response => { resolve() })
+    })
+}
+export const saveChanges = (Axios, link, userID, peopleID, peopleName, peopleRole) => {
+
+    return new Promise((resolve, reject) => {
+        const details = {
+            userID,
+            peopleID,
+            peopleName,
+            peopleRole
+        }
+        console.log(details)
+        Axios.put(`${link}/api/updatePerson`, {params: {details}})
         .then(response => { resolve() })
     })
 }
@@ -132,7 +145,6 @@ export const deleteHolidays = ( Axios, link, userID, holidaysID) => {
 export const SaveDatatoDB = (Axios, link, id, state) => {
 
     return new Promise((resolve, reject) => {
-
         const { userAccess, people, notes } = state
         let update = [];
         let insert = [];

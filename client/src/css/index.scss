@@ -223,6 +223,7 @@ button:focus {
   cursor: pointer;
   transition: 0.5s ease;
   margin: 0 auto;
+  min-width: 5rem;
   &.save {
     margin-top: 1rem;
   }
@@ -244,6 +245,9 @@ button:focus {
     position: absolute;
     top: 0.15rem;
     left: 12rem;
+  }
+  &.today {
+    margin: 0 0 0 auto;
   }
 }
 ::-webkit-scrollbar {

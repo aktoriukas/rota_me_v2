@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
 import { makeSqlDate } from '../Functions';
 import Axios from 'axios';
-import { getHolidays, saveHolidays, deleteHolidays } from '../API';
+import { getHolidays, saveHolidays, deleteHolidays, saveChanges } from '../API';
 
 
 export default class EmployeesOptions extends Component {
@@ -10,7 +10,6 @@ export default class EmployeesOptions extends Component {
     constructor(props) {
         super(props)
         const { person } = this.props
-        console.log(person)
 
         this.state = {
              startDate: new Date(),
@@ -27,8 +26,13 @@ export default class EmployeesOptions extends Component {
         this.updateStarting = this.updateStarting.bind(this)
         this.updateEnding = this.updateEnding.bind(this)
         this.updateHolidays = this.updateHolidays.bind(this)
+        this.getHolidaysAPI = this.getHolidaysAPI.bind(this)
+        this.saveChanges = this.saveChanges.bind(this)
     }
-    componentDidMount = async () => {
+    componentDidMount = () => {
+        this.getHolidaysAPI()
+    }
+    getHolidaysAPI = async () => {
         const { peopleID } = this.state
         const { usersID, API } = this.props
         const holidays = await getHolidays(Axios, API, usersID, peopleID)
@@ -43,23 +47,27 @@ export default class EmployeesOptions extends Component {
         const { peopleID, holidaysStartDate, holidaysEndDate } = this.state
         const { usersID, API } = this.props
         await saveHolidays(Axios, API, usersID, peopleID, holidaysStartDate, holidaysEndDate)
+        this.getHolidaysAPI()
     }
-    deleteHolidays = (id) => {
+    deleteHolidays = async (id) => {
         const { usersID, API } = this.props
-        deleteHolidays(Axios, API, usersID, id)
+        await deleteHolidays(Axios, API, usersID, id)
+        this.getHolidaysAPI()
+    }
+    saveChanges = async () => {
+        const { usersID, API } = this.props
+        const { peopleID, peopleName, peopleRole } = this.state
+        saveChanges( Axios, API, usersID, peopleID, peopleName, peopleRole)
     }
 
     render() {
         const { peopleName, peopleRole, startDate, endDate, holidays } = this.state
 
         let Holidays = holidays.map(item => {
-            console.log(item)
             let start = new Date(Date.parse(item.holidaysStartDate));
             let end = new Date(Date.parse(item.holidaysEndDate));
             start = makeSqlDate(start)
             end = makeSqlDate(end)
-            console.log(start)
-            console.log(end)
             return (
                 <div key={item.holidaysID} className='hol'>
                     <span className='start'>{start}</span>
@@ -100,7 +108,7 @@ export default class EmployeesOptions extends Component {
                         {Holidays}
                     </div>
                 </div>
-                <button className='button'>save</button>
+                <button onClick={this.saveChanges} className='button'>save</button>
             </div>
         )
     }
