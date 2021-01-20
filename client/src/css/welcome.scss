@@ -38,20 +38,26 @@
       .container {
         @include border();
         width: 20rem;
-        height: 16.5rem;
+        height: 20rem;
         position: relative;
         box-shadow: 0 2px 15px var(--blue-gray-clear);
-        img {
-          width: 100%;
-          height: 100%;
+        &:nth-child(1) {
+          top: -7rem;
+          left: -6rem;
+          background-image: url(../img/shot.png);
+          background-size: cover;
         }
         &:nth-child(2) {
-          left: -14rem;
-          top: 2rem;
+          left: -16rem;
+          top: -2rem;
+          background-image: url(../img/shot1.png);
+          background-size: cover;
         }
         &:nth-child(3) {
-          left: -22rem;
+          left: -28rem;
           top: 4rem;
+          background-image: url(../img/shot2.png);
+          background-size: cover;
         }
       }
       @media only screen and (max-width: 1200px) {

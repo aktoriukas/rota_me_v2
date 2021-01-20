@@ -9,6 +9,14 @@
       border-right: none;
     }
   }
+  .employees-list {
+    tr{
+      transition: opacity .5s ease;
+      &.active {
+        opacity: 0.3;
+      }
+    }
+  }
 }
 .employees-options-inner {
   .about {

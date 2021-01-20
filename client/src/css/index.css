@@ -33,18 +33,24 @@
       .welcome-screen .container .main .images .container {
         border: 4px solid var(--cream-clear);
         width: 20rem;
-        height: 16.5rem;
+        height: 20rem;
         position: relative;
         box-shadow: 0 2px 15px var(--blue-gray-clear); }
-        .welcome-screen .container .main .images .container img {
-          width: 100%;
-          height: 100%; }
+        .welcome-screen .container .main .images .container:nth-child(1) {
+          top: -7rem;
+          left: -6rem;
+          background-image: url(../img/shot.png);
+          background-size: cover; }
         .welcome-screen .container .main .images .container:nth-child(2) {
-          left: -14rem;
-          top: 2rem; }
+          left: -16rem;
+          top: -2rem;
+          background-image: url(../img/shot1.png);
+          background-size: cover; }
         .welcome-screen .container .main .images .container:nth-child(3) {
-          left: -22rem;
-          top: 4rem; }
+          left: -28rem;
+          top: 4rem;
+          background-image: url(../img/shot2.png);
+          background-size: cover; }
       @media only screen and (max-width: 1200px) {
         .welcome-screen .container .main .images {
           left: -2rem;
@@ -159,6 +165,10 @@
     min-width: 580px; }
     .settings > div:last-child {
       border-right: none; }
+  .settings .employees-list tr {
+    transition: opacity .5s ease; }
+    .settings .employees-list tr.active {
+      opacity: 0.3; }
 
 .employees-options-inner .about {
   display: flex;

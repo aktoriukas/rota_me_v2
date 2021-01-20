@@ -58,8 +58,12 @@ export default class EmployeesList extends Component {
                         </thead>
                         <tbody>
                             {this.props.people.map(person => {
+                                let className = '';
+                                if (optionsPerson.peopleID === person.peopleID) {
+                                    className = 'active'
+                                }
                                 return (
-                                    <tr key={person.peopleID}>
+                                    <tr className={className} key={person.peopleID}>
                                         <td><h2>{person.peopleName}</h2></td>
                                         <td><h3>{person.peopleRole}</h3></td>
                                         <td className='options'>
