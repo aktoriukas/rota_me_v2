@@ -7,13 +7,15 @@ export default class Shifts extends Component {
 
 
     render() {
-        const {weekDays} = this.props.person;
+        const { weekDays, holidays } = this.props.person;
         let shifts = [];
         for (let i = 1; i < 8; i++) {
             shifts.push(
-                <Shift 
+                <Shift
                     person={this.props.person}
-                    shift={weekDays[i]} key={i} 
+                    shift={weekDays[i]}
+                    key={i}
+                    holidays={holidays[i - 1]}
                     handleChange={this.props.handleChange}
                     updateWeekTotal={this.props.updateWeekTotal}
                     weekDay={i}
@@ -24,7 +26,7 @@ export default class Shifts extends Component {
         }
         return (
             <ul className='shifts-container'>
-            {shifts}
+                {shifts}
             </ul>
         )
     }

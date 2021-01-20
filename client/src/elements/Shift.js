@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import {  getTotalObj } from '../Calculations';
+import { getTotalObj } from '../Calculations';
 // import TimeField from 'react-simple-timefield';
 export default class Shift extends Component {
 
     constructor(props) {
         super(props)
         let date = new Date(props.monday);
-        date = date.addDays(props.weekDay -1)
-
+        date = date.addDays(props.weekDay - 1)
         this.state = {
             startingTime: '',
             finishingTime: '',
@@ -19,7 +18,8 @@ export default class Shift extends Component {
             location: '',
             locationID: 0,
             shiftBreak: props.weekDay.shiftBreak ? props.weekDay.shiftBreak : 0,
-            shiftBeakStr: '0:00'
+            shiftBeakStr: '0:00',
+            holidays: this.props.holidays
         }
         this.updateTime = this.updateTime.bind(this)
         this.updateState = this.updateState.bind(this)
@@ -36,12 +36,12 @@ export default class Shift extends Component {
 
     componentDidMount() {
         const { shift } = this.props
-        if (shift !== undefined) {
-            const { startingTime, finishingTime} = this.props.shift
+        if (shift !== undefined && shift.startingTime !== undefined && shift.finishingTime !== undefined) {
+            const { startingTime, finishingTime } = this.props.shift
             const { totalMinutes, totalString } = getTotalObj(startingTime, finishingTime)
 
-            this.setState({ 
-                location: shift.location, 
+            this.setState({
+                location: shift.location,
                 locationID: shift.locationID,
                 shiftID: shift.shiftID
             })
@@ -52,46 +52,46 @@ export default class Shift extends Component {
     updateTime(e) {
         let startingTime, finishingTime;
 
-        if (e.target.className.includes('starting')){
+        if (e.target.className.includes('starting')) {
             startingTime = e.target.value;
             finishingTime = this.state.finishingTime
-        }else {
+        } else {
             startingTime = this.state.startingTime
             finishingTime = e.target.value;
         }
-        const {totalMinutes, totalString} = getTotalObj(startingTime, finishingTime)
+        const { totalMinutes, totalString } = getTotalObj(startingTime, finishingTime)
         this.updateState(startingTime, finishingTime, totalString, totalMinutes)
     }
     changeLocation(e) {
-        this.setState({ locationID: e.target.value},() => {
+        this.setState({ locationID: e.target.value }, () => {
             this.props.handleChange(this.state)
         })
     }
     render() {
-        const { totalString, totalMinutes, locationID } = this.state;
+        const { totalString, totalMinutes, locationID, holidays } = this.state;
         const { handleChange, locations } = this.props;
         let shiftState = '';
         let backgroundColor;
         if (totalMinutes === 0) { shiftState = 'off' }
-        if (locationID === 0 ) { backgroundColor = 'transparent'}
-        else { backgroundColor = `hsl(${(locationID * 25) % 360}, 30%, 50%)`}
+        if (locationID === 0) { backgroundColor = 'transparent' }
+        else { backgroundColor = `hsl(${(locationID * 25) % 360}, 30%, 50%)` }
         const locationColor = {
             backgroundColor: backgroundColor
         }
         return (
-            <li className={`shift-container ${shiftState}`}>
+            <li className={`shift-container ${shiftState} ${holidays ? 'holidays' : ''}`}>
                 <div className='shift' style={locationColor}>
                     <div className='shift-time'>
-                        <input 
+                        <input
                             className='time starting'
-                            type='time' 
+                            type='time'
                             defaultValue={this.state.startingTime}
                             onChange={this.updateTime}
                             onBlur={() => handleChange(this.state)}
                         />
-                        <input 
+                        <input
                             className='time finishing'
-                            type='time' 
+                            type='time'
                             defaultValue={this.state.finishingTime}
                             onChange={this.updateTime}
                             onBlur={() => handleChange(this.state)}
@@ -101,26 +101,33 @@ export default class Shift extends Component {
                         <span className={`shift-total`}>
                             {totalString === '' ? '-' : `${totalString}`}
                         </span>
-                        <select 
+                        <select
                             value={locationID}
                             onChange={this.changeLocation}
                             onBlur={() => handleChange(this.state)}
                             className='locations'
-                            >
+                        >
                             <option value='0'>OFF</option>
                             {locations.map(location => {
                                 return (
-                                    <option 
+                                    <option
                                         key={location.locationsID}
                                         value={location.locationsID}
-                                        >
-                                    {location.location}
+                                    >
+                                        {location.location}
                                     </option>
                                 )
                             })}
                         </select>
                     </div>
                 </div>
+                {holidays ?
+                    <h2 className='holidays-title'>
+                        holidays
+                    </h2>
+                    :
+                    ''
+                }
             </li>
         )
     }

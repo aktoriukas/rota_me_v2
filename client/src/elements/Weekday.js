@@ -5,21 +5,21 @@ export default class Weekday extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
-             notesText: '',
-             date: props.day,
-             notesDate: new Date(Date.parse(props.day)),
-             day: props.day.getDay()
+            notesText: '',
+            date: props.day,
+            notesDate: new Date(Date.parse(props.day)),
+            day: props.day.getDay()
         }
 
         this.updatevalue = this.updatevalue.bind(this)
         this.sendNotes = this.sendNotes.bind(this)
         this.componentDidMount = this.componentDidMount.bind(this)
     }
-    componentDidMount(){
+    componentDidMount() {
         const { note } = this.props;
-        if( note !== undefined ) {
+        if (note !== undefined) {
             this.setState({
                 notesText: note.notesText,
                 notesDate: note.notesDate,
@@ -27,7 +27,7 @@ export default class Weekday extends Component {
             })
         }
     }
-    sendNotes(){
+    sendNotes() {
         this.props.updateNotes(this.state)
     }
 
@@ -43,12 +43,12 @@ export default class Weekday extends Component {
                 <div className='date'>
                     {`${day.getMonth() + 1}-${day.getDate()}`}
                 </div>
-                <textarea 
+                <textarea
                     className='weekday-note'
-                    value={notesText} 
-                    onChange={this.updatevalue} 
-                    name="note" 
-                    cols="20" 
+                    value={notesText}
+                    onChange={this.updatevalue}
+                    name="note"
+                    cols="20"
                     rows="5"
                     onBlur={this.sendNotes}
                 />

@@ -12,14 +12,14 @@ export default class Header extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
-             options: false,
-             alertBox: false,
-             message: '',
-             people: [],
-             usersID: props.usersID,
-             cookies: new Cookies()
+            options: false,
+            alertBox: false,
+            message: '',
+            people: [],
+            usersID: props.usersID,
+            cookies: new Cookies()
         }
         this.toggleOptions = this.toggleOptions.bind(this)
         this.updateState = this.updateState.bind(this)
@@ -37,13 +37,13 @@ export default class Header extends Component {
                 userID: this.state.usersID
             }
             Axios.get(`${API}/api/getPeople`, { params: { userID } })
-            .then(response => {
-                resolve(response.data);
-            })
+                .then(response => {
+                    resolve(response.data);
+                })
         })
     }
     updateState(people) {
-        this.setState({ 
+        this.setState({
             people: people,
             userAccess: Number(this.state.cookies.get('userAccess'))
         })
@@ -51,15 +51,16 @@ export default class Header extends Component {
     componentDidMount = async (state, props) => {
         let updateState = this.updateState
         await this.getPeople()
-        .then(function(people) {
-            updateState(people)
-        })
+            .then(function (people) {
+                updateState(people)
+            })
     }
     sendDeleteRequest(id) {
         const { Axios, API } = this.props
-        if ( this.state.userAccess > 1) {
-            this.setState({ alertBox: true, message: 'access denied'})
-            return }
+        if (this.state.userAccess > 1) {
+            this.setState({ alertBox: true, message: 'access denied' })
+            return
+        }
         return new Promise(resolve => {
             Axios.delete(`${API}/api/delete/employee/${id}`).then(response => {
                 resolve(response)
@@ -75,16 +76,16 @@ export default class Header extends Component {
     deleteEmployee(id) {
         let updateState = this.updateState
         this.sendDeleteRequest(id)
-        .then(response => {
-            this.getPeople()
-        .then((people)=> {
-            updateState(people)
-        })
-            this.props.rerender()
-        })
+            .then(response => {
+                this.getPeople()
+                    .then((people) => {
+                        updateState(people)
+                    })
+                this.props.rerender()
+            })
     }
     addNewLocation = async (name) => {
-        const { Axios, API, usersID } = this.props 
+        const { Axios, API, usersID } = this.props
         let message = ''
         const result = await SaveLocation(Axios, API, usersID, name)
 
@@ -100,18 +101,19 @@ export default class Header extends Component {
             default: message = 'error'
                 break
         }
-        this.setState({ alertBox: true, message: message})
+        this.setState({ alertBox: true, message: message })
     }
 
     submitPerson = async (name, role) => {
-        if ( this.state.userAccess > 1) {
-            this.setState({ alertBox: true, message: 'access denied'})
-            return }
-        const { Axios, API, usersID } = this.props 
+        if (this.state.userAccess > 1) {
+            this.setState({ alertBox: true, message: 'access denied' })
+            return
+        }
+        const { Axios, API, usersID } = this.props
         const result = await SavePerson(Axios, API, usersID, name, role)
         let message = ''
 
-        switch (result){
+        switch (result) {
             case 0:
                 this.props.rerender()
                 this.componentDidMount()
@@ -124,17 +126,17 @@ export default class Header extends Component {
             default: message = 'error'
                 break
         }
-        this.setState({ alertBox: true, message: message})
-    };   
-    showAlert(message) { this.setState({ alertBox: true, message: message})} 
-    toggleOptions() { this.setState({ options: !this.state.options })}
-    closeAlert() { this.setState({ alertBox: false })}
+        this.setState({ alertBox: true, message: message })
+    };
+    showAlert(message) { this.setState({ alertBox: true, message: message }) }
+    toggleOptions() { this.setState({ options: !this.state.options }) }
+    closeAlert() { this.setState({ alertBox: false }) }
 
     render() {
         const { people, alertBox, message, options, userAccess } = this.state;
         const { locations, usersID, API } = this.props;
         const root = document.getElementById('root');
-        if( options ) { 
+        if (options) {
             root.classList.add('options')
         } else {
             root.classList.remove('options')
@@ -147,25 +149,26 @@ export default class Header extends Component {
                     <div className='pop-up options'>
                         <div className='inner'>
                             <div className='top-options'>
-                                <NewWorker 
+                                <NewWorker
                                     submitPerson={this.submitPerson}
                                     showAlert={this.showAlert}
                                 />
                                 <UserDetails
                                     API={API}
-                                    usersID={usersID}  
-                                    showAlert={this.showAlert}   
-                                    userAccess={userAccess}                           
+                                    usersID={usersID}
+                                    showAlert={this.showAlert}
+                                    userAccess={userAccess}
                                 />
                             </div>
                             <div className='settings'>
-                                <EmployeesList 
+                                <EmployeesList
                                     people={people}
                                     delete={this.deleteEmployee}
                                     showAlert={this.showAlert}
                                     userAccess={userAccess}
                                     API={API}
                                     usersID={usersID}
+                                    rerender={this.props.rerender}
                                 />
                                 <Locations
                                     locations={locations}

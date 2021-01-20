@@ -12,14 +12,14 @@ export default class EmployeesOptions extends Component {
         const { person } = this.props
 
         this.state = {
-             startDate: new Date(),
-             endDate: new Date(),
-             peopleName: person.peopleName,
-             peopleRole: person.peopleRole,
-             peopleID: person.peopleID,
-             holidaysStartDate: makeSqlDate(new Date()),
-             holidaysEndDate: makeSqlDate(new Date()),
-             holidays: []
+            startDate: new Date(),
+            endDate: new Date(),
+            peopleName: person.peopleName,
+            peopleRole: person.peopleRole,
+            peopleID: person.peopleID,
+            holidaysStartDate: makeSqlDate(new Date()),
+            holidaysEndDate: makeSqlDate(new Date()),
+            holidays: []
         }
         this.updatename = this.updatename.bind(this)
         this.updateRole = this.updateRole.bind(this)
@@ -41,34 +41,40 @@ export default class EmployeesOptions extends Component {
     updateHolidays = (holidays) => { this.setState({ holidays }) }
     updateStarting(t) { this.setState({ holidaysStartDate: makeSqlDate(t), startDate: t }) }
     updateEnding(t) { this.setState({ holidaysEndDate: makeSqlDate(t), endDate: t }) }
-    updatename = (e) => { this.setState({ peopleName: e.target.value}) }
-    updateRole = (e) => { this.setState({ peopleRole: e.target.value}) }
-    addHolidays = async () => { 
-        if ( this.props.userAccess > 1) {
+    updatename = (e) => { this.setState({ peopleName: e.target.value }) }
+    updateRole = (e) => { this.setState({ peopleRole: e.target.value }) }
+    addHolidays = async () => {
+        if (this.props.userAccess > 1) {
             this.props.showAlert('no access')
-            return }
+            return
+        }
         const { peopleID, holidaysStartDate, holidaysEndDate } = this.state
         const { usersID, API } = this.props
         await saveHolidays(Axios, API, usersID, peopleID, holidaysStartDate, holidaysEndDate)
         this.props.showAlert('saved')
         this.getHolidaysAPI()
+        this.props.rerender()
     }
     deleteHolidays = async (id) => {
-        if ( this.props.userAccess > 1) {
+        if (this.props.userAccess > 1) {
             this.props.showAlert('access denied')
-            return }
+            return
+        }
         const { usersID, API } = this.props
         await deleteHolidays(Axios, API, usersID, id)
         this.props.showAlert('deleted')
         this.getHolidaysAPI()
+        this.props.rerender()
     }
     saveChanges = async () => {
-        if ( this.props.userAccess > 1) {
+        if (this.props.userAccess > 1) {
             this.props.showAlert('access denied')
-            return }
+            return
+        }
         const { usersID, API } = this.props
         const { peopleID, peopleName, peopleRole } = this.state
-        await saveChanges( Axios, API, usersID, peopleID, peopleName, peopleRole);
+        await saveChanges(Axios, API, usersID, peopleID, peopleName, peopleRole);
+        this.props.rerender()
         this.props.showAlert('saved')
     }
 
@@ -84,8 +90,8 @@ export default class EmployeesOptions extends Component {
                 <div key={item.holidaysID} className='hol'>
                     <span className='start'>{start}</span>
                     <span className='end'>{end}</span>
-                    <button 
-                        className='button' 
+                    <button
+                        className='button'
                         onClick={() => this.deleteHolidays(item.holidaysID)}>
                         delete
                     </button>
@@ -96,19 +102,19 @@ export default class EmployeesOptions extends Component {
             <div className='employees-options-inner'>
                 <div className='about form'>
                     <label>Name</label>
-                    <input className='input' onChange={this.updatename} value={peopleName}/>
+                    <input className='input' onChange={this.updatename} value={peopleName} />
                     <label>Role</label>
-                    <input className='input' onChange={this.updateRole} value={peopleRole}/>
+                    <input className='input' onChange={this.updateRole} value={peopleRole} />
                 </div>
                 <div className='holidays'>
                     <div className='add-new'>
                         <h1>Add new Holidays</h1>
-                        <DatePicker 
+                        <DatePicker
                             className='start'
                             onChange={this.updateStarting}
                             value={startDate}
                         />
-                        <DatePicker 
+                        <DatePicker
                             className='end'
                             onChange={this.updateEnding}
                             value={endDate}

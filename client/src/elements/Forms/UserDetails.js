@@ -38,7 +38,7 @@ export default class UserDetails extends Component {
     saveNewPass = async (e) => {        
         e.preventDefault()
         if ( this.props.userAccess > 1) {
-            this.props.showAlert('no access')
+            this.props.showAlert('access denied')
             return }
         const { usersID, API } = this.props
         const { password, passwordRep, oldPassword } = this.state

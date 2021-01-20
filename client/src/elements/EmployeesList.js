@@ -6,13 +6,13 @@ import EmployeesOptions from './EmployeesOptions';
 export default class EmployeesList extends Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
-             warning: false,
-             cookies: new Cookies(),
-             access: 2 ,
-             options: false,
-             optionsPerson: {}
+            warning: false,
+            cookies: new Cookies(),
+            access: 2,
+            options: false,
+            optionsPerson: {}
         }
         this.showWarning = this.showWarning.bind(this);
         this.hideWarning = this.hideWarning.bind(this);
@@ -20,15 +20,15 @@ export default class EmployeesList extends Component {
         this.componentDidMount = this.componentDidMount.bind(this)
         this.openOptions = this.openOptions.bind(this)
     };
-    componentDidMount() { this.setState({ access: Number(this.state.cookies.get('userAccess'))})}
+    componentDidMount() { this.setState({ access: Number(this.state.cookies.get('userAccess')) }) }
 
     showWarning = (id) => {
-        if(this.state.access > 1) { this.props.showAlert('access denied')}
+        if (this.state.access > 1) { this.props.showAlert('access denied') }
         else {
             this.setState({
                 id: id,
                 warning: true
-            })    
+            })
         }
     }
     hideWarning = () => { this.setState({ warning: false }) }
@@ -36,10 +36,12 @@ export default class EmployeesList extends Component {
         this.hideWarning()
         this.props.delete(this.state.id)
     }
-    openOptions = (person) => { this.setState({ options: false }, () => {
-        this.setState({ options: true, optionsPerson: person })
-    })}
-    
+    openOptions = (person) => {
+        this.setState({ options: false }, () => {
+            this.setState({ options: true, optionsPerson: person })
+        })
+    }
+
     render() {
         const { warning, options, optionsPerson } = this.state
         return (
@@ -48,11 +50,11 @@ export default class EmployeesList extends Component {
                     <h1>Employees</h1>
                     <table>
                         <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>options</th>
-                        </tr>
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>options</th>
+                            </tr>
                         </thead>
                         <tbody>
                             {this.props.people.map(person => {
@@ -60,12 +62,12 @@ export default class EmployeesList extends Component {
                                     <tr key={person.peopleID}>
                                         <td><h2>{person.peopleName}</h2></td>
                                         <td><h3>{person.peopleRole}</h3></td>
-                                        <td>
-                                            <button 
-                                                onClick={() => this.showWarning(person.peopleID)} 
-                                                className='button'>delete
+                                        <td className='options'>
+                                            <button
+                                                onClick={() => this.showWarning(person.peopleID)}
+                                                className='button employee-delete'>delete
                                             </button>
-                                            <button onClick={() => this.openOptions(person)} className='button'>options</button>
+                                            <button onClick={() => this.openOptions(person)} className='button employee-options'>options</button>
                                         </td>
                                     </tr>
                                 )
@@ -78,22 +80,23 @@ export default class EmployeesList extends Component {
                             no={this.hideWarning}
                             message={'Are you sure you wanna delete this employee and all related shifts?'}
                         />
-                    :
+                        :
                         ''
                     }
                 </div>
                 <div className='employees-options'>
                     <h1>Options</h1>
                     {options ?
-                            <EmployeesOptions 
-                                person={optionsPerson}
-                                API={this.props.API}
-                                usersID={this.props.usersID}
-                                showAlert={this.props.showAlert}
-                                userAccess={this.props.userAccess}
-                            />
+                        <EmployeesOptions
+                            person={optionsPerson}
+                            API={this.props.API}
+                            usersID={this.props.usersID}
+                            showAlert={this.props.showAlert}
+                            userAccess={this.props.userAccess}
+                            rerender={this.props.rerender}
+                        />
                         :
-                            ''
+                        ''
                     }
                 </div>
             </>

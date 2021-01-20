@@ -6,11 +6,11 @@ export default class Person extends Component {
 
     constructor(props) {
         super(props)
-    
+
         this.state = {
-             week: [],
-             totalWeekString: '',
-             totalWeekMin: 0
+            week: [],
+            totalWeekString: '',
+            totalWeekMin: 0
         }
         this.handleChange = this.handleChange.bind(this)
     }
@@ -24,13 +24,14 @@ export default class Person extends Component {
         let newWeek = [...week]
         try {
             person.weekDays.forEach((day, index) => {
-                if (day === undefined) { return}
+                if (day === undefined) return
+                if (person.holidays[index]) return
                 const { totalMinutes } = getTotalObj(day.startingTime, day.finishingTime)
                 total.push(totalMinutes)
                 newWeek[index] = totalMinutes
             });
             newTotalWeekMin = total.reduce((acc, cur) => acc + cur)
-        }catch {}
+        } catch { }
         const totalWeekString = convertToString(newTotalWeekMin)
 
         this.setState({
@@ -46,8 +47,8 @@ export default class Person extends Component {
 
         newWeek[shift.weekDay] = shift.totalMinutes
         newTotalWeekMin = newWeek.reduce((acc, cur) => {
-            if (cur === undefined) {cur = 0}
-            if (acc === undefined) {acc = 0}
+            if (cur === undefined) { cur = 0 }
+            if (acc === undefined) { acc = 0 }
             return acc + cur
         })
         newTotalWeekString = convertToString(newTotalWeekMin)
@@ -70,7 +71,7 @@ export default class Person extends Component {
                     <h3 className='name'>{this.props.person.peopleName}</h3>
                     <h4 className='title'>{this.props.person.peopleRole}</h4>
                 </div>
-                <Shifts 
+                <Shifts
                     person={this.props.person}
                     handleChange={this.handleChange}
                     updateWeekTotal={this.updateWeekTotal}

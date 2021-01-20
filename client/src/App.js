@@ -11,7 +11,7 @@ import Welcome from './WelcomeScreen';
 export default class App extends Component {
   constructor(props) {
     super(props)
-  
+
     this.state = {
       name: '',
       pass: '',
@@ -28,102 +28,101 @@ export default class App extends Component {
     this.signOut = this.signOut.bind(this)
     this.loginWithDemo = this.loginWithDemo.bind(this)
   }
-  closeWarning() { this.setState({ alert: false, message: ''}) }
+  closeWarning() { this.setState({ alert: false, message: '' }) }
 
-  validDetails(name, pass){
-    if(/[^a-zA-Z0-9]/i.test(name) || /[^a-zA-Z0-9]/i.test(pass)) { return false }
-    if(name === undefined || pass === undefined) { return false }
-    if(name.length === 0 || pass.length === 0) { return false }
+  validDetails(name, pass) {
+    if (/[^a-zA-Z0-9]/i.test(name) || /[^a-zA-Z0-9]/i.test(pass)) { return false }
+    if (name === undefined || pass === undefined) { return false }
+    if (name.length === 0 || pass.length === 0) { return false }
     return true
   }
-  loginWithDemo(){
-    Axios.post(`${this.state.API}/api/signIn`, {name: 'demo', pass: 'demoPass'})
-    .then((response)=> {
-      if(response.data) {
-        this.state.cookies.set('userID', `${response.data.usersID}` , { path: '/'} )
-        this.state.cookies.set('userAccess', `${response.data.userAccess}` , { path: '/'} )
-        this.setState({ 
-          signIn: true,
-          userAccess: response.data.userAccess
-        })
-      }
-    })
+  loginWithDemo() {
+    Axios.post(`${this.state.API}/api/signIn`, { name: 'freeUser', pass: 'nothingToSee' })
+      .then((response) => {
+        if (response.data) {
+          this.state.cookies.set('userID', `${response.data.usersID}`, { path: '/' })
+          this.state.cookies.set('userAccess', `${response.data.userAccess}`, { path: '/' })
+          this.setState({
+            signIn: true,
+            userAccess: response.data.userAccess
+          })
+        }
+      })
   }
-  checkPassword(e){
+  checkPassword(e) {
     e.preventDefault()
     const { name, pass } = this.state
-    if ( !this.validDetails(name, pass) ) {
+    if (!this.validDetails(name, pass)) {
       this.setState({ alert: true, message: 'invalid details' })
     } else {
       Axios.post(`${this.state.API}/api/signIn`, { name: name, pass: pass })
-      .then((response)=> {
+        .then((response) => {
           if (response.data) {
-            this.state.cookies.set('logIn', 'true' , { path: '/'} )
-            this.state.cookies.set('userID', `${response.data.usersID}` , { path: '/'} )
-            this.state.cookies.set('userAccess', `${response.data.userAccess}` , { path: '/'} )
-            this.state.cookies.set('usersName', `${response.data.usersName}` , { path: '/'} )
-            console.log(response.data)
-            this.setState({ 
-              signIn: true, 
+            this.state.cookies.set('logIn', 'true', { path: '/' })
+            this.state.cookies.set('userID', `${response.data.usersID}`, { path: '/' })
+            this.state.cookies.set('userAccess', `${response.data.userAccess}`, { path: '/' })
+            this.state.cookies.set('usersName', `${response.data.usersName}`, { path: '/' })
+            this.setState({
+              signIn: true,
               userAccess: response.data.userAccess
             })
-          }else {
-            this.setState({ 
-              alert: true, 
+          } else {
+            this.setState({
+              alert: true,
               message: 'Incorrect details',
               name: '',
               pass: ''
             })
           }
-      })
-      .catch(error => console.log(error))
+        })
+        .catch(error => console.log(error))
     }
   }
-  updateName(e){ this.setState({ name: e.target.value }) }
-  updatePass(e){ this.setState({ pass: e.target.value }) }
+  updateName(e) { this.setState({ name: e.target.value }) }
+  updatePass(e) { this.setState({ pass: e.target.value }) }
 
   signOut() {
-    this.state.cookies.remove('userID' , { path: '/'} )
-    this.state.cookies.remove('logIn' , { path: '/'} )
-    this.state.cookies.remove('userAccess' , { path: '/'} )
+    this.state.cookies.remove('userID', { path: '/' })
+    this.state.cookies.remove('logIn', { path: '/' })
+    this.state.cookies.remove('userAccess', { path: '/' })
     this.setState({ signIn: false })
   }
-    
+
   render() {
-    const { signIn , message, alert, name, pass, cookies } = this.state;
+    const { signIn, message, alert, name, pass, cookies } = this.state;
     return (
       <>
-        {signIn === true || cookies.get('logIn') === 'true'  ? 
-        <>
-          <Rota 
-            Axios={Axios}
-            DatePicker={DatePicker}
-            API={this.state.API}
-            userAccess={Number(cookies.get('userAccess'))}
-            usersID={Number(cookies.get('userID'))}
-          />
-          <button className='button sign-out' onClick={this.signOut}>Sign Out</button>
-        </>
-        :
-        <div className='welcome-screen'>
-          <div className='container'>
-          <div className='log-in'>
-            <div className='sign-in'>
-                <h1>Sign in</h1>
-                <form className='form' onSubmit={this.checkPassword}>
-                  <input value={name} className='input' placeholder='name' type='text' name='name' onChange={this.updateName}/>
-                  <input value={pass} className='input' placeholder='password' type='password' onChange={this.updatePass} name='password'/>
-                  <input className='button' type='submit'/>
-                </form>
+        {signIn === true || cookies.get('logIn') === 'true' ?
+          <>
+            <Rota
+              Axios={Axios}
+              DatePicker={DatePicker}
+              API={this.state.API}
+              userAccess={Number(cookies.get('userAccess'))}
+              usersID={Number(cookies.get('userID'))}
+            />
+            <button className='button sign-out' onClick={this.signOut}>Sign Out</button>
+          </>
+          :
+          <div className='welcome-screen'>
+            <div className='container'>
+              <div className='log-in'>
+                <div className='sign-in'>
+                  <h1>Sign in</h1>
+                  <form className='form' onSubmit={this.checkPassword}>
+                    <input value={name} className='input' placeholder='name' type='text' name='name' onChange={this.updateName} />
+                    <input value={pass} className='input' placeholder='password' type='password' onChange={this.updatePass} name='password' />
+                    <input className='button' type='submit' />
+                  </form>
+                </div>
+              </div>
+              <Welcome loginWithDemo={this.loginWithDemo} />
             </div>
+
+            <Footer />
           </div>
-          <Welcome loginWithDemo={this.loginWithDemo}/>
-          </div>
-          
-          <Footer />
-        </div>
         }
-        {alert ? <Alert close={this.closeWarning} message={message}/> : ''}
+        {alert ? <Alert close={this.closeWarning} message={message} /> : ''}
       </>
     )
   }

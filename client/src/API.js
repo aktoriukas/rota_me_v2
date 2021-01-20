@@ -1,34 +1,49 @@
 import { makeSqlDate } from './Functions';
 
-export const GetPeople =  (Axios, link, id) => {
+export const GetPeople = (Axios, link, id) => {
     return new Promise(resolve => {
         let newPeople;
         const userID = {
             userID: id
         }
         Axios.get(`${link}/api/getPeople`, { params: { userID } })
-        .then(response => {
-            newPeople = [...response.data];
-            newPeople.map((item) => item.weekDays = []);
-          resolve(newPeople)
-        })
+            .then(response => {
+                newPeople = [...response.data];
+                newPeople.map((item) => item.weekDays = []);
+                resolve(newPeople)
+            })
     })
 }
 export const GetShifts = (Axios, link, id, start, end) => {
     return new Promise(resolve => {
-  
+        console.log(end)
+
         let interval = {
             weekBegining: start,
-            weekEnd : end,
-            userID: id  
+            weekEnd: end,
+            userID: id
         }
-        Axios.get(`${link}/api/getShifts`, { params: {interval} })
-        .then((response)=> {
-            let shift = [...response.data]
-            resolve(shift)
-        })
+        Axios.get(`${link}/api/getShifts`, { params: { interval } })
+            .then((response) => {
+                resolve([...response.data])
+            })
     });
 };
+export const GetWeekHolidays = (Axios, link, id, start, end) => {
+
+    return new Promise(resolve => {
+
+        const interval = {
+            start,
+            end,
+            id
+        }
+        Axios.get(`${link}/api/getWeekHolidays`, { params: { interval } })
+            .then(response => {
+                resolve([...response.data])
+            })
+    })
+}
 export const GetLocations = (Axios, link, id) => {
 
     return new Promise(resolve => {
@@ -36,42 +51,42 @@ export const GetLocations = (Axios, link, id) => {
             userID: id
         }
         Axios.get(`${link}/api/getLocations`, { params: { userID } })
-        .then( response => {
-            resolve(response.data)
-        })
-    
+            .then(response => {
+                resolve(response.data)
+            })
+
     })
 }
 export const GetNotes = (Axios, link, id, start, end) => {
     return new Promise(resolve => {
         let interval = {
             weekBegining: start,
-            weekEnd : end,
-            userID: id  
+            weekEnd: end,
+            userID: id
         }
-        Axios.get(`${link}/api/getNotes`, { params: {interval} })
-        .then((response)=> {
-            let notes = [...response.data]
-            resolve(notes)
-        })
+        Axios.get(`${link}/api/getNotes`, { params: { interval } })
+            .then((response) => {
+                let notes = [...response.data]
+                resolve(notes)
+            })
     })
 }
 export const SavePerson = (Axios, link, id, name, role) => {
 
     return new Promise(resolve => {
-        
-        if( name === undefined || role === undefined ) {
-            resolve (2)
+
+        if (name === undefined || role === undefined) {
+            resolve(2)
         }
-        if(!/[^a-z]/i.test(name) && !/[^a-z]/i.test(role)) {
-            
-            if(name.length !== 0 || role.length !== 0) {
+        if (!/[^a-z]/i.test(name) && !/[^a-z]/i.test(role)) {
+
+            if (name.length !== 0 || role.length !== 0) {
                 Axios.post(`${link}/api/insert/people`,
-                {name: name, role: role, userID: id}).then(() => {
-                    resolve(0)
-                })  
-            }else { resolve(1) }
-        }else { resolve(2) }
+                    { name: name, role: role, userID: id }).then(() => {
+                        resolve(0)
+                    })
+            } else { resolve(1) }
+        } else { resolve(2) }
     })
 }
 export const SaveLocation = (Axios, link, id, name) => {
@@ -80,41 +95,42 @@ export const SaveLocation = (Axios, link, id, name) => {
 
         if (name !== '' && name !== undefined) {
 
-            if(!/[^a-z]/i.test(name) ) {
+            if (!/[^a-z]/i.test(name)) {
 
                 Axios.post(`${link}/api/insert/location`,
-                {name: name, userID: id}).then(() => {
-                    resolve(0)
-                })        
-            }else{ resolve (2) }
-        }else { resolve(1) }
+                    { name: name, userID: id }).then(() => {
+                        resolve(0)
+                    })
+            } else { resolve(2) }
+        } else { resolve(1) }
     })
 }
 export const getHolidays = (Axios, link, userID, peopleID) => {
-    
+
     return new Promise((resolve, reject) => {
 
         let ids = {
             userID,
-            peopleID 
+            peopleID
         }
-        Axios.get(`${link}/api/getHolidays`, { params: {ids} })
-        .then((response)=> {
-            const holidays = [...response.data]
-            resolve(holidays)
-        })
+        Axios.get(`${link}/api/getHolidays`, { params: { ids } })
+            .then((response) => {
+                const holidays = [...response.data]
+                resolve(holidays)
+            })
     })
 }
-export const saveHolidays = ( Axios, link, userID, peopleID, start, end) => {
+export const saveHolidays = (Axios, link, userID, peopleID, start, end) => {
 
     return new Promise((resolve, reject) => {
         const holidays = {
             userID,
             peopleID,
             start,
-            end }
-        Axios.put(`${link}/api/putHolidays`, { params: {holidays}})
-        .then(response => { resolve() })
+            end
+        }
+        Axios.put(`${link}/api/putHolidays`, { params: { holidays } })
+            .then(response => { resolve() })
     })
 }
 export const saveChanges = (Axios, link, userID, peopleID, peopleName, peopleRole) => {
@@ -127,24 +143,24 @@ export const saveChanges = (Axios, link, userID, peopleID, peopleName, peopleRol
             peopleRole
         }
         console.log(details)
-        Axios.put(`${link}/api/updatePerson`, {params: {details}})
-        .then(response => { resolve() })
+        Axios.put(`${link}/api/updatePerson`, { params: { details } })
+            .then(response => { resolve() })
     })
 }
-export const deleteHolidays = ( Axios, link, userID, holidaysID) => {
+export const deleteHolidays = (Axios, link, userID, holidaysID) => {
 
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         const id = {
             userID,
             holidaysID
         }
-        Axios.delete(`${link}/api/delete/holidays`, { params: {id} })
-        .then(response => { resolve() })
+        Axios.delete(`${link}/api/delete/holidays`, { params: { id } })
+            .then(response => { resolve() })
     })
 }
 export const changePassword = (Axios, link, usersID, oldPass, newPass, userName) => {
 
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
 
         const details = {
             usersID,
@@ -152,10 +168,10 @@ export const changePassword = (Axios, link, usersID, oldPass, newPass, userName)
             newPass,
             userName
         }
-        Axios.put(`${link}/api/editPass`, {params: { details }})
-        .then(response => {
-            resolve(response)
-        })
+        Axios.put(`${link}/api/editPass`, { params: { details } })
+            .then(response => {
+                resolve(response)
+            })
     })
 }
 export const SaveDatatoDB = (Axios, link, id, state) => {
@@ -166,7 +182,7 @@ export const SaveDatatoDB = (Axios, link, id, state) => {
         let insert = [];
         let insertNotes = [];
         let updateNotes = [];
-        if(userAccess === 1){
+        if (userAccess === 1) {
             people.forEach(person => {
                 person.weekDays.forEach(day => {
                     let shift = {}
@@ -179,7 +195,7 @@ export const SaveDatatoDB = (Axios, link, id, state) => {
                         locationID: day.locationID,
                         userID: id
                     }
-                    if ( day.shiftID === undefined) {
+                    if (day.shiftID === undefined) {
                         insert.push(shift)
                     } else {
                         shift.shiftID = day.shiftID
@@ -188,7 +204,7 @@ export const SaveDatatoDB = (Axios, link, id, state) => {
                 })
             })
             notes.forEach(note => {
-                if(note === undefined) return
+                if (note === undefined) return
                 let newNote = {}
                 let sqlDate = makeSqlDate(note.notesDate)
                 newNote = {
@@ -196,7 +212,7 @@ export const SaveDatatoDB = (Axios, link, id, state) => {
                     usersID: id,
                     notesDate: sqlDate
                 }
-                if ( note.notesID === undefined) {
+                if (note.notesID === undefined) {
                     insertNotes.push(newNote)
                 } else {
                     newNote.notesID = note.notesID
@@ -208,8 +224,8 @@ export const SaveDatatoDB = (Axios, link, id, state) => {
                 insert: insert,
                 updateNotes: updateNotes,
                 insertNotes: insertNotes
-            }).then(() =>  resolve('Data been saved') )
-        }else {
+            }).then(() => resolve('Data been saved'))
+        } else {
             resolve('You not allowed this action')
         }
     })
