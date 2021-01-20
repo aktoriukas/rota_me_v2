@@ -204,6 +204,9 @@ button:focus {
         button {
           margin: 0 0 0 0.5rem;
         }
+        &.options{
+          display: flex;
+        }
       }
     }
   }
@@ -441,6 +444,20 @@ button:focus {
             }
             .shift-total {
               background: transparent;
+            }
+          }
+          &.holidays {
+            color: var(--blue-gray-clear);
+            text-shadow: 0 0 10px var(--cream);
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            .shift {
+              display: none;
+            }
+            .holidays-title {
+              text-align: center;
             }
           }
           &:hover {

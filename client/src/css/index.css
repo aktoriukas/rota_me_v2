@@ -384,6 +384,9 @@ button:focus {
       .pop-up .employees-list table td button,
       .pop-up .locations-list table td button {
         margin: 0 0 0 0.5rem; }
+      .pop-up .employees-list table td.options,
+      .pop-up .locations-list table td.options {
+        display: flex; }
 
 #alert-message-container .title,
 #alert-message-container .message {
@@ -596,6 +599,22 @@ button:focus {
         #root .rota-container .rota-footer .shifts-container .shift-container.off .shift-total,
         #root .rota-container .rota-header .shifts-container .shift-container.off .shift-total {
           background: transparent; }
+        #root .rota-container .person-container .shifts-container .shift-container.holidays,
+        #root .rota-container .rota-footer .shifts-container .shift-container.holidays,
+        #root .rota-container .rota-header .shifts-container .shift-container.holidays {
+          color: var(--blue-gray-clear);
+          text-shadow: 0 0 10px var(--cream);
+          display: flex;
+          justify-content: center;
+          flex-direction: column; }
+          #root .rota-container .person-container .shifts-container .shift-container.holidays .shift,
+          #root .rota-container .rota-footer .shifts-container .shift-container.holidays .shift,
+          #root .rota-container .rota-header .shifts-container .shift-container.holidays .shift {
+            display: none; }
+          #root .rota-container .person-container .shifts-container .shift-container.holidays .holidays-title,
+          #root .rota-container .rota-footer .shifts-container .shift-container.holidays .holidays-title,
+          #root .rota-container .rota-header .shifts-container .shift-container.holidays .holidays-title {
+            text-align: center; }
         #root .rota-container .person-container .shifts-container .shift-container:hover,
         #root .rota-container .rota-footer .shifts-container .shift-container:hover,
         #root .rota-container .rota-header .shifts-container .shift-container:hover {
