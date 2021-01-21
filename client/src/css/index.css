@@ -1,99 +1,121 @@
+@keyframes splash {
+  0% {
+    box-shadow: 0 0 0.5rem var(--x-blue-gray-clear); }
+  50% {
+    box-shadow: 0 0 2rem var(--blue-gray); }
+  100% {
+    box-shadow: 0 0 0.5rem var(--x-blue-gray-clear); } }
 .welcome-screen {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--cream-clear); }
+  width: 100%;
+  height: 100%;
+  position: relative; }
   .welcome-screen:before {
     position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     content: "";
     width: 100%;
     height: 100%;
     background-color: var(--x-blue-gray-clear);
-    clip-path: ellipse(100% 88% at 12% 99%); }
+    clip-path: ellipse(100% 80% at 0% 100%);
+    backdrop-filter: blur(10px); }
+  .welcome-screen:after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-color: var(--x-blue-gray-clear);
+    clip-path: ellipse(100% 40% at 85% 100%);
+    backdrop-filter: blur(10px); }
 
 .welcome-screen .container {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin-bottom: 10rem; }
+  max-width: 100%;
+  margin: auto; }
   .welcome-screen .container .main {
     position: relative;
-    overflow: hidden; }
-    .welcome-screen .container .main .images {
-      position: absolute;
-      display: flex;
-      flex-direction: row;
-      top: 12rem;
-      right: -11rem;
-      width: fit-content; }
-      @media only screen and (max-width: 1500px) {
-        .welcome-screen .container .main .images {
-          display: none; } }
-      .welcome-screen .container .main .images .container {
-        border: 4px solid var(--cream-clear);
-        width: 20rem;
-        height: 20rem;
-        position: relative;
-        box-shadow: 0 2px 15px var(--blue-gray-clear); }
-        .welcome-screen .container .main .images .container:nth-child(1) {
-          top: -7rem;
-          left: -6rem;
-          background-image: url(../img/shot.png);
-          background-size: cover; }
-        .welcome-screen .container .main .images .container:nth-child(2) {
-          left: -16rem;
-          top: -2rem;
-          background-image: url(../img/shot1.png);
-          background-size: cover; }
-        .welcome-screen .container .main .images .container:nth-child(3) {
-          left: -28rem;
-          top: 4rem;
-          background-image: url(../img/shot2.png);
-          background-size: cover; }
-      @media only screen and (max-width: 1200px) {
-        .welcome-screen .container .main .images {
-          left: -2rem;
-          top: 2rem;
-          margin: auto; }
-          .welcome-screen .container .main .images .container {
-            width: 15rem; }
-            .welcome-screen .container .main .images .container:nth-child(2) {
-              left: -8rem; }
-            .welcome-screen .container .main .images .container:nth-child(3) {
-              left: -15rem; } }
-    .welcome-screen .container .main .about {
+    display: grid;
+    flex-direction: column;
+    max-width: 2000px;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-row-gap: 5rem;
+    grid-column-gap: 1rem;
+    padding: 4rem 1rem; }
+    .welcome-screen .container .main .about,
+    .welcome-screen .container .main .features,
+    .welcome-screen .container .main .screenshots {
+      box-shadow: 0 0 0.5rem var(--x-blue-gray-clear);
+      animation: splash 20s infinite ease-in-out;
+      border: 3px solid var(--cream-clear);
       background-color: var(--turquoise-clear);
       padding: 4rem 6rem;
       color: var(--blue-gray);
       backdrop-filter: blur(10px);
       border-radius: 1rem;
       max-width: 1300px;
-      margin: auto; }
-      @media only screen and (max-width: 1200px) {
-        .welcome-screen .container .main .about {
+      overflow-y: hidden; }
+      @media only screen and (max-width: 1000px) {
+        .welcome-screen .container .main .about,
+        .welcome-screen .container .main .features,
+        .welcome-screen .container .main .screenshots {
           padding: 3rem 1.5rem; } }
-      .welcome-screen .container .main .about h1 {
+      .welcome-screen .container .main .about h1,
+      .welcome-screen .container .main .features h1,
+      .welcome-screen .container .main .screenshots h1 {
         font-size: 3rem; }
-      .welcome-screen .container .main .about p {
+      .welcome-screen .container .main .about p,
+      .welcome-screen .container .main .features p,
+      .welcome-screen .container .main .screenshots p {
         margin: 0 0 3rem 0; }
-      .welcome-screen .container .main .about .info {
+      .welcome-screen .container .main .about .info,
+      .welcome-screen .container .main .features .info,
+      .welcome-screen .container .main .screenshots .info {
         font-size: 1.4rem;
-        font-weight: 500; }
-      .welcome-screen .container .main .about .demo {
+        font-weight: 400;
+        line-height: 1.7; }
+      .welcome-screen .container .main .about .demo,
+      .welcome-screen .container .main .about .email,
+      .welcome-screen .container .main .features .demo,
+      .welcome-screen .container .main .features .email,
+      .welcome-screen .container .main .screenshots .demo,
+      .welcome-screen .container .main .screenshots .email {
         color: var(--blue-gray);
-        box-shadow: 0 0 5px var(--blue-gray-clear); }
-      .welcome-screen .container .main .about .early-accesss {
-        font-weight: 500;
+        box-shadow: 0 0 5px var(--blue-gray-clear);
+        font-size: 1rem;
+        font-family: var(--font-quicksand); }
+      .welcome-screen .container .main .about .or,
+      .welcome-screen .container .main .features .or,
+      .welcome-screen .container .main .screenshots .or {
+        margin: 0 .5rem; }
+      .welcome-screen .container .main .about .early-accesss,
+      .welcome-screen .container .main .features .early-accesss,
+      .welcome-screen .container .main .screenshots .early-accesss {
+        font-weight: 400;
         margin-top: 3rem;
         font-size: 1.4rem;
-        margin-bottom: 1rem; }
-      .welcome-screen .container .main .about ul li {
+        margin-bottom: 1rem;
+        line-height: 1.7; }
+      .welcome-screen .container .main .about ul li,
+      .welcome-screen .container .main .features ul li,
+      .welcome-screen .container .main .screenshots ul li {
         margin-left: 1rem;
         font-size: 1.5rem;
         position: relative;
         margin-top: 1rem; }
-        .welcome-screen .container .main .about ul li::before {
+        .welcome-screen .container .main .about ul li::before,
+        .welcome-screen .container .main .features ul li::before,
+        .welcome-screen .container .main .screenshots ul li::before {
           content: "";
           top: 0.5rem;
           left: -1.2rem;
@@ -102,11 +124,68 @@
           height: 1rem;
           background-color: var(--tangerine);
           clip-path: polygon(0% 30%, 60% 30%, 60% 0%, 100% 50%, 60% 100%, 60% 70%, 0% 70%); }
+    .welcome-screen .container .main .features {
+      animation-delay: 7.5s;
+      grid-row-start: 2; }
+    .welcome-screen .container .main .screenshots {
+      animation-delay: 15s;
+      padding: 1rem; }
+      .welcome-screen .container .main .screenshots ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-row-gap: 1rem;
+        grid-column-gap: 1rem; }
+        .welcome-screen .container .main .screenshots ul li {
+          border: 2px solid var(--cream);
+          border-radius: 1rem;
+          height: 7rem;
+          margin: 0;
+          opacity: 0.5;
+          transition: opacity 0.5s ease;
+          background-size: cover; }
+          .welcome-screen .container .main .screenshots ul li::before {
+            display: none; }
+          .welcome-screen .container .main .screenshots ul li:hover {
+            opacity: 0.7; }
+          .welcome-screen .container .main .screenshots ul li:nth-child(1) {
+            background-image: url(../img/shot.png); }
+          .welcome-screen .container .main .screenshots ul li:nth-child(2) {
+            background-image: url(../img/shot1.png); }
+          .welcome-screen .container .main .screenshots ul li:nth-child(3) {
+            background-image: url(../img/shot2.png); }
+          .welcome-screen .container .main .screenshots ul li:nth-child(4) {
+            background-image: url(../img/shot3.png); }
+          .welcome-screen .container .main .screenshots ul li:nth-child(5) {
+            background-image: url(../img/shot4.png);
+            background-size: 120%;
+            background-position-y: 10%; }
+    @media only screen and (min-width: 1000px) {
+      .welcome-screen .container .main {
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr; }
+        .welcome-screen .container .main .about {
+          grid-column-start: 1;
+          grid-column-end: 2; }
+        .welcome-screen .container .main .features {
+          grid-row-start: 2;
+          grid-row-end: 2;
+          grid-column-start: 2;
+          grid-column-end: 2; }
+        .welcome-screen .container .main .screenshots {
+          grid-row-start: 3;
+          grid-row-end: 3;
+          grid-column-start: 1;
+          grid-column-end: 1; }
+          .welcome-screen .container .main .screenshots ul {
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr; }
+            .welcome-screen .container .main .screenshots ul li {
+              height: 10rem; } }
   .welcome-screen .container .log-in {
-    margin-bottom: 10rem;
     backdrop-filter: blur(4px); }
     .welcome-screen .container .log-in .sign-in {
-      border: 4px solid var(--cream-clear);
+      border: 3px solid var(--cream-clear);
       padding: 1rem;
       margin: auto;
       display: flex;
@@ -121,12 +200,16 @@
         margin-bottom: 0; }
         .welcome-screen .container .log-in .sign-in .form input {
           margin: 0 0.5rem; }
+      .welcome-screen .container .log-in .sign-in .demo {
+        margin: 0; }
     @media only screen and (max-width: 800px) {
       .welcome-screen .container .log-in {
         margin: auto;
         margin-bottom: 2rem; }
         .welcome-screen .container .log-in .sign-in {
           flex-direction: column; }
+          .welcome-screen .container .log-in .sign-in .demo {
+            margin: auto; }
           .welcome-screen .container .log-in .sign-in .form {
             flex-direction: column; }
             .welcome-screen .container .log-in .sign-in .form input {
@@ -136,6 +219,9 @@
       color: var(--cream); }
 
 .footer {
+  border: 3px solid var(--cream-clear);
+  border-left: none;
+  border-right: none;
   width: 100%;
   text-align: center;
   padding: 1rem 0;
@@ -143,7 +229,8 @@
   backdrop-filter: blur(40px);
   background-color: var(--blue-gray-clear);
   z-index: 999999;
-  box-shadow: 0 0 15px var(--blue-gray-clear); }
+  box-shadow: 0 0 15px var(--blue-gray-clear);
+  color: var(--cream); }
   .footer ul {
     display: flex;
     flex-direction: row;
@@ -218,6 +305,10 @@
   .user-details .options form button {
     margin: 0 1rem; }
 
+* {
+  box-sizing: border-box;
+  -webkit-appearance: none; }
+
 :root {
   --blue-gray: #5d6c89;
   --blue-gray-clear: #5d6c8982;
@@ -239,15 +330,23 @@
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(0.5) sepia(1) saturate(5) hue-rotate(179deg); }
 
+html {
+  width: 100%;
+  height: 100%; }
+
 html,
 body,
 #root {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
   font-size: 16px;
-  font-family: var(--font-quicksand); }
+  font-family: var(--font-quicksand);
+  background-color: var(--cream-clear); }
+  html.options,
+  body.options,
+  #root.options {
+    width: 100%;
+    height: 100%; }
 
 input,
 select,
@@ -298,7 +397,7 @@ button:focus {
 .form {
   margin-bottom: 2rem; }
   .form .input {
-    border: 4px solid var(--cream-clear);
+    border: 3px solid var(--cream-clear);
     box-shadow: var(--shadow-medium);
     padding: 0.5rem;
     border-radius: 2rem;
@@ -343,7 +442,7 @@ button:focus {
   z-index: 999;
   overflow-y: scroll; }
   .pop-up .inner {
-    border: 4px solid var(--cream-clear);
+    border: 3px solid var(--cream-clear);
     padding: 2rem 3rem;
     border-radius: 2rem;
     margin: auto;
@@ -364,6 +463,8 @@ button:focus {
       margin: 0 0 0 auto; }
     .pop-up.warning .inner button {
       margin: 1rem 0.5rem 0; }
+  .pop-up.options .inner {
+    min-width: 2120px; }
   .pop-up.options .inner > button {
     margin: 0 0 0 auto; }
   .pop-up .employees-list table,
@@ -415,7 +516,7 @@ button:focus {
   justify-content: center; }
 
 .button {
-  border: 4px solid var(--cream-clear);
+  border: 3px solid var(--cream-clear);
   box-shadow: var(--shadow-medium);
   padding: 0.5rem 1rem;
   background-color: var(--tangerine);
@@ -453,267 +554,293 @@ button:focus {
   background: transparent; }
 
 ::-webkit-scrollbar-thumb {
-  background: -webkit-gradient(linear, left top, left bottom, from(var(--turquoise)), to(var(--blue-gray)));
-  box-shadow: inset 1px 1px 1px var(--turquoise-clear); }
+  background: -webkit-gradient(linear, left top, left bottom, from(var(--blue-gray-clear)), to(var(--blue-gray)));
+  box-shadow: inset 0px 0px 5px var(--x-blue-gray-clear); }
 
-#root #top-rota-header {
-  display: flex;
-  padding: 0.75rem;
-  justify-content: flex-end;
-  background-color: var(--blue-gray); }
-  #root #top-rota-header > div {
-    margin: 0 1rem; }
-  #root #top-rota-header .react-date-picker__wrapper {
-    border: 4px solid var(--cream-clear);
-    border-radius: 2rem;
-    padding: 0 1rem;
-    background-color: var(--cream-clear); }
-    #root #top-rota-header .react-date-picker__wrapper input:focus {
-      outline: none; }
-#root.options {
-  overflow: hidden; }
-#root .rota-container {
-  min-width: 1800px; }
-  #root .rota-container .react-calendar {
-    border: 4px solid var(--cream-clear);
-    border-radius: 1rem;
-    background-color: var(--blue-gray);
-    box-shadow: var(--shadow-medium); }
-    #root .rota-container .react-calendar .react-calendar__month-view__days__day--weekend {
-      color: var(--tangerine); }
-    #root .rota-container .react-calendar .react-calendar__tile--active {
-      background: var(--turquoise); }
-    #root .rota-container .react-calendar .react-calendar__tile--now {
-      background: var(--turquoise-clear); }
-  #root .rota-container .weekdays {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    overflow: hidden; }
-    #root .rota-container .weekdays li {
-      text-align: center;
-      position: relative;
-      height: 3rem;
-      transition: height 0.5s ease; }
-    #root .rota-container .weekdays .weekday-note {
+#root {
+  backdrop-filter: blur(10px);
+  background-color: var(--cream-clear); }
+  #root #top-rota-header {
+    display: flex;
+    padding: 0.75rem;
+    justify-content: flex-end;
+    background: radial-gradient(circle, #536079 0%, #5d6b89 80%); }
+    #root #top-rota-header > div {
+      margin: 0 1rem; }
+    #root #top-rota-header .react-date-picker__wrapper {
+      border: 3px solid var(--cream-clear);
+      border-radius: 2rem;
+      padding: 0 1rem;
+      background-color: var(--cream-clear); }
+      #root #top-rota-header .react-date-picker__wrapper input:focus {
+        outline: none; }
+  #root.options {
+    overflow: hidden;
+    height: 100%; }
+  #root .rota-container {
+    min-width: 2000px; }
+    #root .rota-container .react-calendar {
+      border: 3px solid var(--cream-clear);
       border-radius: 1rem;
-      position: relative;
-      bottom: -10rem;
-      padding: 0.3rem 0.5rem;
-      transition: bottom 0.5s ease;
-      max-height: 6rem;
-      min-height: 4rem;
-      max-width: 9rem;
-      min-width: 7rem; }
-    #root .rota-container .weekdays.notes li {
-      height: 10rem; }
-    #root .rota-container .weekdays.notes .weekday-note {
-      bottom: 0; }
-  #root .rota-container .rota {
-    display: flex;
-    flex-direction: column; }
-  #root .rota-container .week-total,
-  #root .rota-container .all-week-total {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; }
-    #root .rota-container .week-total span,
-    #root .rota-container .all-week-total span {
-      box-shadow: var(--shadow-medium);
-      border: 4px solid var(--cream-clear);
-      text-align: center;
-      width: 4rem;
-      height: 4rem;
-      background-color: var(--turquoise);
-      margin: auto;
-      line-height: 4;
-      border-radius: 50%; }
-    #root .rota-container .week-total.overtime span,
-    #root .rota-container .all-week-total.overtime span {
-      background-color: var(--tangerine); }
-  #root .rota-container .rota-header {
-    border: 4px solid var(--cream-clear);
-    background-color: var(--turquoise);
-    position: sticky;
-    top: 0;
-    border-left: none;
-    border-right: none;
-    z-index: 1; }
-    #root .rota-container .rota-header .name {
-      margin: auto;
-      margin-left: 0.5rem; }
-  #root .rota-container .rota-footer {
-    padding: 0.4rem 0; }
-  #root .rota-container .person-container:last-of-type {
-    border-bottom: 2px solid var(--blue-gray-clear);
-    box-shadow: 0 2px 4px var(--blue-gray-clear); }
-  #root .rota-container .person-container,
-  #root .rota-container .rota-footer,
-  #root .rota-container .rota-header {
-    display: grid;
-    grid-template-columns: 1fr 5fr 0.5fr; }
-    #root .rota-container .person-container .week-total,
-    #root .rota-container .rota-footer .week-total,
-    #root .rota-container .rota-header .week-total {
-      text-align: center; }
-    #root .rota-container .person-container .about,
-    #root .rota-container .person-container .shift-container,
-    #root .rota-container .person-container .week-total,
-    #root .rota-container .rota-footer .about,
-    #root .rota-container .rota-footer .shift-container,
-    #root .rota-container .rota-footer .week-total,
-    #root .rota-container .rota-header .about,
-    #root .rota-container .rota-header .shift-container,
-    #root .rota-container .rota-header .week-total {
-      padding: 0.5rem; }
-    #root .rota-container .person-container .about .name,
-    #root .rota-container .person-container .about .title,
-    #root .rota-container .rota-footer .about .name,
-    #root .rota-container .rota-footer .about .title,
-    #root .rota-container .rota-header .about .name,
-    #root .rota-container .rota-header .about .title {
-      color: var(--blue-gray); }
-    #root .rota-container .person-container .about .name,
-    #root .rota-container .rota-footer .about .name,
-    #root .rota-container .rota-header .about .name {
-      font-size: 2rem;
-      font-weight: 600; }
-    #root .rota-container .person-container .about .title,
-    #root .rota-container .rota-footer .about .title,
-    #root .rota-container .rota-header .about .title {
-      font-size: 1.3rem;
-      font-weight: 300; }
-    #root .rota-container .person-container .shifts-container,
-    #root .rota-container .rota-footer .shifts-container,
-    #root .rota-container .rota-header .shifts-container {
+      background-color: var(--blue-gray);
+      box-shadow: var(--shadow-medium); }
+      #root .rota-container .react-calendar .react-calendar__month-view__days__day--weekend {
+        color: var(--tangerine); }
+      #root .rota-container .react-calendar .react-calendar__tile--active {
+        background: var(--turquoise); }
+      #root .rota-container .react-calendar .react-calendar__tile--now {
+        background: var(--turquoise-clear); }
+    #root .rota-container .weekdays {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-      grid-template-rows: 1fr; }
-      #root .rota-container .person-container .shifts-container .shift-container,
-      #root .rota-container .rota-footer .shifts-container .shift-container,
-      #root .rota-container .rota-header .shifts-container .shift-container {
-        transition: opacity 0.5s ease; }
-        #root .rota-container .person-container .shifts-container .shift-container:nth-child(odd),
-        #root .rota-container .rota-footer .shifts-container .shift-container:nth-child(odd),
-        #root .rota-container .rota-header .shifts-container .shift-container:nth-child(odd) {
-          background-color: var(--x-blue-gray-clear); }
-        #root .rota-container .person-container .shifts-container .shift-container.off .shift,
-        #root .rota-container .rota-footer .shifts-container .shift-container.off .shift,
-        #root .rota-container .rota-header .shifts-container .shift-container.off .shift {
-          opacity: 0.2; }
-        #root .rota-container .person-container .shifts-container .shift-container.off .time,
-        #root .rota-container .rota-footer .shifts-container .shift-container.off .time,
-        #root .rota-container .rota-header .shifts-container .shift-container.off .time {
-          box-shadow: none;
-          border-color: var(--blue-gray); }
-        #root .rota-container .person-container .shifts-container .shift-container.off .shift-total,
-        #root .rota-container .rota-footer .shifts-container .shift-container.off .shift-total,
-        #root .rota-container .rota-header .shifts-container .shift-container.off .shift-total {
-          background: transparent; }
-        #root .rota-container .person-container .shifts-container .shift-container.holidays,
-        #root .rota-container .rota-footer .shifts-container .shift-container.holidays,
-        #root .rota-container .rota-header .shifts-container .shift-container.holidays {
-          color: var(--blue-gray-clear);
-          text-shadow: 0 0 10px var(--cream);
-          display: flex;
-          justify-content: center;
-          flex-direction: column; }
-          #root .rota-container .person-container .shifts-container .shift-container.holidays .shift,
-          #root .rota-container .rota-footer .shifts-container .shift-container.holidays .shift,
-          #root .rota-container .rota-header .shifts-container .shift-container.holidays .shift {
-            display: none; }
-          #root .rota-container .person-container .shifts-container .shift-container.holidays .holidays-title,
-          #root .rota-container .rota-footer .shifts-container .shift-container.holidays .holidays-title,
-          #root .rota-container .rota-header .shifts-container .shift-container.holidays .holidays-title {
-            text-align: center; }
-        #root .rota-container .person-container .shifts-container .shift-container:hover,
-        #root .rota-container .rota-footer .shifts-container .shift-container:hover,
-        #root .rota-container .rota-header .shifts-container .shift-container:hover {
-          background-color: var(--tangerine); }
-          #root .rota-container .person-container .shifts-container .shift-container:hover .shift,
-          #root .rota-container .rota-footer .shifts-container .shift-container:hover .shift,
-          #root .rota-container .rota-header .shifts-container .shift-container:hover .shift {
-            opacity: 1; }
-      #root .rota-container .person-container .shifts-container .shift,
-      #root .rota-container .rota-footer .shifts-container .shift,
-      #root .rota-container .rota-header .shifts-container .shift {
-        border: 4px solid var(--cream-clear);
+      overflow: hidden; }
+      #root .rota-container .weekdays li {
+        text-align: center;
+        position: relative;
+        height: 3rem;
+        transition: height 0.5s ease; }
+      #root .rota-container .weekdays .weekday-note {
         border-radius: 1rem;
+        position: relative;
+        bottom: -10rem;
+        padding: 0.3rem 0.5rem;
+        transition: bottom 0.5s ease;
+        max-height: 6rem;
+        min-height: 4rem;
+        max-width: 9rem;
+        min-width: 7rem; }
+      #root .rota-container .weekdays.notes li {
+        height: 10rem; }
+      #root .rota-container .weekdays.notes .weekday-note {
+        bottom: 0; }
+    #root .rota-container .rota {
+      display: flex;
+      flex-direction: column; }
+    #root .rota-container .week-total,
+    #root .rota-container .all-week-total {
+      display: flex;
+      flex-direction: column;
+      justify-content: center; }
+      #root .rota-container .week-total span,
+      #root .rota-container .all-week-total span {
+        box-shadow: var(--shadow-medium);
+        border: 3px solid var(--cream-clear);
+        text-align: center;
+        width: 4rem;
+        height: 3rem;
+        background-color: var(--turquoise);
         margin: auto;
+        line-height: 2.6;
+        border-radius: .5rem; }
+      #root .rota-container .week-total.overtime span,
+      #root .rota-container .all-week-total.overtime span {
+        background-color: var(--tangerine); }
+    #root .rota-container .rota-header {
+      border: 3px solid var(--cream-clear);
+      background-color: var(--turquoise);
+      position: sticky;
+      top: 0;
+      border-left: none;
+      border-right: none;
+      z-index: 1; }
+      #root .rota-container .rota-header .name {
+        margin: auto;
+        margin-left: 0.5rem; }
+    #root .rota-container .rota-footer {
+      padding: 0.4rem 0; }
+    #root .rota-container .person-container:last-of-type {
+      border-bottom: 2px solid var(--blue-gray-clear);
+      box-shadow: 0 2px 4px var(--blue-gray-clear); }
+    #root .rota-container .person-container,
+    #root .rota-container .rota-footer,
+    #root .rota-container .rota-header {
+      display: grid;
+      grid-template-columns: 1fr 5fr 0.5fr; }
+      #root .rota-container .person-container .week-total,
+      #root .rota-container .rota-footer .week-total,
+      #root .rota-container .rota-header .week-total {
+        text-align: center; }
+      #root .rota-container .person-container .about,
+      #root .rota-container .person-container .shift-container,
+      #root .rota-container .person-container .week-total,
+      #root .rota-container .rota-footer .about,
+      #root .rota-container .rota-footer .shift-container,
+      #root .rota-container .rota-footer .week-total,
+      #root .rota-container .rota-header .about,
+      #root .rota-container .rota-header .shift-container,
+      #root .rota-container .rota-header .week-total {
+        padding: 0.5rem; }
+      #root .rota-container .person-container .about .name,
+      #root .rota-container .person-container .about .title,
+      #root .rota-container .rota-footer .about .name,
+      #root .rota-container .rota-footer .about .title,
+      #root .rota-container .rota-header .about .name,
+      #root .rota-container .rota-header .about .title {
+        color: var(--blue-gray); }
+      #root .rota-container .person-container .about .name,
+      #root .rota-container .rota-footer .about .name,
+      #root .rota-container .rota-header .about .name {
+        font-size: 2rem;
+        font-weight: 600; }
+      #root .rota-container .person-container .about .title,
+      #root .rota-container .rota-footer .about .title,
+      #root .rota-container .rota-header .about .title {
+        font-size: 1.3rem;
+        font-weight: 300; }
+      #root .rota-container .person-container .shifts-container,
+      #root .rota-container .rota-footer .shifts-container,
+      #root .rota-container .rota-header .shifts-container {
         display: grid;
-        justify-content: center;
-        grid-template-columns: 1fr 1fr; }
-        #root .rota-container .person-container .shifts-container .shift .data,
-        #root .rota-container .person-container .shifts-container .shift .shift-time,
-        #root .rota-container .rota-footer .shifts-container .shift .data,
-        #root .rota-container .rota-footer .shifts-container .shift .shift-time,
-        #root .rota-container .rota-header .shifts-container .shift .data,
-        #root .rota-container .rota-header .shifts-container .shift .shift-time {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr; }
+        #root .rota-container .person-container .shifts-container .shift-container,
+        #root .rota-container .rota-footer .shifts-container .shift-container,
+        #root .rota-container .rota-header .shifts-container .shift-container {
+          transition: opacity 0.5s ease; }
+          #root .rota-container .person-container .shifts-container .shift-container:nth-child(odd),
+          #root .rota-container .rota-footer .shifts-container .shift-container:nth-child(odd),
+          #root .rota-container .rota-header .shifts-container .shift-container:nth-child(odd) {
+            background-color: var(--x-blue-gray-clear); }
+          #root .rota-container .person-container .shifts-container .shift-container.off .shift,
+          #root .rota-container .rota-footer .shifts-container .shift-container.off .shift,
+          #root .rota-container .rota-header .shifts-container .shift-container.off .shift {
+            opacity: 0.2; }
+          #root .rota-container .person-container .shifts-container .shift-container.off .time,
+          #root .rota-container .rota-footer .shifts-container .shift-container.off .time,
+          #root .rota-container .rota-header .shifts-container .shift-container.off .time {
+            box-shadow: none;
+            border-color: var(--blue-gray); }
+          #root .rota-container .person-container .shifts-container .shift-container.off .time:hover,
+          #root .rota-container .person-container .shifts-container .shift-container.off .locations:hover,
+          #root .rota-container .rota-footer .shifts-container .shift-container.off .time:hover,
+          #root .rota-container .rota-footer .shifts-container .shift-container.off .locations:hover,
+          #root .rota-container .rota-header .shifts-container .shift-container.off .time:hover,
+          #root .rota-container .rota-header .shifts-container .shift-container.off .locations:hover {
+            background-color: var(--turquoise); }
+          #root .rota-container .person-container .shifts-container .shift-container.off .shift-total,
+          #root .rota-container .rota-footer .shifts-container .shift-container.off .shift-total,
+          #root .rota-container .rota-header .shifts-container .shift-container.off .shift-total {
+            background: transparent; }
+          #root .rota-container .person-container .shifts-container .shift-container.holidays,
+          #root .rota-container .rota-footer .shifts-container .shift-container.holidays,
+          #root .rota-container .rota-header .shifts-container .shift-container.holidays {
+            color: var(--blue-gray-clear);
+            text-shadow: 0 0 10px var(--cream);
+            display: flex;
+            justify-content: center;
+            flex-direction: column; }
+            #root .rota-container .person-container .shifts-container .shift-container.holidays .shift,
+            #root .rota-container .rota-footer .shifts-container .shift-container.holidays .shift,
+            #root .rota-container .rota-header .shifts-container .shift-container.holidays .shift {
+              display: none; }
+            #root .rota-container .person-container .shifts-container .shift-container.holidays .holidays-title,
+            #root .rota-container .rota-footer .shifts-container .shift-container.holidays .holidays-title,
+            #root .rota-container .rota-header .shifts-container .shift-container.holidays .holidays-title {
+              text-align: center; }
+          #root .rota-container .person-container .shifts-container .shift-container:hover,
+          #root .rota-container .rota-footer .shifts-container .shift-container:hover,
+          #root .rota-container .rota-header .shifts-container .shift-container:hover {
+            background-color: var(--tangerine); }
+            #root .rota-container .person-container .shifts-container .shift-container:hover .shift,
+            #root .rota-container .rota-footer .shifts-container .shift-container:hover .shift,
+            #root .rota-container .rota-header .shifts-container .shift-container:hover .shift {
+              opacity: 1; }
+        #root .rota-container .person-container .shifts-container .shift,
+        #root .rota-container .rota-footer .shifts-container .shift,
+        #root .rota-container .rota-header .shifts-container .shift {
+          border: 3px solid var(--cream-clear);
+          border-radius: 1rem;
+          margin: auto;
           display: grid;
-          grid-template-rows: 1fr 1fr;
-          padding: 0 0.2rem; }
-        #root .rota-container .person-container .shifts-container .shift .time,
-        #root .rota-container .person-container .shifts-container .shift .shift-total,
-        #root .rota-container .person-container .shifts-container .shift .locations,
-        #root .rota-container .rota-footer .shifts-container .shift .time,
-        #root .rota-container .rota-footer .shifts-container .shift .shift-total,
-        #root .rota-container .rota-footer .shifts-container .shift .locations,
-        #root .rota-container .rota-header .shifts-container .shift .time,
-        #root .rota-container .rota-header .shifts-container .shift .shift-total,
-        #root .rota-container .rota-header .shifts-container .shift .locations {
-          display: block;
-          width: 80px;
-          padding: 0.2rem 0.3rem;
-          margin: 0.2rem 0 0.2rem 0;
-          background-color: var(--white); }
-        #root .rota-container .person-container .shifts-container .shift .time,
-        #root .rota-container .rota-footer .shifts-container .shift .time,
-        #root .rota-container .rota-header .shifts-container .shift .time {
-          border: none;
-          font-family: var(--font-quicksand);
-          font-size: 1rem; }
-          #root .rota-container .person-container .shifts-container .shift .time:focus,
-          #root .rota-container .rota-footer .shifts-container .shift .time:focus,
-          #root .rota-container .rota-header .shifts-container .shift .time:focus {
-            outline: none; }
-        #root .rota-container .person-container .shifts-container .shift .shift-total,
-        #root .rota-container .rota-footer .shifts-container .shift .shift-total,
-        #root .rota-container .rota-header .shifts-container .shift .shift-total {
-          border-radius: 0.2rem;
-          background-color: var(--tangerine-clear); }
-          #root .rota-container .person-container .shifts-container .shift .shift-total::after,
-          #root .rota-container .rota-footer .shifts-container .shift .shift-total::after,
-          #root .rota-container .rota-header .shifts-container .shift .shift-total::after {
-            padding-left: 0.2rem;
-            content: "total"; }
-        #root .rota-container .person-container .shifts-container .shift .locations,
-        #root .rota-container .rota-footer .shifts-container .shift .locations,
-        #root .rota-container .rota-header .shifts-container .shift .locations {
-          cursor: pointer;
-          border: none;
-          width: 89.58px; }
-          #root .rota-container .person-container .shifts-container .shift .locations:focus,
-          #root .rota-container .rota-footer .shifts-container .shift .locations:focus,
-          #root .rota-container .rota-header .shifts-container .shift .locations:focus {
-            outline: none; }
-          #root .rota-container .person-container .shifts-container .shift .locations option,
-          #root .rota-container .rota-footer .shifts-container .shift .locations option,
-          #root .rota-container .rota-header .shifts-container .shift .locations option {
-            font-size: 1rem; }
-    #root .rota-container .person-container:nth-child(odd),
-    #root .rota-container .rota-footer:nth-child(odd),
-    #root .rota-container .rota-header:nth-child(odd) {
-      background-color: var(--blue-gray-clear); }
-      #root .rota-container .person-container:nth-child(odd) .title,
-      #root .rota-container .person-container:nth-child(odd) .name,
-      #root .rota-container .rota-footer:nth-child(odd) .title,
-      #root .rota-container .rota-footer:nth-child(odd) .name,
-      #root .rota-container .rota-header:nth-child(odd) .title,
-      #root .rota-container .rota-header:nth-child(odd) .name {
-        color: var(--cream); }
-    #root .rota-container .person-container:last-child,
-    #root .rota-container .rota-footer:last-child,
-    #root .rota-container .rota-header:last-child {
-      background-color: var(--turquoise-clear); }
+          justify-content: center;
+          grid-template-columns: 1fr 1fr;
+          padding-top: .1rem;
+          padding-bottom: .1rem; }
+          #root .rota-container .person-container .shifts-container .shift .data,
+          #root .rota-container .person-container .shifts-container .shift .shift-time,
+          #root .rota-container .rota-footer .shifts-container .shift .data,
+          #root .rota-container .rota-footer .shifts-container .shift .shift-time,
+          #root .rota-container .rota-header .shifts-container .shift .data,
+          #root .rota-container .rota-header .shifts-container .shift .shift-time {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            padding: 0 0.2rem;
+            margin: auto 0; }
+          #root .rota-container .person-container .shifts-container .shift .time,
+          #root .rota-container .person-container .shifts-container .shift .shift-total,
+          #root .rota-container .person-container .shifts-container .shift .locations,
+          #root .rota-container .rota-footer .shifts-container .shift .time,
+          #root .rota-container .rota-footer .shifts-container .shift .shift-total,
+          #root .rota-container .rota-footer .shifts-container .shift .locations,
+          #root .rota-container .rota-header .shifts-container .shift .time,
+          #root .rota-container .rota-header .shifts-container .shift .shift-total,
+          #root .rota-container .rota-header .shifts-container .shift .locations {
+            display: block;
+            width: 80px;
+            padding: 0.05rem 0.1rem;
+            margin: auto 0;
+            background-color: var(--white); }
+          #root .rota-container .person-container .shifts-container .shift .time,
+          #root .rota-container .rota-footer .shifts-container .shift .time,
+          #root .rota-container .rota-header .shifts-container .shift .time {
+            border: none;
+            font-family: var(--font-quicksand);
+            font-size: 1rem;
+            margin: 0 0 0 auto; }
+            #root .rota-container .person-container .shifts-container .shift .time:focus,
+            #root .rota-container .rota-footer .shifts-container .shift .time:focus,
+            #root .rota-container .rota-header .shifts-container .shift .time:focus {
+              outline: none; }
+          #root .rota-container .person-container .shifts-container .shift .shift-total,
+          #root .rota-container .rota-footer .shifts-container .shift .shift-total,
+          #root .rota-container .rota-header .shifts-container .shift .shift-total {
+            border-radius: 0.2rem;
+            background-color: var(--tangerine-clear); }
+            #root .rota-container .person-container .shifts-container .shift .shift-total::after,
+            #root .rota-container .rota-footer .shifts-container .shift .shift-total::after,
+            #root .rota-container .rota-header .shifts-container .shift .shift-total::after {
+              padding-left: 0.2rem;
+              content: "total"; }
+          #root .rota-container .person-container .shifts-container .shift .locations,
+          #root .rota-container .person-container .shifts-container .shift .time,
+          #root .rota-container .rota-footer .shifts-container .shift .locations,
+          #root .rota-container .rota-footer .shifts-container .shift .time,
+          #root .rota-container .rota-header .shifts-container .shift .locations,
+          #root .rota-container .rota-header .shifts-container .shift .time {
+            border-radius: .2rem;
+            cursor: pointer; }
+            #root .rota-container .person-container .shifts-container .shift .locations:hover,
+            #root .rota-container .person-container .shifts-container .shift .time:hover,
+            #root .rota-container .rota-footer .shifts-container .shift .locations:hover,
+            #root .rota-container .rota-footer .shifts-container .shift .time:hover,
+            #root .rota-container .rota-header .shifts-container .shift .locations:hover,
+            #root .rota-container .rota-header .shifts-container .shift .time:hover {
+              background-color: var(--tangerine); }
+          #root .rota-container .person-container .shifts-container .shift .locations,
+          #root .rota-container .rota-footer .shifts-container .shift .locations,
+          #root .rota-container .rota-header .shifts-container .shift .locations {
+            cursor: pointer;
+            border: none;
+            width: 89.58px; }
+            #root .rota-container .person-container .shifts-container .shift .locations:focus,
+            #root .rota-container .rota-footer .shifts-container .shift .locations:focus,
+            #root .rota-container .rota-header .shifts-container .shift .locations:focus {
+              outline: none; }
+            #root .rota-container .person-container .shifts-container .shift .locations option,
+            #root .rota-container .rota-footer .shifts-container .shift .locations option,
+            #root .rota-container .rota-header .shifts-container .shift .locations option {
+              font-size: 1rem; }
+      #root .rota-container .person-container:nth-child(odd),
+      #root .rota-container .rota-footer:nth-child(odd),
+      #root .rota-container .rota-header:nth-child(odd) {
+        background-color: var(--blue-gray-clear); }
+        #root .rota-container .person-container:nth-child(odd) .title,
+        #root .rota-container .person-container:nth-child(odd) .name,
+        #root .rota-container .rota-footer:nth-child(odd) .title,
+        #root .rota-container .rota-footer:nth-child(odd) .name,
+        #root .rota-container .rota-header:nth-child(odd) .title,
+        #root .rota-container .rota-header:nth-child(odd) .name {
+          color: var(--cream); }
 
 /*# sourceMappingURL=index.css.map */
 

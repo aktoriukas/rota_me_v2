@@ -1,6 +1,10 @@
 @import "./mixin.scss";
 @import "./welcome.scss";
 @import "./admin.scss";
+*{
+  box-sizing: border-box;
+  -webkit-appearance:none;
+}
 :root {
   --blue-gray: #5d6c89;
   --blue-gray-clear: #5d6c8982;
@@ -24,15 +28,22 @@
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(0.5) sepia(1) saturate(5) hue-rotate(179deg);
 }
+html{
+  width: 100%;
+  height: 100%;
+}
 html,
 body,
 #root {
   margin: 0;
   padding: 0;
-  width: 100%;
-  height: 100%;
   font-size: 16px;
   font-family: var(--font-quicksand);
+  background-color: var(--cream-clear);
+  &.options {
+    width: 100%;
+    height: 100%;
+  }
 }
 input,
 select,
@@ -170,9 +181,14 @@ button:focus {
       }
     }
   }
-  &.options .inner > button {
-    margin: 0 0 0 auto;
-  }
+  &.options {
+    .inner {
+      min-width: 2120px;
+    }
+    .inner > button {
+      margin: 0 0 0 auto;
+    }
+  } 
   .employees-list,
   .locations-list {
     table {
@@ -280,17 +296,20 @@ button:focus {
     linear,
     left top,
     left bottom,
-    from(var(--turquoise)),
+    from(var(--blue-gray-clear)),
     to(var(--blue-gray))
   );
-  box-shadow: inset 1px 1px 1px var(--turquoise-clear);
+  box-shadow: inset 0px 0px 5px var(--x-blue-gray-clear);
 }
 #root {
+  backdrop-filter: blur(10px);
+  background-color: var(--cream-clear);
   #top-rota-header {
     display: flex;
     padding: 0.75rem;
     justify-content: flex-end;
-    background-color: var(--blue-gray);
+    // background-color: var(--blue-gray);
+    background: radial-gradient(circle, hsl(220, 19%, 40%) 0%, hsl(220, 19%, 45%) 80%);
     & > div {
       margin: 0 1rem;
     }
@@ -306,9 +325,10 @@ button:focus {
   }
   &.options {
     overflow: hidden;
+    height: 100%;
   }
   .rota-container {
-    min-width: 1800px;
+    min-width: 2000px;
     .react-calendar {
       @include border;
       border-radius: 1rem;
@@ -368,11 +388,11 @@ button:focus {
         @include border;
         text-align: center;
         width: 4rem;
-        height: 4rem;
+        height: 3rem;
         background-color: var(--turquoise);
         margin: auto;
-        line-height: 4;
-        border-radius: 50%;
+        line-height: 2.6;
+        border-radius: .5rem;
       }
       &.overtime span {
         background-color: var(--tangerine);
@@ -442,6 +462,12 @@ button:focus {
               box-shadow: none;
               border-color: var(--blue-gray);
             }
+            .time,
+            .locations {
+              &:hover{
+                background-color: var(--turquoise);
+              }
+            }
             .shift-total {
               background: transparent;
             }
@@ -474,11 +500,14 @@ button:focus {
           display: grid;
           justify-content: center;
           grid-template-columns: 1fr 1fr;
+          padding-top: .1rem;
+          padding-bottom: .1rem;
           .data,
           .shift-time {
             display: grid;
             grid-template-rows: 1fr 1fr;
             padding: 0 0.2rem;
+            margin: auto 0;
           }
           .time,
           .shift-total,
@@ -488,14 +517,15 @@ button:focus {
             // border: 2px solid var(--white);
             // box-shadow: var(--shadow-medium);
             // border-radius: 2rem;
-            padding: 0.2rem 0.3rem;
-            margin: 0.2rem 0 0.2rem 0;
+            padding: 0.05rem 0.1rem;
+            margin: auto 0;
             background-color: var(--white);
           }
           .time {
             border: none;
             font-family: var(--font-quicksand);
             font-size: 1rem;
+            margin: 0 0 0 auto;
             &:focus {
               outline: none;
             }
@@ -506,6 +536,14 @@ button:focus {
             &::after {
               padding-left: 0.2rem;
               content: "total";
+            }
+          }
+          .locations,
+          .time {
+            border-radius: .2rem;
+            cursor: pointer;
+            &:hover{
+              background-color: var(--tangerine);
             }
           }
           .locations {
@@ -529,7 +567,6 @@ button:focus {
         }
       }
       &:last-child {
-        background-color: var(--turquoise-clear);
       }
     }
   }

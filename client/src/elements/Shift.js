@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getTotalObj } from '../Calculations';
+import { makegradientCircleColor } from '../Functions'
 // import TimeField from 'react-simple-timefield';
 export default class Shift extends Component {
 
@@ -74,9 +75,9 @@ export default class Shift extends Component {
         let backgroundColor;
         if (totalMinutes === 0) { shiftState = 'off' }
         if (locationID === 0) { backgroundColor = 'transparent' }
-        else { backgroundColor = `hsl(${(locationID * 25) % 360}, 30%, 50%)` }
+        else backgroundColor = makegradientCircleColor(locationID)
         const locationColor = {
-            backgroundColor: backgroundColor
+            background: backgroundColor
         }
         return (
             <li className={`shift-container ${shiftState} ${holidays ? 'holidays' : ''}`}>

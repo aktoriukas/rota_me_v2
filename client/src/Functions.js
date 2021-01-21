@@ -1,5 +1,15 @@
 import { convertToMinutes, calculateTotal } from './Calculations';
 
+export const makegradientCircleColor = (number) => {
+
+    const color =
+        `
+    radial-gradient(circle, 
+        hsl(${(number * 25) % 360}, 30%, 50%) 0%, 
+        hsl(${(number * 25) % 360}, 30%, 42%) 80%)
+    `
+    return color
+}
 
 export const getStandartDate = (date) => {
 
@@ -57,7 +67,6 @@ export const addHolidays = (people, holidays, monday, sunday) => {
         let weekStart = jsDateStart.getDay() - 1
         let weekEnd = jsDateEnd.getDay() - 1
         if (weekEnd === -1) weekEnd = 6
-        console.log(people)
 
         people.forEach(person => {
             if (person.peopleID === item.holidaysPeopleID) {

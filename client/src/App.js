@@ -114,6 +114,7 @@ export default class App extends Component {
                     <input value={pass} className='input' placeholder='password' type='password' onChange={this.updatePass} name='password' />
                     <input className='button' type='submit' />
                   </form>
+                  <button onClick={this.loginWithDemo} className='button demo'>Demo</button>
                 </div>
               </div>
               <Welcome loginWithDemo={this.loginWithDemo} />

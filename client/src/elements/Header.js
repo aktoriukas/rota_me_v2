@@ -138,8 +138,10 @@ export default class Header extends Component {
         const root = document.getElementById('root');
         if (options) {
             root.classList.add('options')
+            document.body.classList.add('options')
         } else {
             root.classList.remove('options')
+            document.body.classList.remove('options')
         }
         return (
             <div>
