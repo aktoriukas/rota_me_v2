@@ -21,7 +21,7 @@ export default function WelcomeScreen(props) {
         <span className='or'>or</span>
         <button onClick={props.loginWithDemo} className='button demo'>Demo</button>
       </div>
-      <div className='screenshots'>
+      {/* <div className='screenshots'>
         <ul>
           <li></li>
           <li></li>
@@ -29,7 +29,7 @@ export default function WelcomeScreen(props) {
           <li></li>
           <li></li>
         </ul>
-      </div>
+      </div> */}
     </div>
   )
 }

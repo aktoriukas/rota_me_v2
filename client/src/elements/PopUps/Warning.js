@@ -1,17 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Warning extends Component {
-    render() {
-        return (
-            <div className='pop-up warning'>
-                <div className='inner'>
-                    <p>{this.props.message}</p>
-                    <div>
-                        <button onClick={this.props.yes} className='button'>yes</button>
-                        <button onClick={this.props.no} className='button'>no</button>
-                    </div>
-                </div>       
-            </div>     
-        )
-    }
+export default function Warning(props) {
+    return (
+        <div className='pop-up warning'>
+            <div className='inner'>
+                <p>{props.message}</p>
+                <div>
+                    <button onClick={props.yes} className='button'>yes</button>
+                    <button onClick={props.no} className='button'>no</button>
+                </div>
+            </div>
+        </div>
+    )
 }

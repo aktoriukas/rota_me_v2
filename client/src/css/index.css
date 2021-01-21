@@ -305,6 +305,110 @@
   .user-details .options form button {
     margin: 0 1rem; }
 
+.wrapD3Cube {
+  --cube-size: 200px;
+  --color-cube: var(--blue-gray-clear);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: fit-content;
+  margin: 0 auto;
+  z-index: 1;
+  position: absolute;
+  top: 20rem;
+  left: 0;
+  right: 0;
+  transition: all 2s ease;
+  height: fit-content;
+  z-index: 99999999; }
+
+#header .wrapD3Cube {
+  position: absolute;
+  top: 1rem;
+  left: -50rem;
+  right: unset; }
+#header .D3Cube > div {
+  width: calc(var(--cube-size) - 2px);
+  height: calc(var(--cube-size) - 2px); }
+
+.scrolled #header .wrapD3Cube {
+  left: 2rem; }
+
+.scrolled #welcome-screen {
+  --cube-size: 0px; }
+
+.D3Cube {
+  width: var(--cube-size);
+  height: var(--cube-size);
+  transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform: rotateX(-22deg) rotateY(-38deg) rotateZ(0deg);
+  -moz-transform: rotateX(-22deg) rotateY(-38deg) rotateZ(0deg);
+  -webkit-transform: rotateX(-22deg) rotateY(-38deg) rotateZ(0deg);
+  margin: auto;
+  position: relative;
+  -moz-transform-style: preserve-3d;
+  -webkit-transition: all 5s ease-in-out;
+  transition: all 5s ease-in-out; }
+
+.D3Cube > div {
+  position: absolute;
+  -webkit-transition: all 5s ease-in-out;
+  transition: all 5s ease-in-out;
+  width: calc(var(--cube-size) - 4px);
+  height: calc(var(--cube-size) - 4px);
+  float: left;
+  overflow: hidden;
+  opacity: 0.5; }
+
+.side1 {
+  transform: rotatex(90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -moz-transform: rotatex(90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -webkit-transform: rotatex(90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  background-color: var(--color-cube); }
+
+.side2 {
+  transform: rotateY(-90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -moz-transform: rotateY(-90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -webkit-transform: rotateY(-90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  background-color: var(--color-cube); }
+
+.side3 {
+  transform: translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -moz-transform: translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -webkit-transform: translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  background-color: var(--color-cube); }
+
+.side4 {
+  transform: rotateY(90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -moz-transform: rotateY(90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -webkit-transform: rotateY(90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  background-color: var(--color-cube); }
+
+.side5 {
+  transform: rotateY(180deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -moz-transform: rotateY(180deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -webkit-transform: rotateY(180deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  background-color: var(--color-cube); }
+
+.side6 {
+  transform: rotateX(-90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -moz-transform: rotateX(-90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  -webkit-transform: rotateX(-90deg) translateX(0px) translateY(0px) translateZ(calc(var(--cube-size) / 2));
+  background-color: var(--color-cube); }
+
+.D3Cube {
+  -webkit-animation: cubeRotation 10s infinite;
+  animation: cubeRotation 10s infinite; }
+
+@keyframes cubeRotation {
+  0% {
+    transform: rotateX(-22deg) rotateY(-38deg) rotateZ(0deg); }
+  50% {
+    transform: rotateX(-100deg) rotateY(-128deg) rotateZ(80deg); }
+  100% {
+    transform: rotateX(-22deg) rotateY(-38deg) rotateZ(0deg); } }
 * {
   box-sizing: border-box;
   -webkit-appearance: none; }

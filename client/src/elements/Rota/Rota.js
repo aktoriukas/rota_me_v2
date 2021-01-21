@@ -7,6 +7,7 @@ import WeekDays from './Rota-header/WeekDays';
 import RotaFooter from './RotaFooter';
 import AlertBox from '../PopUps/AlertBox';
 import Header from '../Options/Header';
+import Loading from '../PopUps/Loading';
 
 export default class Rota extends Component {
     constructor(props) {
@@ -188,7 +189,7 @@ export default class Rota extends Component {
                 {isLoaded ?
                     peopleElements
                     :
-                    <div>Loading</div>
+                    <Loading />
                 }
                 <RotaFooter
                     allWeekTotal={allWeekTotal}
