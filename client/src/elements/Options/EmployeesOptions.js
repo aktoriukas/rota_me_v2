@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-date-picker';
-import { makeSqlDate } from '../Functions';
+import { makeSqlDate } from '../../Functions';
 import Axios from 'axios';
-import { getHolidays, saveHolidays, deleteHolidays, saveChanges } from '../API';
+import { getHolidays, saveHolidays, deleteHolidays, saveChanges } from '../../API';
 
 
 export default class EmployeesOptions extends Component {

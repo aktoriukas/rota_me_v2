@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import NewWorker from './Forms/NewWorker';
+import NewWorker from '../Forms/NewWorker';
 import EmployeesList from './EmployeesList';
 import Locations from './Locations';
-import AlertBox from './AlertBox';
-import { SavePerson, SaveLocation } from '../API';
-import UserDetails from './Forms/UserDetails';
+import AlertBox from '../PopUps/AlertBox';
+import { SavePerson, SaveLocation } from '../../API';
+import UserDetails from '../Forms/UserDetails';
 import Cookies from 'universal-cookie';
 
 

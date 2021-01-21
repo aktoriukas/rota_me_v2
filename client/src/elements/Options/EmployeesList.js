@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Warning from './Warning';
+import Warning from '../PopUps/Warning';
 import Cookies from 'universal-cookie';
 import EmployeesOptions from './EmployeesOptions';
 

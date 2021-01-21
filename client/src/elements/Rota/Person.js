@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Shifts from './Shifts';
-import { getTotalObj, convertToString } from '../Calculations';
+import Shifts from './Shifts/Shifts';
+import { getTotalObj, convertToString } from '../../Calculations';
 
 export default class Person extends Component {
 

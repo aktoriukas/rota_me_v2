@@ -1,12 +1,12 @@
 import './css/index.css';
 import Axios from 'axios';
 import DatePicker from 'react-date-picker';
-import Rota from './elements/Rota';
+import Rota from './elements/Rota/Rota';
 import React, { Component } from 'react';
-import Alert from './elements/AlertBox';
+import Alert from './elements/PopUps/AlertBox';
 import Cookies from 'universal-cookie';
-import Footer from './elements/Footer';
-import Welcome from './WelcomeScreen';
+import Footer from './elements/LandingPage/Footer';
+import Welcome from './elements/LandingPage/WelcomeScreen';
 
 export default class App extends Component {
   constructor(props) {

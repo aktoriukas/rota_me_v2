@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { getTotalObj } from '../Calculations';
-import { makegradientCircleColor } from '../Functions'
+import { getTotalObj } from '../../../Calculations';
+import { makegradientCircleColor } from '../../../Functions'
 // import TimeField from 'react-simple-timefield';
 export default class Shift extends Component {
 

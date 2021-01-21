@@ -1,7 +1,3 @@
-import React, { Component } from 'react'
-import img from './img/shot.png'
-import img1 from './img/shot1.png'
-import img2 from './img/shot2.png'
 
 export default function WelcomeScreen(props) {
 

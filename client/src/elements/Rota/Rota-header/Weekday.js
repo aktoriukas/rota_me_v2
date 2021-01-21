@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getWeekday } from '../Calculations';
+import { getWeekday } from '../../../Calculations';
 
 export default class Weekday extends Component {
 

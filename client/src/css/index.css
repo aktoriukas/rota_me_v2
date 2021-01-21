@@ -118,7 +118,7 @@
         .welcome-screen .container .main .screenshots ul li::before {
           content: "";
           top: 0.5rem;
-          left: -1.2rem;
+          left: -1.5rem;
           position: absolute;
           width: 1rem;
           height: 1rem;
@@ -578,7 +578,7 @@ button:focus {
     overflow: hidden;
     height: 100%; }
   #root .rota-container {
-    min-width: 2000px; }
+    min-width: 1880px; }
     #root .rota-container .react-calendar {
       border: 3px solid var(--cream-clear);
       border-radius: 1rem;

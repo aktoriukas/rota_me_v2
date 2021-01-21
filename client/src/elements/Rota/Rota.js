@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Person from './Person';
-import { getMondayDate } from '../Calculations';
-import { GetPeople, GetShifts, GetLocations, GetNotes, SaveDatatoDB, GetWeekHolidays } from '../API';
-import { getStandartDate, getAllTotal, getUpdatedShifts, addHolidays, resetDateTime } from '../Functions'
-import WeekDays from './WeekDays';
+import { getMondayDate } from '../../Calculations';
+import { GetPeople, GetShifts, GetLocations, GetNotes, SaveDatatoDB, GetWeekHolidays } from '../../API';
+import { getStandartDate, getAllTotal, getUpdatedShifts, addHolidays, resetDateTime } from '../../Functions'
+import WeekDays from './Rota-header/WeekDays';
 import RotaFooter from './RotaFooter';
-import AlertBox from './AlertBox';
-import Header from './Header';
+import AlertBox from '../PopUps/AlertBox';
+import Header from '../Options/Header';
 
 export default class Rota extends Component {
     constructor(props) {
