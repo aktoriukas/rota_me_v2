@@ -1,1 +1,1 @@
-SELECT * FROM home.locations;
+SELECT * FROM locations;

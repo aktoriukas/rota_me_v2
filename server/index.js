@@ -17,19 +17,8 @@ const db = mysql.createPool({
 
 app.use(express.json())
 app.use(cors());
-
 app.use(bodyParser.urlencoded({extended: true}))
 
-// app.get('/', (req, res) => {
-
-//     // const sqlInsert = "INSERT INTO people (peopleName, peopleRole) VALUES ('Gediminas', 'boss');"
-
-//     // db.query(sqlInsert, (err, result) => {
-//     //     res.send('Hello world')
-
-//     // })
-
-// })
 app.post('/api/insert/location', (req, res)=> {
     const name = req.body.name;
 
@@ -60,6 +49,17 @@ app.delete('/api/delete/location/:id', (req,res) => {
     func.deleteLocation(id, db)
     res.send()
 })
+app.post('/api/signIn', (req, res) => {
+    const name = req.body.name;
+    const pass = req.body.pass;
+
+    if (name === 'aktoriukas' && pass === 'kodas'){
+        res.send(true)
+    }else {
+        res.send(false)
+    }
+})
+
 app.put('/api/update', (req, res) => {
     const update = req.body.update;
     const insert = req.body.insert;
