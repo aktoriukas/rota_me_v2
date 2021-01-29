@@ -2,14 +2,29 @@ import React, { Component } from 'react';
 import Person from './Person';
 import { getMondayDate } from '../../Calculations';
 import { GetPeople, GetShifts, GetLocations, GetNotes, SaveDatatoDB, GetWeekHolidays } from '../../API';
-import { getStandartDate, getAllTotal, getUpdatedShifts, addHolidays, resetDateTime } from '../../Functions'
+import { getStandartDate, getAllTotal, getUpdatedShifts, addHolidays, resetDateTime, getThisWeekDate } from '../../Functions'
 import WeekDays from './Rota-header/WeekDays';
 import RotaFooter from './RotaFooter';
 import AlertBox from '../PopUps/AlertBox';
 import Header from '../Options/Header';
 import Loading from '../PopUps/Loading';
+import LogoSmall from '../../icons/rota_me-small.svg'
 
-export default class Rota extends Component {
+import { connect } from 'react-redux';
+import {
+    setDate,
+    getPeople,
+    getLocations,
+    getNotes,
+    loadRota,
+    clearOldShifts,
+    openAlertBox,
+    closeAlertBox,
+    updateAllWeekTotal
+} from '../../actions'
+
+
+class Rota extends Component {
     constructor(props) {
         super(props)
 
@@ -18,8 +33,7 @@ export default class Rota extends Component {
             people: [],
             date: new Date(),
             monday: getMondayDate(new Date()),
-            allWeekTotal: 0,
-            alertBox: false,
+            // alertBox: false,
             locations: {},
             notes: undefined,
             userAccess: props.userAccess,
@@ -40,12 +54,14 @@ export default class Rota extends Component {
         // Prototype to add days
         /*eslint no-extend-native: ["error", { "exceptions": ["Date"] }]*/
         Date.prototype.addDays = function (days) {
-            var date = new Date(this.valueOf());
+            let date = new Date(this.valueOf());
             date.setDate(date.getDate() + days);
             return date;
         }
     }
     updateStateWithData(shifts, people, notes, locations, holidays, sunday) {
+
+
         people.forEach(person => person.holidays = [])
         shifts.forEach(shift => {
             let jsDate = new Date(Date.parse(shift.shiftsDate));
@@ -68,6 +84,9 @@ export default class Rota extends Component {
             }
         });
         addHolidays(people, holidays, resetDateTime(this.state.monday), new Date(Date.parse(sunday)))
+
+        this.saveDataToStore(people, notes, locations)
+
         this.setState({
             people: people,
             notes: notes,
@@ -76,6 +95,7 @@ export default class Rota extends Component {
         }, () => this.calculateAllTotal())
     }
     clearOldShifts() {
+        this.props.dispatch(clearOldShifts())
         return new Promise(resolve => {
             this.setState({ people: undefined, isLoaded: false }, () => resolve())
         })
@@ -83,7 +103,8 @@ export default class Rota extends Component {
     calculateAllTotal() {
 
         const total = getAllTotal([...this.state.people])
-        this.setState({ allWeekTotal: total })
+        this.props.dispatch(updateAllWeekTotal(total))
+        // this.setState({ allWeekTotal: total })
     }
     getLocations = async () => {
         const { Axios, API, usersID } = this.props
@@ -92,28 +113,44 @@ export default class Rota extends Component {
         return locations
     }
     getDataFromAPI = async () => {
-        console.log('bam')
-        const { Axios, API, usersID } = this.props
+        const { Axios, API, usersID, rota } = this.props
         const monday = getStandartDate(this.state.monday);
         const sunday = getStandartDate(this.state.monday.addDays(6));
         try {
-            const locations = await GetLocations(Axios, API, usersID)
-            const people = await GetPeople(Axios, API, usersID)
-            const shifts = await GetShifts(Axios, API, usersID, monday, sunday)
-            const notes = await GetNotes(Axios, API, usersID, monday, sunday)
-            const holidays = await GetWeekHolidays(Axios, API, usersID, monday, sunday)
+            const locations = await GetLocations(Axios, rota.API, usersID)
+            const people = await GetPeople(Axios, rota.API, usersID)
+            const shifts = await GetShifts(Axios, rota.API, usersID, monday, sunday)
+            const notes = await GetNotes(Axios, rota.API, usersID, monday, sunday)
+            const holidays = await GetWeekHolidays(Axios, rota.API, usersID, monday, sunday)
             await this.clearOldShifts()
             this.updateStateWithData(shifts, people, notes, locations, holidays, sunday)
         }
         catch (err) { console.log(err) }
     }
-    componentDidMount = () => { this.getDataFromAPI() }
+    componentDidMount = () => {
+        const date = getThisWeekDate(new Date())
+
+        this.getDataFromAPI()
+        this.props.dispatch(setDate(date))
+    }
+    saveDataToStore(people, notes, locations) {
+        const { dispatch, rota } = this.props;
+
+        dispatch(getPeople(people))
+        dispatch(getNotes(notes))
+        dispatch(getLocations(locations))
+        dispatch(loadRota())
+        dispatch(updateAllWeekTotal(getAllTotal([...rota.people])))
+    }
 
     updateDate(t) {
-        let monday = getMondayDate(t)
+        const date = getThisWeekDate(t)
+
+        this.props.dispatch(setDate(date))
+
         this.setState({
             date: t,
-            monday: monday
+            monday: date.monday
         }, () => this.getDataFromAPI())
     }
     updatePeopleShifts(shift) {
@@ -129,18 +166,22 @@ export default class Rota extends Component {
 
         const { Axios, API, usersID } = this.props
         const respond = await SaveDatatoDB(Axios, API, usersID, this.state)
-        this.setState({ alertBox: true, message: respond })
+        this.props.dispatch(openAlertBox(respond))
+        this.setState({ alertBox: true })
     }
 
-    closeAlert() { this.setState({ alertBox: false, message: '' }) }
+    closeAlert() {
+        this.props.dispatch(closeAlertBox())
+        this.setState({ alertBox: false })
+    }
     rerender = () => this.getDataFromAPI();
 
     render() {
-        const { isLoaded, people, alertBox, locations, monday, notes, allWeekTotal, message } = this.state;
-        const { Axios, usersID, API } = this.props;
+        const { isLoaded, people, alertBox, locations, monday, notes } = this.state;
+        const { Axios, usersID, API, rota } = this.props;
         let peopleElements = []
-        if (isLoaded) {
-            peopleElements = people.map(person => {
+        if (rota.rotaIsLoaded) {
+            peopleElements = rota.people.map(person => {
                 return (
                     <Person
                         locations={locations}
@@ -156,10 +197,11 @@ export default class Rota extends Component {
             <div className={`rota-container ${alertBox ? 'lock' : ''}`}>
 
                 <header id='top-rota-header'>
+                    <img src={LogoSmall} className='logo-small'></img>
                     <button onClick={() => this.updateDate(new Date())} className='button today'>today</button>
                     <this.props.DatePicker
                         onChange={this.updateDate}
-                        value={this.state.date}
+                        value={rota.date.today}
                     />
                     <Header
                         Axios={Axios}
@@ -192,12 +234,13 @@ export default class Rota extends Component {
                     <Loading />
                 }
                 <RotaFooter
-                    allWeekTotal={allWeekTotal}
+                    allWeekTotal={rota.hoursCalc.allWeekTotal}
                     saveData={this.saveData}
+
                 />
-                {alertBox ?
+                {rota.alertBox.visible ?
                     <AlertBox
-                        message={message}
+                        message={rota.alertBox.message}
                         close={this.closeAlert}
                     />
                     :
@@ -208,3 +251,8 @@ export default class Rota extends Component {
         )
     }
 }
+const mapStateToProps = (state) => {
+    return { rota: state.rotaReducer }
+}
+
+export default connect(mapStateToProps)(Rota)

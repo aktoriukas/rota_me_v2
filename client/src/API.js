@@ -16,7 +16,6 @@ export const GetPeople = (Axios, link, id) => {
 }
 export const GetShifts = (Axios, link, id, start, end) => {
     return new Promise(resolve => {
-        console.log(end)
 
         let interval = {
             weekBegining: start,

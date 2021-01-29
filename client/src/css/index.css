@@ -65,6 +65,10 @@
       border-radius: 1rem;
       max-width: 1300px;
       overflow-y: hidden; }
+      .welcome-screen .container .main .about .logo,
+      .welcome-screen .container .main .features .logo,
+      .welcome-screen .container .main .screenshots .logo {
+        width: 20rem; }
       @media only screen and (max-width: 1000px) {
         .welcome-screen .container .main .about,
         .welcome-screen .container .main .features,
@@ -671,6 +675,12 @@ button:focus {
     background: radial-gradient(circle, #536079 0%, #5d6b89 80%); }
     #root #top-rota-header > div {
       margin: 0 1rem; }
+    #root #top-rota-header .logo-small {
+      width: 6rem;
+      position: absolute;
+      left: 50%;
+      top: 1rem;
+      transform: translateX(-50%); }
     #root #top-rota-header .react-date-picker__wrapper {
       border: 3px solid var(--cream-clear);
       border-radius: 2rem;

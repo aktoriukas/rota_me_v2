@@ -314,6 +314,13 @@ button:focus {
     & > div {
       margin: 0 1rem;
     }
+    .logo-small {
+      width: 6rem;
+      position: absolute;
+      left: 50%;
+      top: 1rem;
+      transform: translateX(-50%);
+    }
     .react-date-picker__wrapper {
       @include border;
       border-radius: 2rem;

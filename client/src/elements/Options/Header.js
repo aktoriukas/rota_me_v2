@@ -6,9 +6,14 @@ import AlertBox from '../PopUps/AlertBox';
 import { SavePerson, SaveLocation } from '../../API';
 import UserDetails from '../Forms/UserDetails';
 import Cookies from 'universal-cookie';
+import { connect } from 'react-redux';
+
+import {
+    toggleUserOptions
+} from '../../actions'
 
 
-export default class Header extends Component {
+class Header extends Component {
 
     constructor(props) {
         super(props)
@@ -30,18 +35,18 @@ export default class Header extends Component {
         this.showAlert = this.showAlert.bind(this)
         this.sendDeleteRequestLocation = this.sendDeleteRequestLocation.bind(this)
     }
-    getPeople = () => {
-        const { Axios, API } = this.props
-        return new Promise(resolve => {
-            const userID = {
-                userID: this.state.usersID
-            }
-            Axios.get(`${API}/api/getPeople`, { params: { userID } })
-                .then(response => {
-                    resolve(response.data);
-                })
-        })
-    }
+    // getPeople = () => {
+    //     const { Axios, API } = this.props
+    //     return new Promise(resolve => {
+    //         const userID = {
+    //             userID: this.state.usersID
+    //         }
+    //         Axios.get(`${API}/api/getPeople`, { params: { userID } })
+    //             .then(response => {
+    //                 resolve(response.data);
+    //             })
+    //     })
+    // }
     updateState(people) {
         this.setState({
             people: people,
@@ -49,11 +54,11 @@ export default class Header extends Component {
         })
     }
     componentDidMount = async (state, props) => {
-        let updateState = this.updateState
-        await this.getPeople()
-            .then(function (people) {
-                updateState(people)
-            })
+        // let updateState = this.updateState
+        // await this.getPeople()
+        //     .then(function (people) {
+        //         updateState(people)
+        //     })
     }
     sendDeleteRequest(id) {
         const { Axios, API } = this.props
@@ -77,10 +82,10 @@ export default class Header extends Component {
         let updateState = this.updateState
         this.sendDeleteRequest(id)
             .then(response => {
-                this.getPeople()
-                    .then((people) => {
-                        updateState(people)
-                    })
+                // this.getPeople()
+                //     .then((people) => {
+                //         updateState(people)
+                //     })
                 this.props.rerender()
             })
     }
@@ -129,14 +134,19 @@ export default class Header extends Component {
         this.setState({ alertBox: true, message: message })
     };
     showAlert(message) { this.setState({ alertBox: true, message: message }) }
-    toggleOptions() { this.setState({ options: !this.state.options }) }
+    toggleOptions() {
+        this.props.dispatch(toggleUserOptions())
+        this.setState({ options: !this.state.options })
+    }
     closeAlert() { this.setState({ alertBox: false }) }
 
     render() {
-        const { people, alertBox, message, options, userAccess } = this.state;
-        const { locations, usersID, API } = this.props;
+        const { userAccess } = this.state;
+        const { usersID, API } = this.props;
+        const { people, alertBox, locations } = this.props.rota
+        const { userOptions } = this.props.user
         const root = document.getElementById('root');
-        if (options) {
+        if (userOptions.visible) {
             root.classList.add('options')
             document.body.classList.add('options')
         } else {
@@ -147,7 +157,7 @@ export default class Header extends Component {
             <div>
                 <button className='button' onClick={this.toggleOptions}>Options</button>
 
-                {options ?
+                {userOptions.visible ?
                     <div className='pop-up options'>
                         <div className='inner'>
                             <div className='top-options'>
@@ -186,8 +196,13 @@ export default class Header extends Component {
                     :
                     ''
                 }
-                {alertBox ? <AlertBox message={message} close={this.closeAlert} /> : ''}
+                {alertBox.visible ? <AlertBox message={alertBox.message} close={this.closeAlert} /> : ''}
             </div>
         )
     }
 }
+const mapStateToProps = (state) => {
+    return { rota: state.rotaReducer, user: state.userReducer }
+}
+
+export default connect(mapStateToProps)(Header)

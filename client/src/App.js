@@ -8,6 +8,9 @@ import Cookies from 'universal-cookie';
 import Footer from './elements/LandingPage/Footer';
 import Welcome from './elements/LandingPage/WelcomeScreen';
 
+import { Provider } from 'react-redux'
+import store from './Store.js';
+
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -91,7 +94,7 @@ export default class App extends Component {
   render() {
     const { signIn, message, alert, name, pass, cookies } = this.state;
     return (
-      <>
+      <Provider store={store}>
         {signIn === true || cookies.get('logIn') === 'true' ?
           <>
             <Rota
@@ -124,7 +127,7 @@ export default class App extends Component {
           </div>
         }
         {alert ? <Alert close={this.closeWarning} message={message} /> : ''}
-      </>
+      </Provider>
     )
   }
 }

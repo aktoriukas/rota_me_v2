@@ -3,7 +3,15 @@ import Warning from '../PopUps/Warning';
 import Cookies from 'universal-cookie';
 import EmployeesOptions from './EmployeesOptions';
 
-export default class EmployeesList extends Component {
+import { connect } from 'react-redux';
+import {
+    closeWarning,
+    openWarning,
+    displayPersonHolidays
+} from '../../actions'
+
+
+class EmployeesList extends Component {
     constructor(props) {
         super(props)
 
@@ -25,25 +33,31 @@ export default class EmployeesList extends Component {
     showWarning = (id) => {
         if (this.state.access > 1) { this.props.showAlert('access denied') }
         else {
+            this.props.dispatch(openWarning())
             this.setState({
                 id: id,
                 warning: true
             })
         }
     }
-    hideWarning = () => { this.setState({ warning: false }) }
+    hideWarning = () => {
+        this.props.dispatch(closeWarning())
+        // this.setState({ warning: false })
+    }
     handleDelete() {
         this.hideWarning()
         this.props.delete(this.state.id)
     }
     openOptions = (person) => {
+        this.props.dispatch(displayPersonHolidays(person))
         this.setState({ options: false }, () => {
             this.setState({ options: true, optionsPerson: person })
         })
     }
 
     render() {
-        const { warning, options, optionsPerson } = this.state
+        const { options, optionsPerson } = this.state;
+        const { warning, holidays } = this.props.rota;
         return (
             <>
                 <div className='employees-list'>
@@ -59,7 +73,7 @@ export default class EmployeesList extends Component {
                         <tbody>
                             {this.props.people.map(person => {
                                 let className = '';
-                                if (optionsPerson.peopleID === person.peopleID) {
+                                if (holidays.options.person.peopleID === person.peopleID) {
                                     className = 'active'
                                 }
                                 return (
@@ -69,7 +83,8 @@ export default class EmployeesList extends Component {
                                         <td className='options'>
                                             <button
                                                 onClick={() => this.showWarning(person.peopleID)}
-                                                className='button employee-delete'>delete
+                                                className='button employee-delete'>
+                                                delete
                                             </button>
                                             <button onClick={() => this.openOptions(person)} className='button employee-options'>options</button>
                                         </td>
@@ -78,7 +93,7 @@ export default class EmployeesList extends Component {
                             })}
                         </tbody>
                     </table>
-                    {warning ?
+                    {warning.visible ?
                         <Warning
                             yes={this.handleDelete}
                             no={this.hideWarning}
@@ -90,7 +105,7 @@ export default class EmployeesList extends Component {
                 </div>
                 <div className='employees-options'>
                     <h1>Options</h1>
-                    {options ?
+                    {holidays.options.visible ?
                         <EmployeesOptions
                             person={optionsPerson}
                             API={this.props.API}
@@ -107,3 +122,8 @@ export default class EmployeesList extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return { rota: state.rotaReducer, user: state.userReducer }
+}
+export default connect(mapStateToProps)(EmployeesList)

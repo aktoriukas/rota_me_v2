@@ -1,11 +1,12 @@
+import Logo from "../../icons/rota_me.svg";
 
 export default function WelcomeScreen(props) {
 
   return (
     <div className='main'>
       <div className='about'>
-        <h1>rota_me</h1>
-        <p>Make your day easier</p>
+        <img className='logo' src={Logo}></img>
+        {/* <p>Make your day easier</p> */}
         <p className='info'>For profesionals who look after their team.
               <br></br> Easy way to store, update and share scedules.
         </p>

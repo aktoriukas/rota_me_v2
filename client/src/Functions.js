@@ -1,4 +1,4 @@
-import { convertToMinutes, calculateTotal } from './Calculations';
+import { convertToMinutes, calculateTotal, getMondayDate } from './Calculations';
 
 export const makegradientCircleColor = (number) => {
 
@@ -30,7 +30,7 @@ export const getAllTotal = (people) => {
     let startingTime, finishingTime, dayTotal
     people.forEach(person => {
         person.weekDays.forEach(day => {
-            if (startingTime !== undefined && finishingTime !== undefined) {
+            if (day.startingTime !== undefined && day.finishingTime !== undefined) {
                 startingTime = convertToMinutes(day.startingTime)
                 finishingTime = convertToMinutes(day.finishingTime)
                 dayTotal = calculateTotal(startingTime, finishingTime)
@@ -110,4 +110,12 @@ export const resetDateTime = time => {
     time.setSeconds(0);
     time.setMilliseconds(0);
     return time
+}
+export const getThisWeekDate = (d) => {
+
+    const monday = getMondayDate(d)
+    const sunday = monday.addDays(6)
+    const date = { today: d, monday, sunday }
+
+    return date
 }
